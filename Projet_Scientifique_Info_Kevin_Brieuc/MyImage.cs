@@ -88,6 +88,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
     public void From_Image_To_File(string file)
     {
+            // Lecture du Header
             byte[] FileSave = new byte[image.Length*3 + 54];
             byte[] fileCopy = File.ReadAllBytes(fileName);
             for (int i = 0; i<54; i++)    //Construction du header
@@ -103,7 +104,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 
 
             }
-            // Image elle même
+
+            // Lecture de l'image elle même
             int k = 54;
             int l = 0;
             for (int i = 0; i < this.hauteur; i++)
@@ -116,6 +118,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     l+=3;
                 }
             }
+
+            // Ecriture dans le fichier
+            File.WriteAllBytes(file, FileSave);
+
+
+
         }
 	public int Convert_Endian_To_Int(byte[] tab)
     {

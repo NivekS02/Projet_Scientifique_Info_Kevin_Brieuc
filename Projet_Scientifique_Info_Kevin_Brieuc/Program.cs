@@ -42,10 +42,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
         static void Main(string[] args)
         {
-            /*
+            
             string fichier = "./Images/coco.bmp";
             MyImage image = new MyImage(fichier);
-            */
+            string test = "sauvegardé.bmp";
+            image.From_Image_To_File(test);
 
             /* TEST CONVERSIONS
             byte[] tab = { 230, 4, 0, 0 };
