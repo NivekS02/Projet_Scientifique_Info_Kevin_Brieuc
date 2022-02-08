@@ -95,23 +95,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 FileSave[i] = fileCopy[i] ;
             }
 
-            for (int i=0; i<3; i++)
+            for (int i=0; i<3; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
             {
-                FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i];
+                FileSave[10 + i] = Convert_Int_To_Endian(image.Length*3+54)[i]; // Nouvelle taille du fichier
+                FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
+                FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image 
+                
+
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
             // Image elle même
             int k = 54;
             int l = 0;
@@ -119,27 +110,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 for (int j = 0; j < this.largeur; j++)
                 {
-                    this.image[i,j]
-                    l++;
+                    FileSave[k + l] = this.image[i,j].B;
+                    FileSave[k + l + 1] = this.image[i,j].V;
+                    FileSave[k + l + 2] = this.image[i,j].R;
+                    l+=3;
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
         }
-
-
-
-
 	public int Convert_Endian_To_Int(byte[] tab)
     {
             int taille = tab.Length;
