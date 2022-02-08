@@ -8,8 +8,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
     internal class MyImage
     {
-        //bonjour
-
 
         public MyImage(string myfile)
         {
