@@ -142,15 +142,21 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 FileSave[i] = fileCopy[i] ;
             }
-
+            
             for (int i=0; i<4; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
             {
-                FileSave[10 + i] = Convert_Int_To_Endian(image.Length*3+54)[i]; // Nouvelle taille du fichier
+                //FileSave[10 + i] = Convert_Int_To_Endian((image.Length*3)+54)[i]; // Nouvelle taille du fichier
                 FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
                 FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
                 FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image                                                                // 
             }
 
+            byte[] tableautaille = new byte[4];
+            for(int i=0; i<4; i++)
+            {
+
+            }
+            
             // Lecture de l'image elle même
             int k = 54;
             int l = 0;

@@ -44,10 +44,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         static void Main(string[] args)
         {
             
-            //string fichier = "Test001.bmp";
-            string fichier = "TEST3C.bmp";
+            string fichier = "Test001.bmp";
             MyImage image = new MyImage(fichier);
-            string test = "Test2.bmp";
+            string test = "Résultat.bmp";
             image.From_Image_To_File(test);
             Console.WriteLine("Taille fichier : " + image.TailleFichier);
             Console.WriteLine("Hauteur : " + image.Hauteur);
@@ -56,7 +55,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.WriteLine("Nb de Bits par couleur : " + image.NbrDeBitsParCouleur);
             Console.WriteLine("Filename : " + image.FileName);
 
-            image.AfficherMatrice();
+            //image.AfficherMatrice();
 
 
             byte[] tab2 = Convert_Int_To_Endian(1254);
