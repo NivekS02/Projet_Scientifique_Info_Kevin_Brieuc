@@ -36,6 +36,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 else
                 {
                     tab[i] = 0;
+                    x = x / 256;
                 }
             }
             return tab;
@@ -43,9 +44,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         static void Main(string[] args)
         {
             
-            string fichier = "coco.bmp";
+            //string fichier = "Test001.bmp";
+            string fichier = "TEST3C.bmp";
             MyImage image = new MyImage(fichier);
-            string test = "Test.bmp";
+            string test = "Test2.bmp";
             image.From_Image_To_File(test);
             Console.WriteLine("Taille fichier : " + image.TailleFichier);
             Console.WriteLine("Hauteur : " + image.Hauteur);
@@ -57,14 +59,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             image.AfficherMatrice();
 
 
-
-
-
-
-
-
-
-
+            byte[] tab2 = Convert_Int_To_Endian(1254);
+            for (int i = 0; i < tab2.Length; i++)
+            {
+                Console.Write(tab2[i] + " ");
+            }
             Console.ReadKey();
 
 

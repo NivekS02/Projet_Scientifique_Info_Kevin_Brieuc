@@ -136,7 +136,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     public void From_Image_To_File(string file)
     {
             // Lecture du Header
-            byte[] FileSave = new byte[image.Length*3 + 54];
+            byte[] FileSave = new byte[54 + (image.Length*3)];
             byte[] fileCopy = File.ReadAllBytes(fileName);
             for (int i = 0; i<54; i++)    //Construction du header
             {
@@ -199,6 +199,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 else
                 {
                     tab[i] = 0;
+                    x = x / 256;
                 }
             }
         return tab;
@@ -210,9 +211,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 for(int j = 0; j<largeur; j++)
                 {
-                    Console.Write(Image[i, j].B);
-                    Console.Write(Image[i, j].V);
-                    Console.Write(Image[i, j].R);
+                    Console.Write(Image[i, j].B + ",");
+                    Console.Write(Image[i, j].V + ",");
+                    Console.Write(Image[i, j].R + ",");
+                    Console.Write(" ");
                 }
                 Console.WriteLine();
             }

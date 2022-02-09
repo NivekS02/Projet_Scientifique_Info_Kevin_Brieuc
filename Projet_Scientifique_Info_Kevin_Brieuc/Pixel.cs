@@ -8,7 +8,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
     internal class Pixel
     {
-        private byte rouge; // B G R 
+        private byte rouge; // B V R 
         private byte vert;
         private byte bleu;
 
@@ -36,12 +36,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
 
         public string AfficherPixel()
-        {
-            string pixel;
-            for (int i = 0; i < 3;i++ )
-            {
-                pixel = pixel + Convert.ToInt32(this.B) + "," + Convert.ToInt32(this.G) + "," + Convert.ToInt32(this.R);
-            }
+        {         
+            string pixel = Convert.ToInt32(this.bleu) + "," + Convert.ToInt32(this.vert) + "," + Convert.ToInt32(this.rouge);
             return pixel;
         }
     }
