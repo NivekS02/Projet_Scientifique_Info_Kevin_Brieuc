@@ -45,9 +45,28 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             
             string fichier = "coco.bmp";
             MyImage image = new MyImage(fichier);
-            string test = "sauvegardé.bmp";
+            string test = "Test.bmp";
             image.From_Image_To_File(test);
+            Console.WriteLine("Taille fichier : " + image.TailleFichier);
+            Console.WriteLine("Hauteur : " + image.Hauteur);
+            Console.WriteLine("Largeur : " + image.Largeur);
+            Console.WriteLine("Taille Offset : " + image.TailleOffset);
+            Console.WriteLine("Nb de Bits par couleur : " + image.NbrDeBitsParCouleur);
+            Console.WriteLine("Filename : " + image.FileName);
+
+            image.AfficherMatrice();
+
+
+
+
+
+
+
+
+
+
             Console.ReadKey();
+
 
             /* TEST CONVERSIONS
             byte[] tab = { 230, 4, 0, 0 };

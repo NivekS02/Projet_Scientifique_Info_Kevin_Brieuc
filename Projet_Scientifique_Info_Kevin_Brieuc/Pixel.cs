@@ -35,6 +35,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.bleu = bleu;
         }
 
-
+        public string AfficherPixel()
+        {
+            string pixel;
+            for (int i = 0; i < 3;i++ )
+            {
+                pixel = pixel + Convert.ToInt32(this.B) + "," + Convert.ToInt32(this.G) + "," + Convert.ToInt32(this.R);
+            }
+            return pixel;
+        }
     }
 }

@@ -9,15 +9,57 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
     internal class MyImage
     {
-	private string typeImage;
-	private int tailleFichier;
-	private int tailleOffset;
-	private int hauteur;
-	private int largeur;
-	private int nbrDeBitsParCouleur;
-	private Pixel[,] image;
-    private string fileName;
+        private string typeImage;
+        private int tailleFichier;
+        private int tailleOffset;
+        private int hauteur;
+        private int largeur;
+        private int nbrDeBitsParCouleur;
+        private Pixel[,] image;
+        private string fileName;
 
+        #region Propriétés
+        public string TypeImage
+            {
+            get { return typeImage; }
+            set { typeImage = value; }
+            }
+        public int TailleFichier
+        {
+            get { return tailleFichier; }
+            set { tailleFichier = value; }
+        }
+        public int TailleOffset
+        {
+            get { return tailleOffset; }
+            set { tailleOffset = value; }
+        }
+        public int Hauteur
+        {
+            get { return hauteur; }
+            set { hauteur = value; }
+        }
+        public int Largeur
+        {
+            get { return largeur; }
+            set { largeur = value; }
+        }
+        public int NbrDeBitsParCouleur
+        {
+            get { return nbrDeBitsParCouleur; }
+            set { nbrDeBitsParCouleur = value; }
+        }
+        public string FileName
+        {
+            get { return fileName; }
+            set { fileName = value; }
+        }
+        public Pixel[,] Image
+        {
+            get { return image; }
+            set { image = value; }
+        }
+        #endregion
         public MyImage(string myfile)
         {
             byte[] file = File.ReadAllBytes(myfile);
@@ -38,18 +80,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             //Conversion de la taille du fichier Little Endian en entier
             byte[] TailleFichier = new byte[4];
             int TF = 2;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 TailleFichier[i] = file[TF];
                 TF++;
+                
             }
             this.tailleFichier = Convert_Endian_To_Int(TailleFichier);
-            
 
             //Conversion de la largeur 
             byte[] Largeur = new byte[4];
             int TL = 18;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Largeur[i] = file[TL];
                 TL++;
@@ -59,7 +101,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             //Conversion de la hauteur
             byte[] Hauteur = new byte[4];
             int TH = 22;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Hauteur[i] = file[TH];
                 TH++;
@@ -69,7 +111,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             //Conversion de la taille offset 
             byte[] TailleOffset = new byte[4];
             int TO = 10;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 TailleOffset[i] = file[TO];
                 TO++;
@@ -101,12 +143,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 FileSave[i] = fileCopy[i] ;
             }
 
-            for (int i=0; i<3; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
+            for (int i=0; i<4; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
             {
                 FileSave[10 + i] = Convert_Int_To_Endian(image.Length*3+54)[i]; // Nouvelle taille du fichier
                 FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
                 FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
-                FileSave[35 + i] = Convert_Int_To_Endian(image.GetLength())[i]; // Nouvelle taille de l'image                                                                // 
+                FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image                                                                // 
             }
 
             // Lecture de l'image elle même
@@ -161,6 +203,20 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
         return tab;
     }
+
+        public void AfficherMatrice()
+        {
+            for(int i = 0; i<hauteur; i++)
+            {
+                for(int j = 0; j<largeur; j++)
+                {
+                    Console.Write(Image[i, j].B);
+                    Console.Write(Image[i, j].V);
+                    Console.Write(Image[i, j].R);
+                }
+                Console.WriteLine();
+            }
+        }
 
     }
 }
