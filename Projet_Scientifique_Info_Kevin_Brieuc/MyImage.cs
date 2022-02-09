@@ -30,6 +30,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 this.typeImage = "BM";
                 this.nbrDeBitsParCouleur = 24;
             }
+            else
+            {
+                this.typeImage = "Non BM";
+            }
 
             //Conversion de la taille du fichier Little Endian en entier
             byte[] TailleFichier = new byte[4];
@@ -40,6 +44,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 TF++;
             }
             this.tailleFichier = Convert_Endian_To_Int(TailleFichier);
+            
 
             //Conversion de la largeur 
             byte[] Largeur = new byte[4];
@@ -100,9 +105,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 FileSave[10 + i] = Convert_Int_To_Endian(image.Length*3+54)[i]; // Nouvelle taille du fichier
                 FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
-                FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image 
-                
-
+                FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
+                FileSave[35 + i] = Convert_Int_To_Endian(image.GetLength())[i]; // Nouvelle taille de l'image                                                                // 
             }
 
             // Lecture de l'image elle même
