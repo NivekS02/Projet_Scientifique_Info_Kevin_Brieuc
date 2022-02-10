@@ -9,6 +9,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
     internal class MyImage
     {
+        #region attributs
         private string typeImage;
         private int tailleFichier;
         private int tailleOffset;
@@ -17,6 +18,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private int nbrDeBitsParCouleur;
         private Pixel[,] image;
         private string fileName;
+        #endregion
 
         #region Propriétés
         public string TypeImage
@@ -118,7 +120,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.tailleOffset = Convert_Endian_To_Int(TailleOffset);
 
-            Pixel [,] image = new Pixel[hauteur ,largeur] ;
+            Pixel[,] image = new Pixel[hauteur ,largeur];
             int k = 54;
             int l = 0;
             for (int i = 0; i < this.hauteur; i++)
@@ -145,7 +147,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             
             for (int i=0; i<4; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
             {
-                //FileSave[10 + i] = Convert_Int_To_Endian((image.Length*3)+54)[i]; // Nouvelle taille du fichier
+                FileSave[2 + i] = Convert_Int_To_Endian((image.Length*3)+54)[i]; // Nouvelle taille du fichier
                 FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
                 FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
                 FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image                                                                // 
@@ -223,8 +225,35 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     Console.Write(" ");
                 }
                 Console.WriteLine();
+                Console.WriteLine();
             }
         }
+
+        public void ImageNoirEtBlanc ()
+        {
+
+        }
+        public void Agrandir()
+        {
+            
+        }
+        public void Retrecir()
+        {
+            
+        }
+        public void Rotation()
+        {
+            
+        }
+        public void Miroir()
+        {
+            
+        }
+
+
+
+
+
 
     }
 }
