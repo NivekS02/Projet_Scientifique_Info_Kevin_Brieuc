@@ -11,7 +11,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         static void Main(string[] args)
         {
             
-            string fichier = "lenasortie1.bmp";
+            string fichier = "coco.bmp";
             MyImage image = new MyImage(fichier);
             string test = "Résultat.bmp";
             image.From_Image_To_File(test);
@@ -24,6 +24,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.WriteLine("Filename : " + image.FileName);
 
             //image.AfficherMatrice();
+
+            image.ImageNoirEtBlanc();
+            image.Rotation();
+            image.Rotation();
+            image.Rotation();
+            image.From_Image_To_File(test);
+
+
 
 
             /* TEST CONVERSIONS

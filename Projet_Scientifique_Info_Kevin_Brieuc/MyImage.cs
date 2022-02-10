@@ -65,6 +65,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         public MyImage(string myfile)
         {
             byte[] file = File.ReadAllBytes(myfile);
+            Console.WriteLine("Nombre de bytes : " + file.Length);
             this.fileName = myfile;
             //myfile est un vecteur composé d'octets représentant les métadonnées et les données de l'image
 
@@ -128,8 +129,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 for (int j = 0; j < this.largeur; j++)
                 {
                     Pixel pixel = new Pixel(file[k + l], file[k + l + 1], file[k + l + 2]);
-                    image[i,j] = pixel;
-                    l+=3;
+                    image[i, j] = pixel;
+                    l += 3;
                 }
             }
             this.image = image;
@@ -150,21 +151,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 FileSave[2 + i] = Convert_Int_To_Endian((image.Length*3)+54)[i]; // Nouvelle taille du fichier
                 FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
                 FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
-                FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image                                                                // 
-            }
-
-            byte[] tableautaille = new byte[4];
-            for(int i=0; i<4; i++)
-            {
-
+                FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image
             }
             
             // Lecture de l'image elle même
             int k = 54;
             int l = 0;
-            for (int i = 0; i < this.hauteur; i++)
+            for (int i = 0; i < image.GetLength(0); i++)
             {
-                for (int j = 0; j < this.largeur; j++)
+                for (int j = 0; j < image.GetLength(1); j++)
                 {
                     FileSave[k + l] = this.image[i,j].B;
                     FileSave[k + l + 1] = this.image[i,j].V;
@@ -230,12 +225,30 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
 
         public void ImageNoirEtBlanc ()
-        {
-
+        {            
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    byte gris = Convert.ToByte((image[i, j].B + image[i, j].V + image[i, j].R) / 3);
+                    image[i, j].B = gris;
+                    image[i, j].V = gris;
+                    image[i, j].R = gris;
+                }
+            }          
         }
-        public void Agrandir()
+        public void Agrandir(int ratio)
         {
-            
+            Pixel[,] imageAgrandie = new Pixel[hauteur * ratio, largeur * ratio];
+            int k = 0;
+            for (int i = 0; i < imageAgrandie.GetLength(0); i++)
+            {
+                for (int j = 0; j < imageAgrandie.GetLength(1); j++)
+                {
+
+                }
+
+            }
         }
         public void Retrecir()
         {
@@ -243,11 +256,34 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
         public void Rotation()
         {
-            
+            Pixel[,] ImageFinale = new Pixel[largeur, hauteur];
+            int l = image.GetLength(1) - 1;
+            int k = 0;
+            for(int i=0; i<image.GetLength(1); i++)
+            {
+                for(int j=0; j<image.GetLength(0); j++)
+                {
+                    ImageFinale[i, j] = image[k, l];
+                    k++;
+                }
+                k = 0;
+                l--;
+            }
+            this.image = ImageFinale;
+            this.hauteur = image.GetLength(0);
+            this.largeur = image.GetLength(1);
+
         }
         public void Miroir()
         {
-            
+            Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
+            for(int i=0; i<image.GetLength(0); i++)
+            {
+                for(int j=0; j<image.GetLength(1); j++)
+                {
+                    ImageMiroir[i,j] = image[i, ]
+                }
+            }
         }
 
 
