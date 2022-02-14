@@ -167,12 +167,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     l+=3;
                 }
             }
-
             // Ecriture dans le fichier
             File.WriteAllBytes(file, FileSave);
-
-
-
         }
 	public int Convert_Endian_To_Int(byte[] tab)
     {
@@ -281,9 +277,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 for(int j=0; j<image.GetLength(1); j++)
                 {
-                    ImageMiroir[i,j] = image[i, ]
+                    ImageMiroir[i, j] = image[i, (image.GetLength(1) - 1 - j) % image.GetLength(1)];
                 }
             }
+            this.image = ImageMiroir;
         }
 
 

@@ -11,7 +11,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         static void Main(string[] args)
         {
             
-            string fichier = "coco.bmp";
+            string fichier = "lac.bmp";
             MyImage image = new MyImage(fichier);
             string test = "Résultat.bmp";
             image.From_Image_To_File(test);
@@ -25,10 +25,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             //image.AfficherMatrice();
 
-            image.ImageNoirEtBlanc();
-            image.Rotation();
-            image.Rotation();
-            image.Rotation();
+            //image.ImageNoirEtBlanc();
+            //image.Rotation();
+            //image.Rotation();
+            //image.Rotation();
+            image.Miroir();
             image.From_Image_To_File(test);
 
 
