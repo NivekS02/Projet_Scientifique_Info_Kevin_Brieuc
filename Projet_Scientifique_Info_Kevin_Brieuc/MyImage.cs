@@ -235,16 +235,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
         public void Agrandir(int ratio)
         {
-            Pixel[,] imageAgrandie = new Pixel[hauteur * ratio, largeur * ratio];
-            int k = 0;
+            Pixel[,] imageAgrandie = new Pixel[hauteur * ratio, largeur * ratio]; 
             for (int i = 0; i < imageAgrandie.GetLength(0); i++)
             {
                 for (int j = 0; j < imageAgrandie.GetLength(1); j++)
                 {
-
+                    imageAgrandie[i,j] = image[i/ratio,j/ratio];
                 }
-
             }
+            this.image = imageAgrandie;
         }
         public void Retrecir()
         {

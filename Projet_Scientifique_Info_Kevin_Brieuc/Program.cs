@@ -29,8 +29,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             //image.Rotation();
             //image.Rotation();
             //image.Rotation();
-            image.Miroir();
+            //image.Miroir();
+
+            image.Agrandir(2);
             image.From_Image_To_File(test);
+
 
 
 
