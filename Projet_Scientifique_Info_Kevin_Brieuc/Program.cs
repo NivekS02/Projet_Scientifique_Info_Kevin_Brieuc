@@ -11,7 +11,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         static void Main(string[] args)
         {
             
-            string fichier = "lac.bmp";
+            string fichier = "coco.bmp";
             MyImage image = new MyImage(fichier);
             string test = "Résultat.bmp";
             image.From_Image_To_File(test);
@@ -23,18 +23,21 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.WriteLine("Nb de Bits par couleur : " + image.NbrDeBitsParCouleur);
             Console.WriteLine("Filename : " + image.FileName);
 
+            
+
+
             //image.AfficherMatrice();
 
-            //image.ImageNoirEtBlanc();
+            image.ImageNoirEtBlanc();
+            image.Rotation();
             //image.Rotation();
             //image.Rotation();
-            //image.Rotation();
-            //image.Miroir();
+            image.Miroir();
 
-            image.Agrandir(2);
+            //image.Agrandir(2);
             image.From_Image_To_File(test);
 
-
+            Console.ReadKey();
 
 
 

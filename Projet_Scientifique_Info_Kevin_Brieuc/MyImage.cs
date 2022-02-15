@@ -91,6 +91,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.tailleFichier = Convert_Endian_To_Int(TailleFichier);
 
+            Console.WriteLine(file[18] + " " + file[19] + " " + file[20] + " " + file[21]);
             //Conversion de la largeur 
             byte[] Largeur = new byte[4];
             int TL = 18;
@@ -100,6 +101,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 TL++;
             }
             this.largeur = Convert_Endian_To_Int(Largeur);
+            Console.WriteLine("Largeur initiale : " + largeur);
 
             //Conversion de la hauteur
             byte[] Hauteur = new byte[4];
@@ -134,75 +136,117 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
             this.image = image;
-            
+
+            /*
+            //test à supprimer 
+            byte[] entier = { 15, 0, 0, 0 };
+            int resultat = Convert_Endian_To_Int(entier);
+            Console.WriteLine("RESULTAT : " + resultat);
+            */
         }
-    public void From_Image_To_File(string file)
-    {
-            // Lecture du Header
-            byte[] FileSave = new byte[54 + (image.Length*3)];
-            byte[] fileCopy = File.ReadAllBytes(fileName);
-            for (int i = 0; i<54; i++)    //Construction du header
+        public void From_Image_To_File(string file)
+        {
+            /*
+                // Lecture du Header
+                byte[] FileSave = new byte[54 + (image.Length * 3)];
+                byte[] fileCopy = File.ReadAllBytes(fileName);
+                for (int i = 0; i < 54; i++)    //Construction du header
+                {
+                    FileSave[i] = fileCopy[i];
+                }
+
+                for (int i = 0; i < 4; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
+                {
+                    FileSave[2 + i] = Convert_Int_To_Endian((image.Length * 3) + 54)[i]; // Nouvelle taille du fichier
+                    FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
+                    FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
+                    FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image
+                }
+
+                // Lecture de l'image elle même
+                int k = 54;
+                int l = 0;
+                for (int i = 0; i < image.GetLength(0); i++)
+                {
+                    for (int j = 0; j < image.GetLength(1); j++)
+                    {
+                        FileSave[k + l] = this.image[i, j].B;
+                        FileSave[k + l + 1] = this.image[i, j].V;
+                        FileSave[k + l + 2] = this.image[i, j].R;
+                        l += 3;
+                    }
+                }
+
+            */
+            List<byte> FileSave = new List<byte>();
+            List<byte> FileCopy = new List<byte>(File.ReadAllBytes(fileName));
+            for (int i = 0; i < 54; i++)    //Construction du header
             {
-                FileSave[i] = fileCopy[i] ;
+                FileSave.Add(FileCopy[i]);
             }
-            
-            for (int i=0; i<4; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
+            for (int i = 0; i < 4; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
             {
-                FileSave[2 + i] = Convert_Int_To_Endian((image.Length*3)+54)[i]; // Nouvelle taille du fichier
+                FileSave[2 + i] = Convert_Int_To_Endian((image.Length * 3) + 54)[i]; // Nouvelle taille du fichier
                 FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
                 FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
                 FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image
             }
-            
             // Lecture de l'image elle même
-            int k = 54;
-            int l = 0;
+            
             for (int i = 0; i < image.GetLength(0); i++)
             {
+                int k = 0;
                 for (int j = 0; j < image.GetLength(1); j++)
                 {
-                    FileSave[k + l] = this.image[i,j].B;
-                    FileSave[k + l + 1] = this.image[i,j].V;
-                    FileSave[k + l + 2] = this.image[i,j].R;
-                    l+=3;
+                    FileSave.Add(this.image[i, j].B);
+                    FileSave.Add(this.image[i, j].V);
+                    FileSave.Add(this.image[i, j].R);
+                    k++;
+                }
+                while(k%4 != 0)
+                {
+                    FileSave.Add(0);
+                    k++;
                 }
             }
             // Ecriture dans le fichier
-            File.WriteAllBytes(file, FileSave);
+            File.WriteAllBytes(file, FileSave.ToArray());
+
         }
-	public int Convert_Endian_To_Int(byte[] tab)
-    {
-            int taille = tab.Length;
-            int entier = 0;
-            int nbr = 1;
-            for(int i = 0; i<taille; i++)
-            {
-                entier += tab[i] * nbr;
-                nbr = nbr * 256;
-            }
-            return entier;
-    }
-	public byte[] Convert_Int_To_Endian(int val)
-    {
-        int reste = val;
-        byte[] tab = new byte[4];
-        int x = 16777216;
-        for (int i = 3; i >= 0; i--)
-            {
-                if (reste >= x)
+
+	    public int Convert_Endian_To_Int(byte[] tab)
+        {
+                int taille = tab.Length;
+                int entier = 0;
+                int nbr = 1;
+                for(int i = 0; i<taille; i++)
                 {
-                    tab[i] = Convert.ToByte(reste / x);
-                    reste = reste % x;
-                    x = x / 256;
+                    entier += tab[i] * nbr;
+                    nbr = nbr * 256;
                 }
-                else
+                return entier;
+        }
+	    public byte[] Convert_Int_To_Endian(int val)
+        {
+            int reste = val;
+            byte[] tab = new byte[4];
+            int x = 16777216;
+            for (int i = 3; i >= 0; i--)
                 {
-                    tab[i] = 0;
-                    x = x / 256;
+                    if (reste >= x)
+                    {
+                        tab[i] = Convert.ToByte(reste / x);
+                        reste = reste % x;
+                        x = x / 256;
+                    }
+                    else
+                    {
+                        tab[i] = 0;
+                        x = x / 256;
+                    }
                 }
-            }
-        return tab;
-    }
+            return tab;
+        }
 
         public void AfficherMatrice()
         {
