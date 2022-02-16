@@ -291,7 +291,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
         public void Retrecir()
         {
-            
+            Pixel[,] imageRetrecie = new Pixel[hauteur / ratio, largeur / ratio]; 
+            for (int i = 0; i < imageRetrecie.GetLength(0); i++)
+            {
+                for (int j = 0; j < imageRetrecie.GetLength(1); j++)
+                {
+                    imageRetrecie[i,j] = image[i*ratio,j*ratio];
+                }
+            }
+            this.image = imageRetrecie;
         }
         public void Rotation()
         {
