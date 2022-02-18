@@ -65,7 +65,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         public MyImage(string myfile)
         {
             byte[] file = File.ReadAllBytes(myfile);
-            Console.WriteLine("Nombre de bytes : " + file.Length);
+            //Console.WriteLine("Nombre de bytes : " + file.Length);
             this.fileName = myfile;
             //myfile est un vecteur composé d'octets représentant les métadonnées et les données de l'image
 
@@ -91,7 +91,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.tailleFichier = Convert_Endian_To_Int(TailleFichier);
 
-            Console.WriteLine(file[18] + " " + file[19] + " " + file[20] + " " + file[21]);
+            //Console.WriteLine(file[18] + " " + file[19] + " " + file[20] + " " + file[21]);
             //Conversion de la largeur 
             byte[] Largeur = new byte[4];
             int TL = 18;
@@ -101,7 +101,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 TL++;
             }
             this.largeur = Convert_Endian_To_Int(Largeur);
-            Console.WriteLine("Largeur initiale : " + largeur);
+            //Console.WriteLine("Largeur initiale : " + largeur);
 
             //Conversion de la hauteur
             byte[] Hauteur = new byte[4];
@@ -136,13 +136,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
             this.image = image;
-
-            /*
-            //test à supprimer 
-            byte[] entier = { 15, 0, 0, 0 };
-            int resultat = Convert_Endian_To_Int(entier);
-            Console.WriteLine("RESULTAT : " + resultat);
-            */
         }
         public void From_Image_To_File(string file)
         {
@@ -289,7 +282,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = imageAgrandie;
         }
-        public void Retrecir()
+        public void Retrecir(int ratio)
         {
             Pixel[,] imageRetrecie = new Pixel[hauteur / ratio, largeur / ratio]; 
             for (int i = 0; i < imageRetrecie.GetLength(0); i++)
