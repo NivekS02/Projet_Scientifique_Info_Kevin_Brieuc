@@ -58,14 +58,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.Clear();
                         break;
                     case "Rotation":
-                        
+                        /*
                         Console.WriteLine("Combien de rotations à 90 degrés souhaitez vous ?");
                         int NbrRotations = Convert.ToInt32(Console.ReadLine());
                         for (int i = 0; i < NbrRotations; i++) image.Rotation();
                         Console.WriteLine("Transformation de l'image avec " + NbrRotations +  " effectuée.");
-                        
-                        //int angle = Convert.ToInt32(Console.ReadLine());
-                        //image.Rotation2(angle);
+                        */
+                        double angle = Convert.ToInt32(Console.ReadLine());
+                        image.Rotation2(angle);
                         Console.WriteLine("Appuyer sur une touche pour continuer");
                         Console.ReadKey();
                         Console.Clear();
