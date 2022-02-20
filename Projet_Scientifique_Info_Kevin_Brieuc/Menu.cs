@@ -9,11 +9,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     internal class Menu
     {
         // Fonctions à ajouter encore !
-        // Retour à la page précédente
-        // QR code à faire pls tard 
+        // QR code à faire plus tard 
         // Ajouter les touches avec des nombres pour la selection 
         // Ajouter les consignes pour utiliser la console 
-        // Régler l'affichage des infos de l'image 
+        // Régler l'affichage des infos de l'image modifiée 
 
 
         string[] menu;
@@ -27,10 +26,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             this.deplacement = new string[2] { "1", "0"};
             this.menu = new string[2] { "Images", "QR codes" };
-            this.deplacementImages = new string[4] {"1", "0", "0", "0" };
-            this.menuImages = new string[4] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp" };
-            this.deplacementImages2 = new string[7] { "1", "0", "0", "0","0" , "0", "0"};
-            this.menuImages2 = new string[7] { "Noir et blanc", "Rotation", "Miroir", "Agrandissement","Retrécissement", "Informations sur l'image",  "Enregistrer l'image" };
+            this.deplacementImages = new string[5] {"1", "0", "0", "0" ,"0"};
+            this.menuImages = new string[5] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp" , "Retour"};
+            this.deplacementImages2 = new string[8] { "1", "0", "0", "0","0" , "0", "0", "0"};
+            this.menuImages2 = new string[8] { "Noir et blanc", "Rotation", "Miroir", "Agrandissement","Retrécissement", "Informations sur l'image",  "Enregistrer l'image" , "Retour"};
         }
         public void AfficherMenu()
         {
@@ -58,6 +57,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     Console.WriteLine(menu[i]);
                 }
             }
+            Console.WriteLine("\n Utilisez les flèches directionnelles et appuyez sur entré pour valider svp.");
             Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n\n\n");
             Console.WriteLine("Kévin Kui/ Brieuc Le Guével");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -105,7 +105,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.Write(new string('-', Console.WindowWidth));
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine();
             Console.WriteLine(new string(' ', Console.WindowWidth / 2 - 5) + "MENU IMAGE");
+            Console.WriteLine();
             for (int i = 0; i < menuImages.Length; i++)
             {
                 Console.Write(new string(' ', Console.WindowWidth / 2 - menuImages[i].Length / 2));
@@ -122,6 +124,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     Console.WriteLine(menuImages[i]);
                 }
             }
+            Console.WriteLine("\n Utilisez les flèches directionnelles et appuyez sur entré pour valider svp.");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(new string('-', Console.WindowWidth));
             Console.ResetColor();
@@ -140,12 +143,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     case ConsoleKey.UpArrow:
                         deplacementImages[i] = "0";
-                        i = (i - 1 + 4) % 4;
+                        i = (i - 1 + 5) % 5;
                         AfficherMenuImages();
                         break;
                     case ConsoleKey.DownArrow:
                         deplacementImages[i] = "0";
-                        i = (i + 1) % 4;
+                        i = (i + 1) % 5;
                         AfficherMenuImages();
                         break;
                     case ConsoleKey.Enter:
@@ -165,7 +168,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.Write(new string('-', Console.WindowWidth));
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(new string(' ', Console.WindowWidth / 2 - 2) + "MENU TRAITEMENT");
+            Console.WriteLine();
+            Console.WriteLine(new string(' ', Console.WindowWidth / 2 - 7) + "MENU TRAITEMENT");
+            Console.WriteLine();
             for (int i = 0; i < menuImages2.Length; i++)
             {
                 Console.Write(new string(' ', Console.WindowWidth / 2 - menuImages2[i].Length / 2));
@@ -182,6 +187,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     Console.WriteLine(menuImages2[i]);
                 }
             }
+            Console.WriteLine("\n Utilisez les flèches directionnelles et appuyez sur entré pour valider svp.");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(new string('-', Console.WindowWidth));
             Console.ResetColor();
@@ -200,12 +206,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     case ConsoleKey.UpArrow:
                         deplacementImages2[i] = "0";
-                        i = (i - 1 + 7) % 7;
+                        i = (i - 1 + 8) % 8;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.DownArrow:
                         deplacementImages2[i] = "0";
-                        i = (i + 1) % 7;
+                        i = (i + 1) % 8;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.Enter:

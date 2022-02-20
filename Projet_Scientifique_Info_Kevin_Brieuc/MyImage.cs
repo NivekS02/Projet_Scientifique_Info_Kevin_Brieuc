@@ -139,40 +139,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
         public void From_Image_To_File(string file)
         {
-            /*
-                // Lecture du Header
-                byte[] FileSave = new byte[54 + (image.Length * 3)];
-                byte[] fileCopy = File.ReadAllBytes(fileName);
-                for (int i = 0; i < 54; i++)    //Construction du header
-                {
-                    FileSave[i] = fileCopy[i];
-                }
-
-                for (int i = 0; i < 4; i++) // On modifie les données sur les dimensions de l'image et la taille du fichier
-                {
-                    FileSave[2 + i] = Convert_Int_To_Endian((image.Length * 3) + 54)[i]; // Nouvelle taille du fichier
-                    FileSave[18 + i] = Convert_Int_To_Endian(image.GetLength(1))[i]; // Nouvelle largeur de l'image 
-                    FileSave[22 + i] = Convert_Int_To_Endian(image.GetLength(0))[i]; // Nouvelle hauteur de l'image
-                    FileSave[35 + i] = Convert_Int_To_Endian(image.Length)[i]; // Nouvelle taille de l'image
-                }
-
-                // Lecture de l'image elle même
-                int k = 54;
-                int l = 0;
-                for (int i = 0; i < image.GetLength(0); i++)
-                {
-                    for (int j = 0; j < image.GetLength(1); j++)
-                    {
-                        FileSave[k + l] = this.image[i, j].B;
-                        FileSave[k + l + 1] = this.image[i, j].V;
-                        FileSave[k + l + 2] = this.image[i, j].R;
-                        l += 3;
-                    }
-                }
-
-            */
             List<byte> FileSave = new List<byte>();
-            List<byte> FileCopy = new List<byte>(File.ReadAllBytes(fileName));
+            List<byte> FileCopy = new List<byte>(File.ReadAllBytes(fileName)); // On copie tous les bytes dans une liste
             for (int i = 0; i < 54; i++)    //Construction du header
             {
                 FileSave.Add(FileCopy[i]);
@@ -196,7 +164,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     FileSave.Add(this.image[i, j].R);
                     k++;
                 }
-                while(k%4 != 0)
+                while(k%4 != 0) // Si la largeur n'est pas un multiple de 4, on rajoute des 0
                 {
                     FileSave.Add(0);
                     k++;
@@ -294,7 +262,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = imageRetrecie;
         }
-        public void Rotation()
+        public void Rotation() //uniquement pour les angles à 90/180/270 degrés
         {
             Pixel[,] ImageFinale = new Pixel[largeur, hauteur];
             int l = image.GetLength(1) - 1;
@@ -312,8 +280,53 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.image = ImageFinale;
             this.hauteur = image.GetLength(0);
             this.largeur = image.GetLength(1);
-
         }
+
+        public void Rotation2(int angle)
+        {
+            int x;int y;
+            //On cherche la largeur de la nouvelle matrice 
+            double Ur = Math.Sqrt( Math.Pow(((image.GetLength(0)-1)- (image.GetLength(0)-1)/2), 2) + Math.Pow(((image.GetLength(1)-1) - (image.GetLength(1)-1) / 2), 2));
+            double Utheta = -Math.Sin(angle)*(image.GetLength(1)-1)+Math.Cos(angle)*(image.GetLength(0)-1);
+            int largeur = Convert.ToInt32(Math.Sin(angle) * Ur + Math.Cos(angle) * Utheta) ;
+
+            //On cherche désormais la hauteur de la nouvelle matrice 
+            Ur = Math.Sqrt(Math.Pow(((image.GetLength(0)-1)- (image.GetLength(0)-1)/2),2) + Math.Pow(0-(image.GetLength(1)-1)/2, 2));
+            Utheta = -Math.Sin(angle) * 0+ Math.Cos(angle) * (image.GetLength(0) - 1);
+            int hauteur = Convert.ToInt32(Math.Cos(angle) * Ur - Math.Sin(angle) * Utheta);
+
+            //Création de la matrice
+            Pixel[,] ImageRotation = new Pixel[hauteur, largeur];
+
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    Ur = Math.Sqrt(Math.Pow((i- (image.GetLength(0) - 1) / 2), 2) + Math.Pow(j - (image.GetLength(1) - 1) / 2, 2));
+                    Utheta = -Math.Sin(angle) * i + Math.Cos(angle) * j;
+                    x = Convert.ToInt32(Math.Cos(angle) * Ur - Math.Sin(angle) * Utheta);
+                    y = Convert.ToInt32(Math.Sin(angle) * Ur + Math.Cos(angle) * Utheta);
+                    ImageRotation[x, y] = image[i, j];
+                }
+            }
+            for(int i =0; i < ImageRotation.GetLength(0); i++)
+            {
+                for(int j=0; j<ImageRotation.GetLength(1); j++)
+                {
+                    if(ImageRotation [i,j]== null)
+                    {
+                        ImageRotation[i, j].B = 255;
+                        ImageRotation[i, j].V = 255;
+                        ImageRotation[i, j].R = 255;
+                    }
+                }
+            }
+            this.image = ImageRotation;
+            this.hauteur = image.GetLength(0);
+            this.largeur = image.GetLength(1);
+        }
+
+
         public void Miroir()
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
@@ -326,7 +339,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = ImageMiroir;
         }
-
+        public void toString()
+        {
+            Console.WriteLine("Taille fichier : " + tailleFichier + "\n" +
+                "Type d'image :" + typeImage + "\n" +
+                "Hauteur : " + hauteur + "\n" +
+                "Largeur : " + largeur + "\n" +
+                "Taille Offset : " + tailleOffset + "\n" +
+                "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
+                "Filename : " + fileName);
+        }
 
 
 
