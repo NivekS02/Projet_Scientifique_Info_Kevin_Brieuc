@@ -310,31 +310,30 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.largeur = image.GetLength(1);
         }
 
-        public void Rotation2(int angle)
+        public void Rotation2(double angle)
         {
-            int x;int y;
-            //On cherche la largeur de la nouvelle matrice 
-            double Ur = Math.Sqrt( Math.Pow(((image.GetLength(0)-1)- (image.GetLength(0)-1)/2), 2) + Math.Pow(((image.GetLength(1)-1) - (image.GetLength(1)-1) / 2), 2));
-            double Utheta = -Math.Sin(angle)*(image.GetLength(1)-1)+Math.Cos(angle)*(image.GetLength(0)-1);
-            int largeur = Convert.ToInt32(Math.Sin(angle) * Ur + Math.Cos(angle) * Utheta) ;
+            angle = angle * Math.PI / 180;
+
+            //x/PI = angle/180 => x = PI*angle/180
+
+            //On cherche la largeur de la nouvelle matrice
+            int nouvelleLargeur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(largeur - 1, hauteur -1) , angle)[1] + 1;
+
 
             //On cherche désormais la hauteur de la nouvelle matrice 
-            Ur = Math.Sqrt(Math.Pow(((image.GetLength(0)-1)- (image.GetLength(0)-1)/2),2) + Math.Pow(0-(image.GetLength(1)-1)/2, 2));
-            Utheta = -Math.Sin(angle) * 0+ Math.Cos(angle) * (image.GetLength(0) - 1);
-            int hauteur = Convert.ToInt32(Math.Cos(angle) * Ur - Math.Sin(angle) * Utheta);
+            int nouvelleHauteur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(0, hauteur-1), angle)[0] + 1;
 
             //Création de la matrice
-            Pixel[,] ImageRotation = new Pixel[hauteur, largeur];
+            Pixel[,] ImageRotation = new Pixel[nouvelleHauteur, nouvelleLargeur];
 
             for (int i = 0; i < image.GetLength(0); i++)
             {
                 for (int j = 0; j < image.GetLength(1); j++)
                 {
-                    Ur = Math.Sqrt(Math.Pow((i- (image.GetLength(0) - 1) / 2), 2) + Math.Pow(j - (image.GetLength(1) - 1) / 2, 2));
-                    Utheta = -Math.Sin(angle) * i + Math.Cos(angle) * j;
-                    x = Convert.ToInt32(Math.Cos(angle) * Ur - Math.Sin(angle) * Utheta);
-                    y = Convert.ToInt32(Math.Sin(angle) * Ur + Math.Cos(angle) * Utheta);
-                    ImageRotation[x, y] = image[i, j];
+                    int[] nouvellesCoor = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(j, i), angle);
+                    int nouveauI = nouvellesCoor[0];
+                    int nouveauJ = nouvellesCoor[1];
+                    ImageRotation[nouveauI, nouveauJ] = image[i, j];
                 }
             }
             for(int i =0; i < ImageRotation.GetLength(0); i++)
@@ -353,8 +352,36 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.hauteur = image.GetLength(0);
             this.largeur = image.GetLength(1);
         }
-        
 
+        public double [] CartésienneEnPolaire (int x, int y)
+        {
+            double xMilieu = (largeur-1) / 2.0;
+            double yMilieu = (hauteur-1) / 2.0;
+            double xRelatif = x - xMilieu;
+            double yRelatif = y - yMilieu;
+
+            double r = Math.Sqrt(xRelatif * xRelatif + yRelatif * yRelatif);
+            double alpha = Math.Atan2(yRelatif, xRelatif);
+
+            return new double[] { r, alpha };
+        }
+
+        public int[] PolaireAjoutAngleRemiseCartesienne(double[] coorPolaire, double angle)
+        {
+            double r = coorPolaire[0];
+            double alpha  = coorPolaire[1] + angle;
+
+            double xRelatif = r * Math.Cos(alpha);
+            double yRelatif = r * Math.Sin(alpha);
+
+            double xMilieu = (largeur - 1) / 2.0;
+            double yMilieu = (hauteur - 1) / 2.0;
+
+            int i = (int)(yRelatif + yMilieu);
+            int j = (int)(xRelatif + xMilieu);
+
+            return new int[] {  i,  j  };
+        }
         public void Miroir()
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
