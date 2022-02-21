@@ -62,6 +62,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             set { image = value; }
         }
         #endregion
+        
         public MyImage(string myfile)
         {
             byte[] file = File.ReadAllBytes(myfile);
@@ -137,6 +138,33 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = image;
         }
+        public MyImage(MyImage image, int[] matriceConvolution)
+        {
+            //Création de l'image modifiée
+            this.largeur = image.largeur;
+            this.hauteur = image.hauteur;
+            Pixel[,] imageConv = image.image;
+            this.typeImage = image.typeImage;
+            this.tailleFichier = image.tailleFichier;
+            this.tailleOffset = image.tailleOffset;
+            this.nbrDeBitsParCouleur image.nbrDeBitsParCouleur;
+            this.fileName = "RésultatConv.bmp";
+
+            //marche seulement pour des matrices de convolution 3x3
+            for (int i = 0; i < hauteur; i++)
+            {
+                for (int j = 0; j < largeur; j++)
+                {
+                    if (i != 0 && j != 0 && i != hauteur - 1 && j != largeur - 1)
+                    {
+                        imageConv[i,j] = Pixel.MultiplicationPixel(imageConv[i - 1, j - 1],matriceConvolution[0,0]) + Pixel.MultiplicationPixel(imageConv[i - 1, j],matriceConvolution[0,1]) + Pixel.MultiplicationPixel(imageConv[i - 1, j + 1],matriceConvolution[0,2])
+                        + Pixel.MultiplicationPixel(imageConv[i, j - 1],matriceConvolution[1,0]) + Pixel.MultiplicationPixel(imageConv[i, j + 1],matriceConvolution[1,2])
+                        + Pixel.MultiplicationPixel(imageConv[i + 1, j - 1],matriceConvolution[2,0]) + Pixel.MultiplicationPixel(imageConv[i + 1, j],matriceConvolution[2,1])+ Pixel.MultiplicationPixel(imageConv[i + 1, j + 1],matriceConvolution[2,2]);                       
+                    }    
+                }
+            }
+        }
+
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -325,7 +353,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.hauteur = image.GetLength(0);
             this.largeur = image.GetLength(1);
         }
-
+        
 
         public void Miroir()
         {
@@ -349,10 +377,5 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
                 "Filename : " + fileName);
         }
-
-
-
-
-
     }
 }
