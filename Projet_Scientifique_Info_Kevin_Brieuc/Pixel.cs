@@ -40,13 +40,5 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             string pixel = Convert.ToInt32(this.bleu) + "," + Convert.ToInt32(this.vert) + "," + Convert.ToInt32(this.rouge);
             return pixel;
         }
-
-        // permet de faire une multiplication de chaque byte d'un pixel par un entier 
-        public void MultiplicationPixel(Pixel pixel, int m)
-        {
-            pixel.R = Convert.ToByte(m) * pixel.R;
-            pixel.V = Convert.ToByte(m) * pixel.V;
-            pixel.B = Convert.ToByte(m) * pixel.B;         
-        }
     }
 }

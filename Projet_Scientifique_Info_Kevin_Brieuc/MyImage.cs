@@ -138,7 +138,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = image;
         }
-        public MyImage(MyImage image, int[] matriceConvolution)
+        public MyImage(MyImage image, int[,] matriceConvolution)
         {
             //Création de l'image modifiée
             this.largeur = image.largeur;
@@ -147,7 +147,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.typeImage = image.typeImage;
             this.tailleFichier = image.tailleFichier;
             this.tailleOffset = image.tailleOffset;
-            this.nbrDeBitsParCouleur image.nbrDeBitsParCouleur;
+            this.nbrDeBitsParCouleur = image.nbrDeBitsParCouleur;
             this.fileName = "RésultatConv.bmp";
 
             //marche seulement pour des matrices de convolution 3x3
@@ -157,9 +157,17 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     if (i != 0 && j != 0 && i != hauteur - 1 && j != largeur - 1)
                     {
-                        imageConv[i,j] = Pixel.MultiplicationPixel(imageConv[i - 1, j - 1],matriceConvolution[0,0]) + Pixel.MultiplicationPixel(imageConv[i - 1, j],matriceConvolution[0,1]) + Pixel.MultiplicationPixel(imageConv[i - 1, j + 1],matriceConvolution[0,2])
-                        + Pixel.MultiplicationPixel(imageConv[i, j - 1],matriceConvolution[1,0]) + Pixel.MultiplicationPixel(imageConv[i, j + 1],matriceConvolution[1,2])
-                        + Pixel.MultiplicationPixel(imageConv[i + 1, j - 1],matriceConvolution[2,0]) + Pixel.MultiplicationPixel(imageConv[i + 1, j],matriceConvolution[2,1])+ Pixel.MultiplicationPixel(imageConv[i + 1, j + 1],matriceConvolution[2,2]);                       
+                        imageConv[i,j].R = imageConv[i - 1, j - 1].R * matriceConvolution[0,0] + imageConv[i - 1, j].R * matriceConvolution[0,1] + imageConv[i - 1, j + 1].R * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].R * matriceConvolution[1,0] + imageConv[i, j + 1].R * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].R * matriceConvolution[2,0] + imageConv[i + 1, j].R * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].R * matriceConvolution[2,2];
+            
+                        imageConv[i,j].B = imageConv[i - 1, j - 1].B * matriceConvolution[0,0] + imageConv[i - 1, j].B * matriceConvolution[0,1] + imageConv[i - 1, j + 1].B * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].B * matriceConvolution[1,0] + imageConv[i, j + 1].B * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].B * matriceConvolution[2,0] + imageConv[i + 1, j].B * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].B * matriceConvolution[2,2];                    
+
+                        imageConv[i,j].V = imageConv[i - 1, j - 1].V * matriceConvolution[0,0] + imageConv[i - 1, j].V * matriceConvolution[0,1] + imageConv[i - 1, j + 1].V * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].V * matriceConvolution[1,0] + imageConv[i, j + 1].V * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].V * matriceConvolution[2,0] + imageConv[i + 1, j].V * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].V * matriceConvolution[2,2];                    
                     }    
                 }
             }
