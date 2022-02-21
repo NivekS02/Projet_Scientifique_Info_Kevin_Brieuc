@@ -138,6 +138,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = image;
         }
+
+        /*
         public MyImage(MyImage image, int[,] matriceConvolution)
         {
             //Création de l'image modifiée
@@ -172,7 +174,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
         }
-
+        */
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -390,6 +392,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             return new int[] {  i,  j  };
         }
+
         public void Miroir()
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
