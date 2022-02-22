@@ -62,6 +62,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             set { image = value; }
         }
         #endregion
+        
         public MyImage(string myfile)
         {
             byte[] file = File.ReadAllBytes(myfile);
@@ -137,6 +138,43 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = image;
         }
+
+        /*
+        public MyImage(MyImage image, int[,] matriceConvolution)
+        {
+            //Création de l'image modifiée
+            this.largeur = image.largeur;
+            this.hauteur = image.hauteur;
+            Pixel[,] imageConv = image.image;
+            this.typeImage = image.typeImage;
+            this.tailleFichier = image.tailleFichier;
+            this.tailleOffset = image.tailleOffset;
+            this.nbrDeBitsParCouleur = image.nbrDeBitsParCouleur;
+            this.fileName = "RésultatConv.bmp";
+
+            //marche seulement pour des matrices de convolution 3x3
+            for (int i = 0; i < hauteur; i++)
+            {
+                for (int j = 0; j < largeur; j++)
+                {
+                    if (i != 0 && j != 0 && i != hauteur - 1 && j != largeur - 1)
+                    {
+                        imageConv[i,j].R = imageConv[i - 1, j - 1].R * matriceConvolution[0,0] + imageConv[i - 1, j].R * matriceConvolution[0,1] + imageConv[i - 1, j + 1].R * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].R * matriceConvolution[1,0] + imageConv[i, j + 1].R * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].R * matriceConvolution[2,0] + imageConv[i + 1, j].R * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].R * matriceConvolution[2,2];
+            
+                        imageConv[i,j].B = imageConv[i - 1, j - 1].B * matriceConvolution[0,0] + imageConv[i - 1, j].B * matriceConvolution[0,1] + imageConv[i - 1, j + 1].B * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].B * matriceConvolution[1,0] + imageConv[i, j + 1].B * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].B * matriceConvolution[2,0] + imageConv[i + 1, j].B * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].B * matriceConvolution[2,2];                    
+
+                        imageConv[i,j].V = imageConv[i - 1, j - 1].V * matriceConvolution[0,0] + imageConv[i - 1, j].V * matriceConvolution[0,1] + imageConv[i - 1, j + 1].V * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].V * matriceConvolution[1,0] + imageConv[i, j + 1].V * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].V * matriceConvolution[2,0] + imageConv[i + 1, j].V * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].V * matriceConvolution[2,2];                    
+                    }    
+                }
+            }
+        }
+        */
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -354,6 +392,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             return new int[] {  i,  j  };
         }
+
         public void Miroir()
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
@@ -376,10 +415,5 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
                 "Filename : " + fileName);
         }
-
-
-
-
-
     }
 }
