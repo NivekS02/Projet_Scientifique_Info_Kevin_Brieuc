@@ -291,7 +291,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             //On cherche la largeur de la nouvelle matrice
             int nouvelleLargeur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(largeur - 1, hauteur -1) , angle)[1] + 1;
 
-
             //On cherche désormais la hauteur de la nouvelle matrice 
             int nouvelleHauteur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(0, hauteur-1), angle)[0] + 1;
 
@@ -305,7 +304,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     int[] nouvellesCoor = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(j, i), angle);
                     int nouveauI = nouvellesCoor[0];
                     int nouveauJ = nouvellesCoor[1];
-                    ImageRotation[nouveauI, nouveauJ] = image[i, j];
+                    if(nouveauI>0 && nouveauJ>0 && nouveauI<nouvelleHauteur && nouveauJ<nouvelleLargeur)
+                    {
+                        ImageRotation[nouveauI, nouveauJ] = image[i, j];
+                    }
                 }
             }
             for(int i =0; i < ImageRotation.GetLength(0); i++)
@@ -314,9 +316,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     if(ImageRotation [i,j]== null)
                     {
-                        ImageRotation[i, j].B = 255;
-                        ImageRotation[i, j].V = 255;
-                        ImageRotation[i, j].R = 255;
+                        ImageRotation[i, j] = new Pixel(255, 255, 255);
                     }
                 }
             }
