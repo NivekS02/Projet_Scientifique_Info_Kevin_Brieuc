@@ -28,6 +28,19 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             set { bleu = value; }
         }
 
+        public int IntR
+        {
+            get { return Convert.ToInt32(rouge);} 
+        }        
+        public int IntB
+        {
+            get { return Convert.ToInt32(bleu);}
+        }
+        public int IntV
+        {
+            get { return Convert.ToInt32(vert);}
+        }
+
         public Pixel(byte bleu, byte vert, byte rouge)            
         {
             this.rouge = rouge;

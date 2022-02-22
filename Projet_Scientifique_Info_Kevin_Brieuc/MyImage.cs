@@ -139,7 +139,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.image = image;
         }
 
-        /*
+        
         public MyImage(MyImage image, int[,] matriceConvolution)
         {
             //Création de l'image modifiée
@@ -159,22 +159,22 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     if (i != 0 && j != 0 && i != hauteur - 1 && j != largeur - 1)
                     {
-                        imageConv[i,j].R = imageConv[i - 1, j - 1].R * matriceConvolution[0,0] + imageConv[i - 1, j].R * matriceConvolution[0,1] + imageConv[i - 1, j + 1].R * matriceConvolution[0,2]
-                        + imageConv[i, j - 1].R * matriceConvolution[1,0] + imageConv[i, j + 1].R * matriceConvolution[1,2]
-                        + imageConv[i + 1, j - 1].R * matriceConvolution[2,0] + imageConv[i + 1, j].R * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].R * matriceConvolution[2,2];
+                        imageConv[i,j].R = Convert.ToByte(imageConv[i - 1, j - 1].IntR * matriceConvolution[0,0] + imageConv[i - 1, j].IntR * matriceConvolution[0,1] + imageConv[i - 1, j + 1].IntR * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].IntR * matriceConvolution[1,0] + imageConv[i, j + 1].IntR * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].IntR * matriceConvolution[2,0] + imageConv[i + 1, j].IntR * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].IntR * matriceConvolution[2,2]);
             
-                        imageConv[i,j].B = imageConv[i - 1, j - 1].B * matriceConvolution[0,0] + imageConv[i - 1, j].B * matriceConvolution[0,1] + imageConv[i - 1, j + 1].B * matriceConvolution[0,2]
-                        + imageConv[i, j - 1].B * matriceConvolution[1,0] + imageConv[i, j + 1].B * matriceConvolution[1,2]
-                        + imageConv[i + 1, j - 1].B * matriceConvolution[2,0] + imageConv[i + 1, j].B * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].B * matriceConvolution[2,2];                    
+                        imageConv[i,j].IntB = imageConv[i - 1, j - 1].IntB * matriceConvolution[0,0] + imageConv[i - 1, j].IntB * matriceConvolution[0,1] + imageConv[i - 1, j + 1].IntB * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].IntB * matriceConvolution[1,0] + imageConv[i, j + 1].IntB * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].IntB * matriceConvolution[2,0] + imageConv[i + 1, j].IntB * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].IntB * matriceConvolution[2,2];                    
 
-                        imageConv[i,j].V = imageConv[i - 1, j - 1].V * matriceConvolution[0,0] + imageConv[i - 1, j].V * matriceConvolution[0,1] + imageConv[i - 1, j + 1].V * matriceConvolution[0,2]
-                        + imageConv[i, j - 1].V * matriceConvolution[1,0] + imageConv[i, j + 1].V * matriceConvolution[1,2]
-                        + imageConv[i + 1, j - 1].V * matriceConvolution[2,0] + imageConv[i + 1, j].V * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].V * matriceConvolution[2,2];                    
+                        imageConv[i,j].V = imageConv[i - 1, j - 1].IntV * matriceConvolution[0,0] + imageConv[i - 1, j].IntV * matriceConvolution[0,1] + imageConv[i - 1, j + 1].IntV * matriceConvolution[0,2]
+                        + imageConv[i, j - 1].IntV * matriceConvolution[1,0] + imageConv[i, j + 1].IntV * matriceConvolution[1,2]
+                        + imageConv[i + 1, j - 1].IntV * matriceConvolution[2,0] + imageConv[i + 1, j].IntV * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].IntV * matriceConvolution[2,2];                    
                     }    
                 }
             }
         }
-        */
+        
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -370,10 +370,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             double xRelatif = x - xMilieu;
             double yRelatif = y - yMilieu;
 
-            double r = Math.Sqrt(xRelatif * xRelatif + yRelatif * yRelatif);
-            double alpha = Math.Atan2(yRelatif, xRelatif);
+            double r = Math.Sqrt(xRelatif * xRelatif + yRelatif * yRelatif); // r² = x² + y²
+            double alpha = Math.Atan2(yRelatif, xRelatif); // alpha = arctan2(x,y)
 
-            return new double[] { r, alpha };
+            return new double[] { r, alpha }; // coordonnées cylindriques
         }
 
         public int[] PolaireAjoutAngleRemiseCartesienne(double[] coorPolaire, double angle)
