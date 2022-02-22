@@ -151,7 +151,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.tailleOffset = image.tailleOffset;
             this.nbrDeBitsParCouleur = image.nbrDeBitsParCouleur;
             this.fileName = "RésultatConv.bmp";
-
+            /*
             //marche seulement pour des matrices de convolution 3x3
             for (int i = 0; i < hauteur; i++)
             {
@@ -173,6 +173,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }    
                 }
             }
+            */
         }
         
         public void From_Image_To_File(string file)
@@ -322,18 +323,41 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         public void Rotation2(double angle)
         {
+
+            
             angle = angle * Math.PI / 180;
 
+
+            /*
             //x/PI = angle/180 => x = PI*angle/180
 
             //On cherche la largeur de la nouvelle matrice
             int nouvelleLargeur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(largeur - 1, hauteur -1) , angle)[1] + 1;
-
             //On cherche désormais la hauteur de la nouvelle matrice 
             int nouvelleHauteur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(0, hauteur-1), angle)[0] + 1;
-
             //Création de la matrice
+
+            */
+
+
+            
+            double AngleInitial = Math.Atan2(image.GetLength(0)-1, image.GetLength(1)-1);
+            double alpha = AngleInitial - angle  ;
+            double Hypoténuse = Math.Sqrt((0 - image.GetLength(0))* (0 - image.GetLength(0)) + (0 - image.GetLength(1)) * (0 - image.GetLength(1)));
+            int nouvelleLargeur = (int)(Math.Sin(angle) * Hypoténuse);
+
+            AngleInitial = Math.Atan2(image.GetLength(0) - 1,0);
+            alpha = AngleInitial - angle;
+            Hypoténuse = Math.Sqrt((0 - image.GetLength(0)) * (0 - image.GetLength(0)));
+            int nouvelleHauteur = (int)(Math.Cos(angle) * Hypoténuse);
+            
+
+
+
+
+
             Pixel[,] ImageRotation = new Pixel[nouvelleHauteur, nouvelleLargeur];
+
 
             for (int i = 0; i < image.GetLength(0); i++)
             {
@@ -348,6 +372,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
             }
+
+
+
+
+
             for(int i =0; i < ImageRotation.GetLength(0); i++)
             {
                 for(int j=0; j<ImageRotation.GetLength(1); j++)
