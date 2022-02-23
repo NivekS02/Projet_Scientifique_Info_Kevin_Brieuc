@@ -334,16 +334,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             //Création de la matrice
             */
 
-            double AngleInitial = Math.Atan2(image.GetLength(0)-1, image.GetLength(1)-1);
-            double alpha = AngleInitial - angle  ;
-            double Hypoténuse = Math.Sqrt((0 - image.GetLength(0))* (0 - image.GetLength(0)) + (0 - image.GetLength(1)) * (0 - image.GetLength(1)));
-            int nouvelleLargeur = (int)(Math.Sin(angle) * Hypoténuse*2);
+            //double AngleInitial = Math.Atan2(image.GetLength(0)-1, image.GetLength(1)-1);
+            //double alpha = AngleInitial - angle  ;
+            //double Hypoténuse = Math.Sqrt((0 - image.GetLength(0))* (0 - image.GetLength(0)) + (0 - image.GetLength(1)) * (0 - image.GetLength(1)));
 
-            AngleInitial = Math.Atan2(image.GetLength(0) - 1,0);
-            alpha = AngleInitial - angle;
-            Hypoténuse = Math.Sqrt((0 - image.GetLength(0)) * (0 - image.GetLength(0)));
-            int nouvelleHauteur = (int)(Math.Cos(angle) * Hypoténuse*2);
-            
+            double [] coorPol = CartésienneEnPolaire(image.GetLength(0)-1,image.GetLength(1)-1);
+            int nouvelleLargeur = (int)(Math.Sin(coorPol[1]) * coorPol[0]*2);
+
+            coorPol = CartésienneEnPolaire(0,image.GetLength(1)-1);
+            int nouvelleHauteur = (int)Math.Abs(Math.Cos(coorPol[1]) * coorPol[0]*2);
+
+            while (nouvelleLargeur % 4 != 0)
+                nouvelleLargeur++;
             
 
             Pixel[,] ImageRotation = new Pixel[nouvelleHauteur, nouvelleLargeur];
