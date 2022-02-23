@@ -339,10 +339,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             //double Hypoténuse = Math.Sqrt((0 - image.GetLength(0))* (0 - image.GetLength(0)) + (0 - image.GetLength(1)) * (0 - image.GetLength(1)));
 
             double [] coorPol = CartésienneEnPolaire(image.GetLength(0)-1,image.GetLength(1)-1);
-            int nouvelleLargeur = (int)(Math.Sin(coorPol[1]) * coorPol[0]*2);
+            int nouvelleLargeur = (int)(Math.Sin(coorPol[1]) * coorPol[0]*3);
 
             coorPol = CartésienneEnPolaire(0,image.GetLength(1)-1);
-            int nouvelleHauteur = (int)Math.Abs(Math.Cos(coorPol[1]) * coorPol[0]*2);
+            int nouvelleHauteur = (int)Math.Abs(Math.Cos(coorPol[1]) * coorPol[0]*3);
 
             while (nouvelleLargeur % 4 != 0)
                 nouvelleLargeur++;
@@ -358,10 +358,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     int[] nouvellesCoor = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(j, i), angle, nouvelleLargeur, nouvelleHauteur);
                     int nouveauI = nouvellesCoor[0];
                     int nouveauJ = nouvellesCoor[1];
-                    if(nouveauI>0 && nouveauJ>0 && nouveauI<nouvelleHauteur && nouveauJ<nouvelleLargeur)
+                    ImageRotation[nouveauI, nouveauJ] = image[i, j];
+                    /*
+                    if (nouveauI>0 && nouveauJ>0 && nouveauI<nouvelleHauteur && nouveauJ<nouvelleLargeur)
                     {
-                        ImageRotation[nouveauI, nouveauJ] = image[i, j];
+                        
                     }
+                    */
                 }
             }
 
