@@ -138,43 +138,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = image;
         }
-
-        
-        public MyImage(MyImage image, int[,] matriceConvolution)
-        {
-            //Création de l'image modifiée
-            this.largeur = image.largeur;
-            this.hauteur = image.hauteur;
-            Pixel[,] imageConv = image.image;
-            this.typeImage = image.typeImage;
-            this.tailleFichier = image.tailleFichier;
-            this.tailleOffset = image.tailleOffset;
-            this.nbrDeBitsParCouleur = image.nbrDeBitsParCouleur;
-            this.fileName = "RésultatConv.bmp";
-            /*
-            //marche seulement pour des matrices de convolution 3x3
-            for (int i = 0; i < hauteur; i++)
-            {
-                for (int j = 0; j < largeur; j++)
-                {
-                    if (i != 0 && j != 0 && i != hauteur - 1 && j != largeur - 1)
-                    {
-                        imageConv[i,j].R = Convert.ToByte(imageConv[i - 1, j - 1].IntR * matriceConvolution[0,0] + imageConv[i - 1, j].IntR * matriceConvolution[0,1] + imageConv[i - 1, j + 1].IntR * matriceConvolution[0,2]
-                        + imageConv[i, j - 1].IntR * matriceConvolution[1,0] + imageConv[i, j + 1].IntR * matriceConvolution[1,2]
-                        + imageConv[i + 1, j - 1].IntR * matriceConvolution[2,0] + imageConv[i + 1, j].IntR * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].IntR * matriceConvolution[2,2]);
-            
-                        imageConv[i,j].IntB = imageConv[i - 1, j - 1].IntB * matriceConvolution[0,0] + imageConv[i - 1, j].IntB * matriceConvolution[0,1] + imageConv[i - 1, j + 1].IntB * matriceConvolution[0,2]
-                        + imageConv[i, j - 1].IntB * matriceConvolution[1,0] + imageConv[i, j + 1].IntB * matriceConvolution[1,2]
-                        + imageConv[i + 1, j - 1].IntB * matriceConvolution[2,0] + imageConv[i + 1, j].IntB * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].IntB * matriceConvolution[2,2];                    
-
-                        imageConv[i,j].V = imageConv[i - 1, j - 1].IntV * matriceConvolution[0,0] + imageConv[i - 1, j].IntV * matriceConvolution[0,1] + imageConv[i - 1, j + 1].IntV * matriceConvolution[0,2]
-                        + imageConv[i, j - 1].IntV * matriceConvolution[1,0] + imageConv[i, j + 1].IntV * matriceConvolution[1,2]
-                        + imageConv[i + 1, j - 1].IntV * matriceConvolution[2,0] + imageConv[i + 1, j].IntV * matriceConvolution[2,1]+ imageConv[i + 1, j + 1].IntV * matriceConvolution[2,2];                    
-                    }    
-                }
-            }
-            */
-        }
         
         public void From_Image_To_File(string file)
         {
@@ -264,7 +227,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
         }
 
-        public void ImageNoirEtBlanc ()
+        public void NuancesDeGris()
         {            
             for (int i = 0; i < image.GetLength(0); i++)
             {
@@ -276,6 +239,29 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     image[i, j].R = gris;
                 }
             }          
+        }
+
+        public void ImageNoirEtBlanc()
+        {
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    byte gris = Convert.ToByte((image[i, j].B + image[i, j].V + image[i, j].R) / 3);
+                    if (gris <= 128)
+                    {
+                        image[i, j].B = 0;
+                        image[i, j].V = 0;
+                        image[i, j].R = 0;
+                    }
+                    else
+                    {
+                        image[i, j].B = 255;
+                        image[i, j].V = 255;
+                        image[i, j].R = 255;
+                    }
+                }
+            }
         }
         public void Agrandir(int ratio)
         {
@@ -439,5 +425,42 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
                 "Filename : " + fileName);
         }
+
+        public void Convolution(int [,] kernel)
+        {
+            Pixel [,] matricefinale = new Pixel[image.GetLength(0), image.GetLength(1)];
+
+            for(int i = 0; i<image.GetLength(0); i++)
+            {
+                for(int j = 0; j< image.GetLength(1); j++)
+                {
+                    Pixel pixel = new Pixel(0, 0, 0);
+                    matricefinale[i, j] = pixel;
+                }
+            }
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    for (int x = -kernel.GetLength(0) / 2; x <= kernel.GetLength(0) / 2; x++)
+                    {
+                        for (int y = -kernel.GetLength(1) / 2; y <= kernel.GetLength(1) / 2; y++)
+                        {
+                            int NouveauI = (image.GetLength(0) + i + x) % image.GetLength(0);
+                            int NouveauJ = (image.GetLength(1) + j + y) % image.GetLength(1);
+                            int NouveauX = x + kernel.GetLength(0) / 2;
+                            int NouveauY = y + kernel.GetLength(1) / 2;
+
+                            matricefinale[i, j].B = (byte)(matricefinale[i, j].B + this.image[NouveauI, NouveauJ].B * kernel[NouveauX, NouveauY]);
+                            matricefinale[i, j].V = (byte)(matricefinale[i, j].V + this.image[NouveauI, NouveauJ].V * kernel[NouveauX, NouveauY]);
+                            matricefinale[i, j].R = (byte)(matricefinale[i, j].R + this.image[NouveauI, NouveauJ].R * kernel[NouveauX, NouveauY]);
+                        }
+                    }
+                }
+            }
+            this.image = matricefinale;
+        }
+       
+        
     }
 }

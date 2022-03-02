@@ -12,6 +12,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         static void Main(string[] args)
         {
+            
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -51,6 +52,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 string choix = menuImage.DeplacerMenuImages2();
                 switch (choix)
                 {
+                    case "NuancesDeGris":
+                        image.NuancesDeGris();
+                        Console.WriteLine("Transformation de l'image en nuances de gris effectuée.");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
                     case "Noir et blanc":
                         image.ImageNoirEtBlanc();
                         Console.WriteLine("Transformation de l'image en noir et blanc effectuée.");
@@ -90,8 +98,40 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     case "Retrécissement":
                         Console.WriteLine("Entrez un indice de rétrécissement");
                         int IndiceRétrécissement = Convert.ToInt32(Console.ReadLine());
-                        image.Agrandir(IndiceRétrécissement);
+                        image.Retrecir(IndiceRétrécissement);
                         Console.WriteLine("Rétrécissecement de l'image avec un coefficent de " + IndiceRétrécissement + " effectuée.");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "Détection de contour":
+                        int[,] kernel1 = new int [,] {{ -1, -1, -1 }, { -1, 8, -1 }, { -1, -1, -1 } };
+                        image.Convolution(kernel1);
+                        Console.WriteLine("Dectection de contour effectuée.");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "Renforcement des bords":
+                        int[,] kernel2 = new int[,] {{ 0, 0, 0 },{ -1, 1, 0 },{ 0, 0, 0 } };
+                        image.Convolution(kernel2);
+                        Console.WriteLine("Renforcement des bords effectué.");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "Flou":
+                        int[,] kernel3 = new int[,] { { 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 }, { 0, 1, 1, 1, 0 }, { 0, 1, 1, 1, 0 }, { 0, 0, 0, 0, 0 } };
+                        image.Convolution(kernel3);
+                        Console.WriteLine("Flou effectué.");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "Repoussage":
+                        int[,] kernel = new int[,] { { -2, -1, 0 }, { -1,1,1}, {0,1,2 } };
+                        image.Convolution(kernel);
+                        Console.WriteLine("Repoussage effectué.");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
                         Console.ReadKey();
                         Console.Clear();
@@ -134,5 +174,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.ReadKey();
             return fini;
         }
+
+        
     }
 }
