@@ -426,39 +426,117 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 "Filename : " + fileName);
         }
 
+
+        public Pixel CalculConvolution(Pixel[,] matriceCopie, int i, int j, int[,] kernel)
+        {
+            Pixel pixel = new Pixel(0,0,0);
+            for(int x = 0; x<kernel.GetLength(0); x++)
+            {
+                for(int y = 0; y<kernel.GetLength(1); y++)
+                {
+                    pixel.B += (byte)((int)(matriceCopie[i, j + y].B * kernel[x, y]));  
+                    pixel.R += (byte)((int)(matriceCopie[i, j + y].R * kernel[x, y]));
+                    pixel.V += (byte)((int)(matriceCopie[i, j + y].V * kernel[x, y]));
+                }
+                i++;
+            }
+            
+            pixel.B = (byte)((int)(pixel.B) /kernel.Length);
+            pixel.R = (byte)((int)(pixel.R) / kernel.Length);
+            pixel.V = (byte)((int)(pixel.V) / kernel.Length);
+            
+            return pixel;
+        }
         public void Convolution(int [,] kernel)
         {
-            Pixel [,] matricefinale = new Pixel[image.GetLength(0), image.GetLength(1)];
+            Pixel[,] matriceCopie = new Pixel[image.GetLength(0) + 2, image.GetLength(1) + 2];
 
-            for(int i = 0; i<image.GetLength(0); i++)
+            matriceCopie[0, 0] = image[0, 0]; //copie du coin supérieur gauche
+            matriceCopie[0, image.GetLength(1) + 1] = image[0, image.GetLength(1)-1]; //copie du coin supérieur droite
+            matriceCopie[image.GetLength(0) + 1, 0] = image[image.GetLength(0)-1, 0]; //copie du coin inférieur gauche
+            matriceCopie[image.GetLength(0) + 1, image.GetLength(1) + 1] = image[image.GetLength(0)-1, image.GetLength(1)-1]; //copie du coin inférieur droite
+
+            for (int i = 0; i < image.GetLength(0) ; i++)
             {
-                for(int j = 0; j< image.GetLength(1); j++)
+                matriceCopie[i + 1 , 0] = image[i , 0]; // ajout du bord gauche
+                matriceCopie[i + 1 , matriceCopie.GetLength(1) - 1] = image[i, image.GetLength(1) - 1]; // ajout du bord droit
+            }
+
+            for(int j=0; j<image.GetLength(1); j++)
+            {
+                matriceCopie[0, j+1] = image[0, j]; //ajout du bord supérieur 
+                matriceCopie[image.GetLength(0) + 1, j+1] = image[image.GetLength(0) - 1, j]; // ajout du bord inférieur
+            }
+
+            for (int i = 0; i < image.GetLength(0);i++)
+            {
+                for(int j=0; j<image.GetLength(1); j++)
                 {
-                    Pixel pixel = new Pixel(0, 0, 0);
-                    matricefinale[i, j] = pixel;
+                    matriceCopie[i + 1, j + 1] = image[i, j]; //Copie de l'image originale dans la matrice copie
                 }
             }
+
             for (int i = 0; i < image.GetLength(0); i++)
             {
                 for (int j = 0; j < image.GetLength(1); j++)
                 {
-                    for (int x = -kernel.GetLength(0) / 2; x <= kernel.GetLength(0) / 2; x++)
-                    {
-                        for (int y = -kernel.GetLength(1) / 2; y <= kernel.GetLength(1) / 2; y++)
-                        {
-                            int NouveauI = (image.GetLength(0) + i + x) % image.GetLength(0);
-                            int NouveauJ = (image.GetLength(1) + j + y) % image.GetLength(1);
-                            int NouveauX = x + kernel.GetLength(0) / 2;
-                            int NouveauY = y + kernel.GetLength(1) / 2;
-
-                            matricefinale[i, j].B = (byte)(matricefinale[i, j].B + this.image[NouveauI, NouveauJ].B * kernel[NouveauX, NouveauY]);
-                            matricefinale[i, j].V = (byte)(matricefinale[i, j].V + this.image[NouveauI, NouveauJ].V * kernel[NouveauX, NouveauY]);
-                            matricefinale[i, j].R = (byte)(matricefinale[i, j].R + this.image[NouveauI, NouveauJ].R * kernel[NouveauX, NouveauY]);
-                        }
-                    }
+                    image[i, j] = CalculConvolution(matriceCopie, i, j, kernel);
                 }
             }
-            this.image = matricefinale;
+
+
+                    /*
+                    Pixel [,] matricefinale = new Pixel[image.GetLength(0), image.GetLength(1)];
+
+                    for(int i = 0; i<image.GetLength(0); i++)
+                    {
+                        for(int j = 0; j< image.GetLength(1); j++)
+                        {
+                            Pixel pixel = new Pixel(0, 0, 0);
+                            matricefinale[i, j] = pixel;
+                        }
+                    }
+
+                    for (int i = 1; i < image.GetLength(0)-1; i++)
+                    {
+                        for (int j = 1; j < image.GetLength(1)-1; j++)
+                        {
+                            for (int k = 0; k<kernel.GetLength(0); k++)
+                            {
+                                for(int l = 0; l<kernel.GetLength(1); l++ )
+                                {
+                                    matricefinale[i, j].B = (byte)(matricefinale[i, j].B + this.image[i, j].B * kernel[k, l]);
+                                    matricefinale[i, j].V = (byte)(matricefinale[i, j].V + this.image[i, j].V * kernel[k, l]);
+                                    matricefinale[i, j].R = (byte)(matricefinale[i, j].R + this.image[i, j].R * kernel[k, l]);
+                                }
+                            }
+                        }
+                    }
+
+                    */
+
+                    /*
+                    for (int i = 0; i < image.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < image.GetLength(1); j++)
+                        {
+                            for (int x = -kernel.GetLength(0) / 2; x <= kernel.GetLength(0) / 2; x++)
+                            {
+                                for (int y = -kernel.GetLength(1) / 2; y <= kernel.GetLength(1) / 2; y++)
+                                {
+                                    int NouveauI = (image.GetLength(0) + i + x) % image.GetLength(0);
+                                    int NouveauJ = (image.GetLength(1) + j + y) % image.GetLength(1);
+                                    int NouveauX = x + kernel.GetLength(0) / 2;
+                                    int NouveauY = y + kernel.GetLength(1) / 2;
+
+                                    matricefinale[i, j].B = (byte)(matricefinale[i, j].B + this.image[NouveauI, NouveauJ].B * kernel[NouveauX, NouveauY]);
+                                    matricefinale[i, j].V = (byte)(matricefinale[i, j].V + this.image[NouveauI, NouveauJ].V * kernel[NouveauX, NouveauY]);
+                                    matricefinale[i, j].R = (byte)(matricefinale[i, j].R + this.image[NouveauI, NouveauJ].R * kernel[NouveauX, NouveauY]);
+                                }
+                            }
+                        }
+                    }
+                    */
         }
        
         
