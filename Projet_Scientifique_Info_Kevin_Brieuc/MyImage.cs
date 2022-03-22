@@ -427,31 +427,54 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
 
 
-        public Pixel CalculConvolution(Pixel[,] matriceCopie, int i, int j, int[,] kernel)
+        public Pixel CalculConvolution(Pixel[,] matriceCopie, int i, int j, double[,] kernel)
         {
-            Pixel pixel = new Pixel(0,0,0);
+            double[] pixel = new double[]{ 0,0,0};
             for(int x = 0; x<kernel.GetLength(0); x++)
             {
                 for(int y = 0; y<kernel.GetLength(1); y++)
                 {
-                    pixel.B += (byte)((int)(matriceCopie[i, j + y].B * kernel[x, y]));  
-                    pixel.R += (byte)((int)(matriceCopie[i, j + y].R * kernel[x, y]));
-                    pixel.V += (byte)((int)(matriceCopie[i, j + y].V * kernel[x, y]));
-                }
-                i++;
-            }
-            
-            pixel.B = (byte)((int)(pixel.B) /kernel.Length);
-            pixel.R = (byte)((int)(pixel.R) / kernel.Length);
-            pixel.V = (byte)((int)(pixel.V) / kernel.Length);
-            
-            return pixel;
-        }
-        public void Convolution(int [,] kernel)
-        {
-            Pixel[,] matriceCopie = new Pixel[image.GetLength(0) + 2, image.GetLength(1) + 2];
+                    //Coordonnées des voisins du pixel actuel en face des éléments du noyau
+                    int CoorI = i - kernel.GetLength(0) / 2 + x;
+                    int CoorJ = j - kernel.GetLength(1) / 2 + y;
 
-            matriceCopie[0, 0] = image[0, 0]; //copie du coin supérieur gauche
+                    //Seuillage à 0 (en gros si ça dépasse on le ramène au bord où il a dépassé
+                    if(CoorI < 0)
+                        CoorI = 0;
+                    if(CoorI >= matriceCopie.GetLength(0))
+                        CoorI = matriceCopie.GetLength(0) - 1;
+                    if(CoorJ < 0)
+                        CoorJ = 0;
+                    if(CoorJ >= matriceCopie.GetLength(1))
+                        CoorJ = matriceCopie.GetLength(1) - 1;
+
+                    pixel[0] += matriceCopie[CoorI,CoorJ].B * kernel[x, y];
+                    pixel[1] += matriceCopie[CoorI,CoorJ].V * kernel[x, y];
+                    pixel[2] += matriceCopie[CoorI,CoorJ].R * kernel[x, y];
+                }
+            }
+            //On mets toutes les valeurs en bytes (en cas de dépassement on les remet à la limite)
+            for(int k=0;k<3;k++)
+                if(pixel[k]<0)
+                    pixel[k] = 0;
+                else if (pixel[k] > 255)
+                    pixel[k] = 255;
+
+            /*pixel.B = (byte)((int)(pixel.B) /kernel.Length);
+            pixel.R = (byte)((int)(pixel.R) / kernel.Length);
+            pixel.V = (byte)((int)(pixel.V) / kernel.Length);*/
+            
+            return new Pixel((byte)pixel[0], (byte)pixel[1], (byte)pixel[2]);
+        }
+        public void Convolution(double [,] kernel)
+        {
+            Pixel[,] matriceCopie = new Pixel[image.GetLength(0) , image.GetLength(1)];
+
+            for(int i = 0; i < image.GetLength(0) ; i++)
+                for(int j = 0; j < image.GetLength(1) ; j++)
+                    matriceCopie[i,j] = image[i,j];
+
+            /*matriceCopie[0, 0] = image[0, 0]; //copie du coin supérieur gauche
             matriceCopie[0, image.GetLength(1) + 1] = image[0, image.GetLength(1)-1]; //copie du coin supérieur droite
             matriceCopie[image.GetLength(0) + 1, 0] = image[image.GetLength(0)-1, 0]; //copie du coin inférieur gauche
             matriceCopie[image.GetLength(0) + 1, image.GetLength(1) + 1] = image[image.GetLength(0)-1, image.GetLength(1)-1]; //copie du coin inférieur droite
@@ -474,7 +497,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     matriceCopie[i + 1, j + 1] = image[i, j]; //Copie de l'image originale dans la matrice copie
                 }
-            }
+            }*/
 
             for (int i = 0; i < image.GetLength(0); i++)
             {

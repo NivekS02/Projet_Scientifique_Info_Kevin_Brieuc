@@ -105,15 +105,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.Clear();
                         break;
                     case "Détection de contour":
-                        int[,] kernel1 = new int [,] {{ -1, -1, -1 }, { -1, 8, -1 }, { -1, -1, -1 } };
+                        double[,] kernel1 = new double [,] {{ -1, -1, -1 }, { -1, 8, -1 }, { -1, -1, -1 } };
                         image.Convolution(kernel1);
+                        image.NuancesDeGris();
                         Console.WriteLine("Dectection de contour effectuée.");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
                         Console.ReadKey();
                         Console.Clear();
                         break;
                     case "Renforcement des bords":
-                        int[,] kernel2 = new int[,] {{ 0, 0, 0 },{ -1, 1, 0 },{ 0, 0, 0 } };
+                        double[,] kernel2 = new double[,] { { -1, -1, -1 }, { -1, 9, -1 }, { -1, -1, -1 } };
                         image.Convolution(kernel2);
                         Console.WriteLine("Renforcement des bords effectué.");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -121,7 +122,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.Clear();
                         break;
                     case "Flou":
-                        int[,] kernel3 = new int[,] { { 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 }, { 0, 1, 1, 1, 0 }, { 0, 1, 1, 1, 0 }, { 0, 0, 0, 0, 0 } };
+                        double[,] kernel3 = new double[,] {
+                            { 0, 0, 1/13.0, 0, 0 },
+                            { 0, 1/13.0, 1/13.0, 1/13.0, 0 },
+                            { 1/13.0, 1/13.0, 1/13.0, 1/13.0, 1/13.0 },
+                            { 0, 1/13.0, 1/13.0, 1/13.0, 0 },
+                            { 0, 0, 1/13.0, 0, 0 } };
                         image.Convolution(kernel3);
                         Console.WriteLine("Flou effectué.");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -129,7 +135,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.Clear();
                         break;
                     case "Repoussage":
-                        int[,] kernel = new int[,] { { -2, -1, 0 }, { -1,1,1}, {0,1,2 } };
+                        double[,] kernel = new double[,] { { -2, -1, 0 }, { -1,1,1}, {0,1,2 } };
                         image.Convolution(kernel);
                         Console.WriteLine("Repoussage effectué.");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
