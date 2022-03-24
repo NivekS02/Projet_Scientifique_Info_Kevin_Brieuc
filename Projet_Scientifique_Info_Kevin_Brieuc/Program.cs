@@ -142,6 +142,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.ReadKey();
                         Console.Clear();
                         break;
+                    case "Histogramme":                 
+                        image.Histogramme('b');
+                        Console.WriteLine("Histogramme créé");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+
+                        break;
                     case "Informations sur l'image":
                         image.toString();
                         Console.WriteLine("Appuyer sur une touche pour continuer");

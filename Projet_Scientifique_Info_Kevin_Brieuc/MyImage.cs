@@ -174,10 +174,52 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             // Ecriture dans le fichier
             File.WriteAllBytes(file, FileSave.ToArray());
-
         }
 
-	    public int Convert_Endian_To_Int(byte[] tab)
+        public void From_Image_To_FileFractale(string file)
+        {
+            List<byte> FileSave = new List<byte>();
+            //Construction du header
+            FileSave.Add(66); // format BMP
+            FileSave.Add(77);
+            for (int i = 0; i < 4; i++) FileSave.Add(Convert_Int_To_Endian((image.Length * 3) + 54)[i]); // Nouvelle taille du fichier
+            for (int i = 0; i < 4; i++) FileSave.Add(0); //Ajout de bits de stockage 
+            FileSave.Add(54); //taille de l'en-tête (header)
+            for (int i = 0; i < 3; i++) FileSave.Add(0); // On rajoute des 0 pour les 4 octets du header
+            FileSave.Add(40); //taille du header info
+            for (int i = 0; i < 3; i++) FileSave.Add(0); // On rajoute des 0 pour les 4 octets du header info
+            for (int i = 0; i < 4; i++) FileSave.Add(Convert_Int_To_Endian(image.GetLength(1))[i]); //Largeur de l'image
+            for (int i = 0; i < 4; i++) FileSave.Add(Convert_Int_To_Endian(image.GetLength(0))[i]); //hauteur de l'image
+            FileSave.Add(1); //Le nombre de plans (toujours 1 0 pour nous)
+            FileSave.Add(0);
+            FileSave.Add(24); 
+            FileSave.Add(0);
+            for (int i = 0; i < 4; i++) FileSave.Add(0);
+            for (int i = 0; i < 4; i++) FileSave.Add(Convert_Int_To_Endian(image.Length)[i]);
+            for (int i = 0; i < 16; i++) FileSave.Add(0);
+
+            // Lecture de l'image elle-même en ajoutant les bytes des différents pixels dans la liste 
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                int k = 0;
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    FileSave.Add(this.image[i, j].B);
+                    FileSave.Add(this.image[i, j].V);
+                    FileSave.Add(this.image[i, j].R);
+                    k++;
+                }
+                while (k % 4 != 0) // Si la largeur n'est pas un multiple de 4, on rajoute des 0
+                {
+                    FileSave.Add(0);
+                    k++;
+                }
+            }
+            // Ecriture dans le fichier
+            File.WriteAllBytes(file, FileSave.ToArray());
+        }
+
+        public int Convert_Endian_To_Int(byte[] tab)
         {
                 int taille = tab.Length;
                 int entier = 0;
@@ -487,32 +529,122 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     image[i, j] = CalculConvolution(matriceCopie, i, j, kernel);
                 }
             }
-            /*matriceCopie[0, 0] = image[0, 0]; //copie du coin supérieur gauche
-            matriceCopie[0, image.GetLength(1) + 1] = image[0, image.GetLength(1)-1]; //copie du coin supérieur droite
-            matriceCopie[image.GetLength(0) + 1, 0] = image[image.GetLength(0)-1, 0]; //copie du coin inférieur gauche
-            matriceCopie[image.GetLength(0) + 1, image.GetLength(1) + 1] = image[image.GetLength(0)-1, image.GetLength(1)-1]; //copie du coin inférieur droite
+            
 
-            for (int i = 0; i < image.GetLength(0) ; i++)
+        }
+
+        public void FractaleMandelbrot ()
+        {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+        public void Histogramme(char couleur) // couleur est soit b soit r soit v
+        {
+            switch (couleur)
             {
-                matriceCopie[i + 1 , 0] = image[i , 0]; // ajout du bord gauche
-                matriceCopie[i + 1 , matriceCopie.GetLength(1) - 1] = image[i, image.GetLength(1) - 1]; // ajout du bord droit
+                case 'b':
+                    Pixel[,] histogrammeBleu = new Pixel[largeur * hauteur, 256];
+                    for (int i = 0; i < histogrammeBleu.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < histogrammeBleu.GetLength(1); j++)
+                        {
+                            histogrammeBleu[i, j].R = 0;
+                            histogrammeBleu[i, j].V = 0;
+                            histogrammeBleu[i, j].B = 0; // on crée donc une matrice image avec seulement des pixels noirs
+                        }
+                    }
+                    for (int k = 0; k < 256; k++)
+                        {
+                            int c = histogrammeBleu.GetLength(0) - 1;
+                            for (int i = 0; i < hauteur; i++)
+                            {
+                                for (int j = 0; j < largeur; j++)
+                                {
+                                    if (image[i, j].B == k)
+                                    {
+                                        histogrammeBleu[c, k].R = 0 ;
+                                        histogrammeBleu[c, k].V = 0;
+                                        histogrammeBleu[c, k].B = 255; // on "peint" donc notre matrice image avec des pixels verts
+                                    }
+                                    else
+                                    c--;
+                                }
+                            }
+                        }
+                    image = histogrammeBleu;
+                    break;
+                case 'r':
+                    Pixel[,] histogrammeRouge = new Pixel[largeur * hauteur, 256];
+                    for (int k = 0; k < 256; k++)
+                    {
+                        int c = histogrammeRouge.GetLength(0) - 1;
+                        for (int i = 0; i < hauteur; i++)
+                        {
+                            for (int j = 0; j < largeur; j++)
+                            {
+                                if (image[i, j].R == k)
+                                {
+                                    histogrammeRouge[c, k].B = 0;
+                                    histogrammeRouge[c, k].V = 0;
+                                    histogrammeRouge[c, k].R = 255;
+                                }
+                                c--;
+                            }
+                        }
+                    }
+                    image = histogrammeRouge;
+                    break;
+                case 'v':
+                    Pixel[,] histogrammeVert = new Pixel[largeur * hauteur, 256];
+                    for (int k = 0; k < 256; k++)
+                    {
+                        int c = histogrammeVert.GetLength(0) - 1;
+                        for (int i = 0; i < hauteur; i++)
+                        {
+                            for (int j = 0; j < largeur; j++)
+                            {
+                                if (image[i, j].R == k)
+                                {
+                                    histogrammeVert[c, k].B = 0;
+                                    histogrammeVert[c, k].R = 0;
+                                    histogrammeVert[c, k].V = 255;
+                                }
+                                c--;
+                            }
+                        }
+                    }
+                    image = histogrammeVert;
+                    break;
+                default:
+                    image = image;
+                    break;
             }
 
-            for(int j=0; j<image.GetLength(1); j++)
+        }
+
+        public void Cacher_Image(MyImage image, MyImage image_a_cacher)
+        {
+            if(image_a_cacher.image.Length <= image.image.Length)
             {
-                matriceCopie[0, j+1] = image[0, j]; //ajout du bord supérieur 
-                matriceCopie[image.GetLength(0) + 1, j+1] = image[image.GetLength(0) - 1, j]; // ajout du bord inférieur
+
             }
-
-            for (int i = 0; i < image.GetLength(0);i++)
-            {
-                for(int j=0; j<image.GetLength(1); j++)
-                {
-                    matriceCopie[i + 1, j + 1] = image[i, j]; //Copie de l'image originale dans la matrice copie
-                }
-            }*/
-
-
         }
     }
 }
