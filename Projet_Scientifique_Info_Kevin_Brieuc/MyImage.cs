@@ -287,7 +287,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = imageRetrecie;
         }
-        public void Rotation() //uniquement pour les angles à 90/180/270 degrés
+        public void Rotation() //uniquement pour les angles à 90/180/270 degrés en sens antihoraire
         {
             Pixel[,] ImageFinale = new Pixel[largeur, hauteur];
             int l = image.GetLength(1) - 1;
@@ -406,11 +406,21 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         public void Miroir()
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
+            /*
             for(int i=0; i<image.GetLength(0); i++)
             {
                 for(int j=0; j<image.GetLength(1); j++)
                 {
                     ImageMiroir[i, j] = image[i, (image.GetLength(1) - 1 - j) % image.GetLength(1)];
+                }
+            }
+            */
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1)/2; j++)
+                {
+                    ImageMiroir[i, j] = image[i, image.GetLength(1) - 1 - j];
+                    ImageMiroir[i, ImageMiroir.GetLength(1) - 1 - j] = image[i, j];
                 }
             }
             this.image = ImageMiroir;
