@@ -565,9 +565,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     {
                         for (int j = 0; j < histogrammeBleu.GetLength(1); j++)
                         {
-                            histogrammeBleu[i, j].R = 0;
-                            histogrammeBleu[i, j].V = 0;
-                            histogrammeBleu[i, j].B = 0; // on crée donc une matrice image avec seulement des pixels noirs
+                            histogrammeBleu[i, j] = new Pixel(0, 0, 0); // on crée donc une matrice image avec seulement des pixels noirs
                         }
                     }
                     for (int k = 0; k < 256; k++)
