@@ -594,86 +594,38 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return im;
         }
 
-        public void Histogramme(char couleur) // couleur est soit b soit r soit v
+        
+        public void Histogramme() // pas encore fini
         {
-            switch (couleur)
-            {
-                case 'b':
-                    Pixel[,] histogrammeBleu = new Pixel[largeur * hauteur, 256];
-                    for (int i = 0; i < histogrammeBleu.GetLength(0); i++)
+            /*
+                    Pixel[,] histogramme = new Pixel[1000, 256];
+                    for (int i = 0; i < histogramme.GetLength(0); i++)
                     {
-                        for (int j = 0; j < histogrammeBleu.GetLength(1); j++)
+                        for (int j = 0; j < histogramme.GetLength(1); j++)
                         {
-                            histogrammeBleu[i, j] = new Pixel(0, 0, 0); // on crée donc une matrice image avec seulement des pixels noirs
+                            histogramme[i, j] = new Pixel(0, 0, 0); // on crée donc une matrice image avec seulement des pixels noirs
                         }
                     }
                     for (int k = 0; k < 256; k++)
                         {
-                            int c = histogrammeBleu.GetLength(0) - 1;
+                            int c = histogramme.GetLength(0) - 1;
                             for (int i = 0; i < hauteur; i++)
                             {
                                 for (int j = 0; j < largeur; j++)
                                 {
                                     if (image[i, j].B == k)
                                     {
-                                        histogrammeBleu[c, k].R = 0 ;
-                                        histogrammeBleu[c, k].V = 0;
-                                        histogrammeBleu[c, k].B = 255; // on "peint" donc notre matrice image avec des pixels verts
+                                        histogramme[c, k].R = 0 ;
+                                        histogramme[c, k].V = 0;
+                                        histogramme[c, k].B = 255; // on "peint" donc notre matrice image avec des pixels verts
                                     }
                                     else
                                     c--;
                                 }
                             }
                         }
-                    image = histogrammeBleu;
-                    break;
-                case 'r':
-                    Pixel[,] histogrammeRouge = new Pixel[largeur * hauteur, 256];
-                    for (int k = 0; k < 256; k++)
-                    {
-                        int c = histogrammeRouge.GetLength(0) - 1;
-                        for (int i = 0; i < hauteur; i++)
-                        {
-                            for (int j = 0; j < largeur; j++)
-                            {
-                                if (image[i, j].R == k)
-                                {
-                                    histogrammeRouge[c, k].B = 0;
-                                    histogrammeRouge[c, k].V = 0;
-                                    histogrammeRouge[c, k].R = 255;
-                                }
-                                c--;
-                            }
-                        }
-                    }
-                    image = histogrammeRouge;
-                    break;
-                case 'v':
-                    Pixel[,] histogrammeVert = new Pixel[largeur * hauteur, 256];
-                    for (int k = 0; k < 256; k++)
-                    {
-                        int c = histogrammeVert.GetLength(0) - 1;
-                        for (int i = 0; i < hauteur; i++)
-                        {
-                            for (int j = 0; j < largeur; j++)
-                            {
-                                if (image[i, j].R == k)
-                                {
-                                    histogrammeVert[c, k].B = 0;
-                                    histogrammeVert[c, k].R = 0;
-                                    histogrammeVert[c, k].V = 255;
-                                }
-                                c--;
-                            }
-                        }
-                    }
-                    image = histogrammeVert;
-                    break;
-                default:
-                    image = image;
-                    break;
-            }
-
+                    image = histogramme;
+            */
         }
 
         public void Cacher_Image(MyImage image, MyImage image_a_cacher)
