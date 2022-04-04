@@ -26,6 +26,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     case 2:
                         retour = QRCodes();
                         break;
+                    case 3:
+                        retour = Fractales();
+                        break;
                     default:
                         Console.WriteLine("Veuillez choisir le type de traitement souhaité svp");
                         break;
@@ -181,6 +184,20 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.ReadKey();
             return fini;
         }
+
+        public static bool Fractales()
+        {
+            bool fini = true;
+            Console.WriteLine("Ecrivez le nom du fichier que vous voulez donner à la fractale svp.");
+            string fichier = Convert.ToString(Console.ReadLine());
+            fichier += ".bmp";
+            MyImage image = new MyImage();
+            image.FractaleMandelbrot();
+            Process.Start(fichier);
+
+            return fini;
+        }
+
         public static bool QRCodes()
         {
             bool fini = true;

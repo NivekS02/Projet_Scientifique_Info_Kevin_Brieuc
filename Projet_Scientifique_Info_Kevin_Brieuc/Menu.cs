@@ -24,13 +24,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         public Menu()
         {
-            this.deplacement = new string[2] { "1", "0"};
-            this.menu = new string[2] { "Images", "QR codes" };
+            this.deplacement = new string[3] { "1", "0", "0"};
+            this.menu = new string[3] { "Images", "QR codes", "Fractales" };
+
             this.deplacementImages = new string[5] {"1", "0", "0", "0" ,"0"};
             this.menuImages = new string[5] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp" , "Retour"};
             this.deplacementImages2 = new string[14] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
             this.menuImages2 = new string[14] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement", 
-                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Informations sur l'image",  "Enregistrer l'image" , "Retour"};
+                                                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Informations sur l'image",  "Enregistrer l'image" , "Retour"};
         }
         public void AfficherMenu()
         {
@@ -79,12 +80,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     case ConsoleKey.UpArrow:
                         deplacement[i] = "0";
-                        i = (i - 1 + 2) % 2;
+                        i = (i - 1 + 3) % 3;
                         AfficherMenu();
                         break;
                     case ConsoleKey.DownArrow:
                         deplacement[i] = "0";
-                        i = (i + 1) % 2;
+                        i = (i + 1) % 3;
                         AfficherMenu();
                         break;
                     case ConsoleKey.Enter:

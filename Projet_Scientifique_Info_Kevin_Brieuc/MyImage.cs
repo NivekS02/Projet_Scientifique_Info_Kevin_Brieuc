@@ -139,6 +139,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.image = image;
         }
         
+        public MyImage()
+        {
+            this.typeImage = "BM";
+            this.tailleOffset = 54;
+            this.hauteur = 25;
+            this.largeur = 25;
+            Pixel[,] image = new Pixel[25, 25];
+        }
+
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -535,25 +544,55 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         public void FractaleMandelbrot ()
         {
+            for(int i = 0; i<hauteur; i++)
+            {
+                for(int j = 0; j<largeur; j++)
+                {
+                    double X0 = i;
+                    double Y0 = j;
 
+                    double X = i;
+                    double Y = j;
 
+                    double NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
+                    double NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
 
+                    double module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
 
+                    if(module>2)
+                    {
+                        image[i, j] = new Pixel(0, 0, 255);
+                    }
+                    else
+                    {
+                        while(module <2)
+                        {
+                            for (int k = 0; k<15; k++)
+                            {
+                                X = NouveauRéel;
+                                Y = NouveauImaginaire;
 
-
-
-
-
-
-
-
-
-
-
+                                NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
+                                NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
+                            }
+                            module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
+                        }
+                        image[i, j] = new Pixel(0, 0, 255);
+                    }
+                }
+            }
         }
 
-
-
+        public double ComplexeAuCaréeReel(double X, double Y)
+        {
+            double re = X * X - (Y * Y);
+            return re;
+        }
+        public double ComplexeAuCaréeImaginaire(double X, double Y)
+        {
+            double im = 2 * X * Y;
+            return im;
+        }
 
         public void Histogramme(char couleur) // couleur est soit b soit r soit v
         {
