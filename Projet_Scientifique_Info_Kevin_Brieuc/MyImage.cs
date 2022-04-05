@@ -597,8 +597,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         public void Histogramme() // pas encore fini
         {
-            /*
-                    Pixel[,] histogramme = new Pixel[1000, 256];
+            
+                    Pixel[,] histogramme = new Pixel[128, 256];
                     for (int i = 0; i < histogramme.GetLength(0); i++)
                     {
                         for (int j = 0; j < histogramme.GetLength(1); j++)
@@ -613,11 +613,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                             {
                                 for (int j = 0; j < largeur; j++)
                                 {
-                                    if (image[i, j].B == k)
+                                int pxl = ((int)image[i, j].B + (int)image[i, j].V + (int)image[i, j].R))/3;
+                                    if (pxl == k)
                                     {
-                                        histogramme[c, k].R = 0 ;
-                                        histogramme[c, k].V = 0;
-                                        histogramme[c, k].B = 255; // on "peint" donc notre matrice image avec des pixels verts
+                                        histogramme[c, k].R = (byte)(pxl);
+                                        histogramme[c, k].V = (byte)(pxl);
+                                        histogramme[c, k].B = (byte)(pxl);
                                     }
                                     else
                                     c--;
@@ -625,7 +626,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                             }
                         }
                     image = histogramme;
-            */
+            
         }
 
         public void Cacher_Image(MyImage image, MyImage image_a_cacher)
