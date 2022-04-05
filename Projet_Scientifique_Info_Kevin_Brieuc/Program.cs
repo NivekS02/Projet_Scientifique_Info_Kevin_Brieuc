@@ -146,7 +146,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.Clear();
                         break;
                     case "Histogramme":                 
-                        image.Histogramme('b');
+                        image.Histogramme();
                         Console.WriteLine("Histogramme créé");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
                         Console.ReadKey();
@@ -193,6 +193,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             fichier += ".bmp";
             MyImage image = new MyImage();
             image.FractaleMandelbrot();
+            image.From_Image_To_FileFractale(fichier);
             Process.Start(fichier);
 
             return fini;

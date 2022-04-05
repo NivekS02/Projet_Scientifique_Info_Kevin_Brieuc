@@ -143,9 +143,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             this.typeImage = "BM";
             this.tailleOffset = 54;
-            this.hauteur = 25;
-            this.largeur = 25;
-            Pixel[,] image = new Pixel[25, 25];
+            this.hauteur = 1000;
+            this.largeur = 1000;
+            Pixel[,] image = new Pixel[hauteur, largeur];
+            for(int i = 0;i<hauteur; i++)
+            {
+                for(int j=0; j<largeur;j++)
+                {
+                    image[i, j] = new Pixel(0, 0, 0);
+                }
+            }
         }
 
         public void From_Image_To_File(string file)
@@ -261,7 +268,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             return tab;
         }
-
         public void AfficherMatrice()
         {
             for(int i = 0; i<hauteur; i++)
@@ -277,7 +283,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 Console.WriteLine();
             }
         }
-
         public void NuancesDeGris()
         {            
             for (int i = 0; i < image.GetLength(0); i++)
@@ -291,7 +296,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }          
         }
-
         public void ImageNoirEtBlanc()
         {
             for (int i = 0; i < image.GetLength(0); i++)
@@ -419,7 +423,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.hauteur = image.GetLength(0);
             this.largeur = image.GetLength(1);
         }
-
         public double [] CartésienneEnPolaire (int x, int y)
         {
             double xMilieu = (largeur-1) / 2.0;
@@ -432,7 +435,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             return new double[] { r, alpha }; // coordonnées cylindriques
         }
-
         public int[] PolaireAjoutAngleRemiseCartesienne(double[] coorPolaire, double angle, int nouvelleLargeur, int nouvelleHauteur)
         {
             double r = coorPolaire[0];
@@ -486,8 +488,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
                 "Filename : " + fileName);
         }
-
-
         public Pixel CalculConvolution(Pixel[,] matriceCopie, int i, int j, double[,] kernel)
         {
             double[] pixel = new double[]{ 0,0,0};
@@ -541,10 +541,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             
 
         }
-
         public void FractaleMandelbrot ()
         {
-            for(int i = 0; i<hauteur; i++)
+            Pixel[,] ImageCopie = new Pixel[hauteur, largeur];
+            for (int i = 0; i < hauteur; i++)
+            {
+                for (int j = 0; j < largeur; j++)
+                {
+                    ImageCopie[i, j] = new Pixel(0, 0, 0);
+                }
+            }
+            /*
+            for (int i = 0; i<hauteur; i++)
             {
                 for(int j = 0; j<largeur; j++)
                 {
@@ -559,28 +567,60 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
                     double module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
 
-                    if(module>2)
+                    if (module > 2)
                     {
-                        image[i, j] = new Pixel(0, 0, 255);
+                        ImageCopie[i, j] = new Pixel(0, 0, 255);
                     }
                     else
                     {
-                        while(module <2)
+                        for (int k = 0; k < 15; k++)
                         {
-                            for (int k = 0; k<15; k++)
-                            {
-                                X = NouveauRéel;
-                                Y = NouveauImaginaire;
+                            X = NouveauRéel;
+                            Y = NouveauImaginaire;
 
-                                NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
-                                NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
-                            }
+                            NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
+                            NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
+
                             module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
+                            if (module > 2)
+                            {
+                                ImageCopie[i, j] = new Pixel(0, 0, 255);
+                                k = 15;
+                            }
                         }
-                        image[i, j] = new Pixel(0, 0, 255);
+                        if (ImageCopie[i, j].R != 255)
+                        {
+                            ImageCopie[i, j] = new Pixel(0, 0, 0);
+                        }
                     }
                 }
             }
+            */
+            double epsilon = 0.0001;
+            double x;
+            double y;
+            int maxIterations = 10;
+            int maxColors = 256;
+
+            double c_z_r;
+            double c_z_i;
+            double c_c_r;
+            double c_c_i;
+            int iterations;
+            for(x=-2; x<=2;x+=epsilon)
+            {
+                for(y=-2; y<=2; y+=epsilon)
+                {
+                    iterations = 0;
+                    c_c_r = x;
+                    c_c_i = y;
+                    c_z_r = 0;
+                    c_z_i = 0;
+                    while()
+                }
+            }
+
+            this.image = ImageCopie;
         }
 
         public double ComplexeAuCaréeReel(double X, double Y)
@@ -598,7 +638,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         public void Histogramme() // pas encore fini
         {
             
-                    Pixel[,] histogramme = new Pixel[128, 256];
+                    Pixel[,] histogramme = new Pixel[2000, 256];
                     for (int i = 0; i < histogramme.GetLength(0); i++)
                     {
                         for (int j = 0; j < histogramme.GetLength(1); j++)
@@ -606,25 +646,39 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                             histogramme[i, j] = new Pixel(0, 0, 0); // on crée donc une matrice image avec seulement des pixels noirs
                         }
                     }
+
                     for (int k = 0; k < 256; k++)
                         {
-                            int c = histogramme.GetLength(0) - 1;
-                            for (int i = 0; i < hauteur; i++)
+                            int CompteurBleu = 0;
+                            int CompteurRouge = 0 ;
+                            int CompteurVert = 0;
+                        for (int i = 0; i < hauteur; i++)
                             {
                                 for (int j = 0; j < largeur; j++)
                                 {
-                                int pxl = ((int)image[i, j].B + (int)image[i, j].V + (int)image[i, j].R))/3;
-                                    if (pxl == k)
+                                    if(image[i, j].B == k)
                                     {
-                                        histogramme[c, k].R = (byte)(pxl);
-                                        histogramme[c, k].V = (byte)(pxl);
-                                        histogramme[c, k].B = (byte)(pxl);
+                                        histogramme[CompteurBleu, k].B = 255;
+                                        CompteurBleu++;
                                     }
-                                    else
-                                    c--;
+                                    if (image[i, j].V == k)
+                                    {
+                                        histogramme[CompteurVert, k].V = 255;
+                                        CompteurVert++;
+                                    }
+                                    if (image[i, j].R == k)
+                                    {
+                                        histogramme[CompteurRouge, k].R = 255;
+                                        CompteurRouge++;
+                                    }
                                 }
                             }
                         }
+
+
+
+
+
                     image = histogramme;
             
         }
@@ -633,6 +687,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             if(image_a_cacher.image.Length <= image.image.Length)
             {
+
 
             }
         }
