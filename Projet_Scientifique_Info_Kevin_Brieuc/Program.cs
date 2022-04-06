@@ -12,7 +12,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         static void Main(string[] args)
         {
-            
+            MyImage image = new MyImage("lac.bmp");
+            MyImage imageACacher = new MyImage("ll.bmp");
+            image.Cacher_Image(imageACacher);
+            image.From_Image_To_File("caca.bmp");
+            Process.Start("caca.bmp");
+            /*
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -34,7 +39,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
-            
+            */
             //image.AfficherMatrice();
             Console.ReadKey();
         }

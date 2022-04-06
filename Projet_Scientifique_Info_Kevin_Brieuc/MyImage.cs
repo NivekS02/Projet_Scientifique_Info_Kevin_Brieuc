@@ -143,8 +143,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             this.typeImage = "BM";
             this.tailleOffset = 54;
-            this.hauteur = 1000;
-            this.largeur = 1000;
+            this.hauteur = 40;
+            this.largeur = 40;
             Pixel[,] image = new Pixel[hauteur, largeur];
             for(int i = 0;i<hauteur; i++)
             {
@@ -551,6 +551,58 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     ImageCopie[i, j] = new Pixel(0, 0, 0);
                 }
             }
+
+            int x = 0;
+            int y = 0;
+            for (double i = -2; i < 2; i+=0.1)
+            {
+                for (double j = -2; j < 2; j+=0.1)
+                {
+                    double X0 = i;
+                    double Y0 = j;
+
+                    double X = i;
+                    double Y = j;
+
+                    double NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
+                    double NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
+
+                    double module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
+
+                    if (module > 2)
+                    {
+                        ImageCopie[x, y] = new Pixel(0, 0, 255);
+                        x++; 
+                        y++;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < 15; k++)
+                        {
+                            X = NouveauRéel;
+                            Y = NouveauImaginaire;
+
+                            NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
+                            NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
+
+                            module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
+                            if (module > 2)
+                            {
+                                ImageCopie[x, y] = new Pixel(0, 0, 255);
+                                x++; y++;
+                                k = 15;
+                            }
+                        }
+                        if (ImageCopie[x, y].R != 255)
+                        {
+                            ImageCopie[x, y] = new Pixel(0, 0, 0);
+                            x++; y++;
+                        }
+                    }
+                }
+            }
+
+
             /*
             for (int i = 0; i<hauteur; i++)
             {
@@ -569,7 +621,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
                     if (module > 2)
                     {
-                        ImageCopie[i, j] = new Pixel(0, 0, 255);
+                        ImageCopie[i,j] = new Pixel(0, 0, 255);
                     }
                     else
                     {
@@ -584,7 +636,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                             module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
                             if (module > 2)
                             {
-                                ImageCopie[i, j] = new Pixel(0, 0, 255);
+                                ImageCopie[i,j] = new Pixel(0, 0, 255);
                                 k = 15;
                             }
                         }
@@ -595,33 +647,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
             }
-            
-            double epsilon = 0.0001;
-            double x;
-            double y;
-            int maxIterations = 10;
-            int maxColors = 256;
-
-            double c_z_r;
-            double c_z_i;
-            double c_c_r;
-            double c_c_i;
-            int iterations;
-            for(x=-2; x<=2;x+=epsilon)
-            {
-                for(y=-2; y<=2; y+=epsilon)
-                {
-                    iterations = 0;
-                    c_c_r = x;
-                    c_c_i = y;
-                    c_z_r = 0;
-                    c_z_i = 0;
-                    while()
-                }
-            }
-
-            this.image = ImageCopie;
             */
+            this.image = ImageCopie;
+            
         }
 
         public double ComplexeAuCaréeReel(double X, double Y)
@@ -634,7 +662,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             double im = 2 * X * Y;
             return im;
         }
-
+        public double Module(double X, double Y)
+        {
+            return Math.Sqrt(X * X + Y * Y);
+        }
         
         public void Histogramme() // pas encore fini
         {
@@ -675,9 +706,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
                 }
             }
-            tableauHistogramme[0, k].B = CompteurBleu ;
-            tableauHistogramme[1, k].V = CompteurVert ;
-            tableauHistogramme[2, k].R = CompteurRouge;  
+            tableauHistogramme[0, k] = CompteurBleu ;
+            tableauHistogramme[1, k] = CompteurVert ;
+            tableauHistogramme[2, k] = CompteurRouge;  
         }   
              
 
@@ -699,28 +730,78 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             for (int j = 0; j < 256 * tableauHistogramme[0,i]/max ; j++)
             {
-                histogramme[i,j].B = 255;
+                histogramme[j,i].B = 255;
             }
             for (int j = 0; j < 256 * tableauHistogramme[1,i]/max ; j++)
             {
-                histogramme[i,j].V = 255;
+                histogramme[j,i].V = 255;
             }
             for (int j = 0; j < 256 * tableauHistogramme[2,i]/max ; j++)
             {
-                histogramme[i,j].R = 255;
+                histogramme[j,i].R = 255;
             }
         }
         
         image = histogramme;            
         }
 
-        public void Cacher_Image(MyImage image, MyImage image_a_cacher)
+        public void Cacher_Image(MyImage image_a_cacher)
         {
-            if(image_a_cacher.image.Length <= image.image.Length)
+            if(image_a_cacher.image.Length <= image.Length)
             {
-
+                for(int i=0; i<image_a_cacher.hauteur;i++)
+                {
+                    for(int j=0; j<image_a_cacher.largeur; j++)
+                    {
+                        image[i, j].B = BinaireToByte(FusionTableauBinaire(ByteToBinaire(image[i, j].B), ByteToBinaire(image_a_cacher.image[i, j].B)));
+                        image[i, j].R = BinaireToByte(FusionTableauBinaire(ByteToBinaire(image[i, j].R), ByteToBinaire(image_a_cacher.image[i, j].R)));
+                        image[i, j].V = BinaireToByte(FusionTableauBinaire(ByteToBinaire(image[i, j].V), ByteToBinaire(image_a_cacher.image[i, j].V)));
+                    }
+                }
 
             }
+        }
+        public int [] ByteToBinaire (byte pixel)
+        {
+            int pxl = (int)(pixel);
+            int[] tab = new int[8];
+            int puissance = 128;
+            for (int i = 0; i < 8; i++)
+            {
+                if (pxl / puissance != 0)
+                {
+                    pxl -= puissance;
+                    tab[i] = 1;
+                    puissance = puissance / 2;
+
+                }
+                else
+                {
+                    tab[i] = 0;
+                    puissance = puissance / 2;
+                }
+            }
+            return tab;
+        }
+
+        public byte BinaireToByte(int[]tab)
+        {
+            int somme = 0;
+            int puissance = 128;
+            for(int i=0; i<8;i++)
+            {
+                somme += tab[i] * puissance;
+                puissance = puissance / 2;
+            }
+            return (byte)(somme);
+        }
+
+        public int[] FusionTableauBinaire (int [] tabNormal, int [] tabCaché)
+        {
+            int[] tabFinal = new int[8];
+            for (int i = 0; i < 4; i++) tabFinal[i] = tabNormal[i];
+            for (int i = 4; i < 8; i++) tabFinal[i] = tabCaché[i-4];
+            return tabFinal;
         }
     }
 }
