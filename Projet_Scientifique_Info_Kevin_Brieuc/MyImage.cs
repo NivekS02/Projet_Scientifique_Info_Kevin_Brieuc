@@ -760,6 +760,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
 
             }
+            else
+            {
+                Console.WriteLine("L'image à cacher est trop grande pour être cachée");
+            }
         }
         public int [] ByteToBinaire (byte pixel)
         {

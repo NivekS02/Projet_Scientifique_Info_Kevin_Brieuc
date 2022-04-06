@@ -29,9 +29,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             this.deplacementImages = new string[5] {"1", "0", "0", "0" ,"0"};
             this.menuImages = new string[5] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp" , "Retour"};
-            this.deplacementImages2 = new string[14] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
-            this.menuImages2 = new string[14] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement", 
-                                                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Informations sur l'image",  "Enregistrer l'image" , "Retour"};
+
+            this.deplacementImages2 = new string[15] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+            this.menuImages2 = new string[15] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement", 
+                                                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Cacher une image","Informations sur l'image",  "Enregistrer l'image" , "Retour"};
         }
         public void AfficherMenu()
         {
@@ -208,12 +209,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     case ConsoleKey.UpArrow:
                         deplacementImages2[i] = "0";
-                        i = (i - 1 + 14) % 14;
+                        i = (i - 1 + 15) % 15;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.DownArrow:
                         deplacementImages2[i] = "0";
-                        i = (i + 1) % 14;
+                        i = (i + 1) % 15;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.Enter:

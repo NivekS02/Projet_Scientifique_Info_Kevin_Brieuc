@@ -12,12 +12,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         static void Main(string[] args)
         {
-            MyImage image = new MyImage("lac.bmp");
-            MyImage imageACacher = new MyImage("ll.bmp");
-            image.Cacher_Image(imageACacher);
-            image.From_Image_To_File("caca.bmp");
-            Process.Start("caca.bmp");
-            /*
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -39,7 +33,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
-            */
             //image.AfficherMatrice();
             Console.ReadKey();
         }
@@ -156,7 +149,32 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.WriteLine("Appuyer sur une touche pour continuer");
                         Console.ReadKey();
                         Console.Clear();
-
+                        break;
+                    case "Cacher une image":
+                        Console.WriteLine("Choisissez l'image à cacher");
+                        string choixImage2 = menuImage.DeplacerMenuImages();
+                        string nouvelleImage = "";
+                        switch (choixImage2)
+                        {
+                            case "coco.bmp":
+                                nouvelleImage = "coco.bmp";
+                                break;
+                            case "test001.bmp":
+                                nouvelleImage = "test001.bmp";
+                                break;
+                            case "lac.bmp":
+                                nouvelleImage = "lac.bmp";
+                                break;
+                            case "lena.bmp":
+                                nouvelleImage = "lena.bmp";
+                                break;
+                        }
+                        MyImage ImageACacher = new MyImage(nouvelleImage);
+                        image.Cacher_Image(ImageACacher);
+                        Console.WriteLine("L'image a été cachée");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
                         break;
                     case "Informations sur l'image":
                         image.toString();
