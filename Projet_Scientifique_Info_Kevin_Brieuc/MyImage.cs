@@ -595,7 +595,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
             }
-            */
+            
             double epsilon = 0.0001;
             double x;
             double y;
@@ -621,6 +621,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
 
             this.image = ImageCopie;
+            */
         }
 
         public double ComplexeAuCaréeReel(double X, double Y)
@@ -637,50 +638,80 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         public void Histogramme() // pas encore fini
         {
-            
-                    Pixel[,] histogramme = new Pixel[2000, 256];
-                    for (int i = 0; i < histogramme.GetLength(0); i++)
+        Pixel[,] histogramme = new Pixel[256, 256];
+        for (int i = 0; i < histogramme.GetLength(0); i++)
+        {
+            for (int j = 0; j < histogramme.GetLength(1); j++)
+            {
+                histogramme[i, j] = new Pixel(0, 0, 0); // on crée donc une matrice image avec seulement des pixels noirs
+            }
+        }
+
+        //matrice de 3 lignes (ROuge Vert Bleu de 256 colonnes) avec le nombre de pixel ayant tel valeur de V B R au bon endroit
+        int[,] tableauHistogramme = new int[3,256];
+        
+        // calcul du nombre de pixel ayant la même valeur de B puis de R puis de V 
+        for (int k = 0; k < 256; k++)
+        {
+            int CompteurBleu = 0;
+            int CompteurRouge = 0;
+            int CompteurVert = 0;
+            for (int i = 0; i < hauteur; i++)
+            {
+                for(int j = 0; j < largeur; j++)
+                {
+                    if(image[i, j].B == k)
                     {
-                        for (int j = 0; j < histogramme.GetLength(1); j++)
-                        {
-                            histogramme[i, j] = new Pixel(0, 0, 0); // on crée donc une matrice image avec seulement des pixels noirs
-                        }
+                        CompteurBleu++;
+                    }
+                    if (image[i, j].V == k)
+                    {                                     
+                        CompteurVert++;            
+                    }
+                    if (image[i, j].R == k)
+                    {                 
+                        CompteurRouge++;                
                     }
 
-                    for (int k = 0; k < 256; k++)
-                        {
-                            int CompteurBleu = 0;
-                            int CompteurRouge = 0 ;
-                            int CompteurVert = 0;
-                        for (int i = 0; i < hauteur; i++)
-                            {
-                                for (int j = 0; j < largeur; j++)
-                                {
-                                    if(image[i, j].B == k)
-                                    {
-                                        histogramme[CompteurBleu, k].B = 255;
-                                        CompteurBleu++;
-                                    }
-                                    if (image[i, j].V == k)
-                                    {
-                                        histogramme[CompteurVert, k].V = 255;
-                                        CompteurVert++;
-                                    }
-                                    if (image[i, j].R == k)
-                                    {
-                                        histogramme[CompteurRouge, k].R = 255;
-                                        CompteurRouge++;
-                                    }
-                                }
-                            }
-                        }
+                }
+            }
+            tableauHistogramme[0, k].B = CompteurBleu ;
+            tableauHistogramme[1, k].V = CompteurVert ;
+            tableauHistogramme[2, k].R = CompteurRouge;  
+        }   
+             
 
+        // Recherche du maximum dans tableauHistogramme
+        int max = 0;
+        for (int i = 0; i < tableauHistogramme.GetLength(0); i++)
+        {
+            for (int j = 0; j < tableauHistogramme.GetLength(1);j++)
+            {
+                if (tableauHistogramme[i,j] > max)
+                {
+                    max = tableauHistogramme[i,j];
+                }
+            }
+        }
 
-
-
-
-                    image = histogramme;
-            
+        //Création de l'histogramme
+        for (int i = 0; i < 256; i++)
+        {
+            for (int j = 0; j < 256 * tableauHistogramme[0,i]/max ; j++)
+            {
+                histogramme[i,j].B = 255;
+            }
+            for (int j = 0; j < 256 * tableauHistogramme[1,i]/max ; j++)
+            {
+                histogramme[i,j].V = 255;
+            }
+            for (int j = 0; j < 256 * tableauHistogramme[2,i]/max ; j++)
+            {
+                histogramme[i,j].R = 255;
+            }
+        }
+        
+        image = histogramme;            
         }
 
         public void Cacher_Image(MyImage image, MyImage image_a_cacher)
