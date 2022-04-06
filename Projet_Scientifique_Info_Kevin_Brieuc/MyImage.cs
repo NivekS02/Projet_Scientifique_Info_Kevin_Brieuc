@@ -552,58 +552,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
 
-            int x = 0;
-            int y = 0;
-            for (double i = -2; i < 2; i+=0.1)
-            {
-                for (double j = -2; j < 2; j+=0.1)
-                {
-                    double X0 = i;
-                    double Y0 = j;
+            
 
-                    double X = i;
-                    double Y = j;
-
-                    double NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
-                    double NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
-
-                    double module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
-
-                    if (module > 2)
-                    {
-                        ImageCopie[x, y] = new Pixel(0, 0, 255);
-                        x++; 
-                        y++;
-                    }
-                    else
-                    {
-                        for (int k = 0; k < 15; k++)
-                        {
-                            X = NouveauRéel;
-                            Y = NouveauImaginaire;
-
-                            NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
-                            NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
-
-                            module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
-                            if (module > 2)
-                            {
-                                ImageCopie[x, y] = new Pixel(0, 0, 255);
-                                x++; y++;
-                                k = 15;
-                            }
-                        }
-                        if (ImageCopie[x, y].R != 255)
-                        {
-                            ImageCopie[x, y] = new Pixel(0, 0, 0);
-                            x++; y++;
-                        }
-                    }
-                }
-            }
-
-
-            /*
+            
             for (int i = 0; i<hauteur; i++)
             {
                 for(int j = 0; j<largeur; j++)
@@ -647,7 +598,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
             }
-            */
+            
             this.image = ImageCopie;
             
         }
