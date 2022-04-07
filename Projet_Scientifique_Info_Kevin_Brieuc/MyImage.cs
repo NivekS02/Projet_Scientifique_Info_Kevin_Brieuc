@@ -19,7 +19,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private Pixel[,] image;
         private string fileName;
         #endregion
-
         #region Propriétés
         public string TypeImage
             {
@@ -62,7 +61,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             set { image = value; }
         }
         #endregion
-        
+        #region Constructeurs
         public MyImage(string myfile)
         {
             byte[] file = File.ReadAllBytes(myfile);
@@ -154,7 +153,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
         }
+        #endregion
 
+        #region Méthodes
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -778,5 +779,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             for (int i = 4; i < 8; i++) tabFinal[i] = tabCaché[i-4];
             return tabFinal;
         }
+        #endregion
     }
 }
