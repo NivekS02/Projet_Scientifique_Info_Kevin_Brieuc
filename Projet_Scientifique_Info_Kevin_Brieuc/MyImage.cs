@@ -695,7 +695,27 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         image = histogramme;            
         }
-
+        public void Decrypter_Image()
+        {
+            for (int i = 0; i < hauteur; i++)
+            {
+                for (int j = 0; j < largeur; j++)
+                {
+                    int [] binaireBleu = ByteToBinaire(image[i,j].B);
+                    int [] binaireVert = ByteToBinaire(image[i,j].V);
+                    int [] binaireRouge = ByteToBinaire(image[i,j].R);
+                    for (int k = 0; k < 4; k++)
+                    {
+                        binaireBleu[k] = binaireBleu[4+k];
+                        binaireVert[k] = binaireVert[4+k];
+                        binaireRouge[k] = binaireRouge[4+k];
+                    }
+                    image[i,j].B = BinaireToByte(binaireBleu);
+                    image[i,j].V = BinaireToByte(binaireVert);
+                    image[i,j].R = BinaireToByte(binaireRouge);
+                }
+            }
+        }
         public void Cacher_Image(MyImage image_a_cacher)
         {
             if(image_a_cacher.image.Length <= image.Length)
