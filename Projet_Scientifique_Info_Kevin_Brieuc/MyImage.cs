@@ -834,7 +834,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         X 33
         Y 34
         Z 35
-        space 36
+        space 36   ==> il faut ajouter 4
         $ 37
         % 38
         * 39

@@ -9,12 +9,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
     internal class Program
     {
-        //pedalo
-        
         static void Main(string[] args)
         {
-
-            char lettre = 'A';
+            char lettre = 'H';
             Console.WriteLine((int)(lettre));
             /*
             Menu menu = new Menu();
