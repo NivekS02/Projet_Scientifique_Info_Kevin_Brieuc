@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Pixel.cs" />
     <Compile Include="MyImage.cs" />
