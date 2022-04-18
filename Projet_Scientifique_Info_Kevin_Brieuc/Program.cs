@@ -12,6 +12,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         static void Main(string[] args)
         {
+
+            char lettre = 'A';
+            Console.WriteLine((int)(lettre));
+            /*
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -33,7 +37,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
-            //image.AfficherMatrice();
+            */
+
             Console.ReadKey();
         }
         public static bool Images()
@@ -225,7 +230,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         public static bool QRCodes()
         {
             bool fini = true;
-            Console.WriteLine("Rien du tout pour l'instant...");
+            Console.WriteLine("Entrez un mot ou une suite de caractères svp.");
+            string phrase = Console.ReadLine();
+            int longueur = phrase.Length;
+            if (longueur != 0 && longueur < 48)
+            {
+
+            }
+            else
+            {
+                fini = false;
+                Console.WriteLine("Mot null ou chaîne de caractère trop long");
+            }
             Console.ReadKey();
             return fini;
         }

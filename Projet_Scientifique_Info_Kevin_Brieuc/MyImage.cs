@@ -18,6 +18,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private int nbrDeBitsParCouleur;
         private Pixel[,] image;
         private string fileName;
+
+        private int[] IndicateurNombreCaractere;
         #endregion
 
         #region Propriétés
@@ -139,6 +141,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.image = image;
         }
         
+        public MyImage(string ChaîneDeCaracteres, int longueur)
+        {
+            IndicateurNombreCaractere = ConvertirIntEnBinaire(longueur);
+            if(longueur <= 25)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
         public MyImage()
         {
             this.typeImage = "BM";
@@ -361,7 +375,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.hauteur = image.GetLength(0);
             this.largeur = image.GetLength(1);
         }
-
         public void Rotation2(double angle)
         {
             angle = angle * Math.PI / 180;
@@ -617,7 +630,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             return Math.Sqrt(X * X + Y * Y);
         }
-        
         public void Histogramme() // pas encore fini
         {
         Pixel[,] histogramme = new Pixel[256, 256];
@@ -695,7 +707,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         image = histogramme;            
         }
-
         public void Cacher_Image(MyImage image_a_cacher)
         {
             if(image_a_cacher.image.Length <= image.Length)
@@ -738,7 +749,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return tab;
         }
-
         public byte BinaireToByte(int[]tab)
         {
             int somme = 0;
@@ -750,13 +760,33 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return (byte)(somme);
         }
-
         public int[] FusionTableauBinaire (int [] tabNormal, int [] tabCaché)
         {
             int[] tabFinal = new int[8];
             for (int i = 0; i < 4; i++) tabFinal[i] = tabNormal[i];
             for (int i = 4; i < 8; i++) tabFinal[i] = tabCaché[i-4];
             return tabFinal;
+        }
+        public int[] ConvertirIntEnBinaire (int longueur)
+        {
+            int[] tab = new int[9];
+            int puissance = 256 ;
+            for (int i = 0; i < 8; i++)
+            {
+                if (longueur / puissance != 0)
+                {
+                    longueur -= puissance;
+                    tab[i] = 1;
+                    puissance = puissance / 2;
+
+                }
+                else
+                {
+                    tab[i] = 0;
+                    puissance = puissance / 2;
+                }
+            }
+            return tab;
         }
     }
 }
