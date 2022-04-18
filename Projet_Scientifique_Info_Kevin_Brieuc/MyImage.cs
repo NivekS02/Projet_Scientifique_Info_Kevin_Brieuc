@@ -206,7 +206,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             // Ecriture dans le fichier
             File.WriteAllBytes(file, FileSave.ToArray());
         }
-
+        
         public void From_Image_To_FileFractale(string file)
         {
             List<byte> FileSave = new List<byte>();
