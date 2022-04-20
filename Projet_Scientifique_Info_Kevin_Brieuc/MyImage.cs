@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Numerics;
 
 namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
@@ -555,7 +556,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             
 
         }
-        public void FractaleMandelbrot ()
+        public int SuiteDeMandelBrot(int iteration, Complex c, Complex z, int n = 0)
+        {
+            if (z.Magnitude > 2 || iteration <= 0)
+            {
+                return n;
+            }
+            iteration--;
+            n++;
+            return SuiteDeMandelBrot(iteration, c, z * z + c, n);
+        }
+
+        public void FractaleMandelbrot()
         {
             Pixel[,] ImageCopie = new Pixel[hauteur, largeur];
             for (int i = 0; i < hauteur; i++)
@@ -565,56 +577,40 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     ImageCopie[i, j] = new Pixel(0, 0, 0);
                 }
             }
-
-            
-
-            
-            for (int i = 0; i<hauteur; i++)
-            {
-                for(int j = 0; j<largeur; j++)
+            Pixel[] couleurs = { //ALLEZ CHERCHER DES COULEURS (tapez color picker sur google)
+                new Pixel(255, 255, 255),//Du plus éloigné au plus proche
+                new Pixel(3, 1, 26),
+                new Pixel(9, 1, 47),
+                new Pixel(4, 4, 73),
+                new Pixel(0, 7, 100),
+                new Pixel(12, 44, 138),
+                new Pixel(24, 82, 177),
+                new Pixel(57, 125, 209),
+                new Pixel(134, 181, 229),
+                new Pixel(211, 236, 248),
+                new Pixel(241, 233, 191),
+                new Pixel(248, 201, 95),
+                new Pixel(255, 170, 0),
+                new Pixel(204, 128, 0),
+                new Pixel(153, 87 ,0),
+                new Pixel(255, 255, 255) //ça c'est le milieu j'ai en blanc pour que vous sachiez quoi changer mais changez c'est moche
+            };
+            int iteration = 50;
+            for (int i = 0; i < hauteur; i++)
+                for (int j = 0; j < largeur; j++)
                 {
-                    double X0 = i;
-                    double Y0 = j;
-
-                    double X = i;
-                    double Y = j;
-
-                    double NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
-                    double NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
-
-                    double module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
-
-                    if (module > 2)
-                    {
-                        ImageCopie[i,j] = new Pixel(0, 0, 255);
-                    }
-                    else
-                    {
-                        for (int k = 0; k < 15; k++)
-                        {
-                            X = NouveauRéel;
-                            Y = NouveauImaginaire;
-
-                            NouveauRéel = ComplexeAuCaréeReel(X, Y) + X0;
-                            NouveauImaginaire = ComplexeAuCaréeImaginaire(X, Y) + Y0;
-
-                            module = Math.Sqrt(NouveauRéel * NouveauRéel + NouveauImaginaire * NouveauImaginaire);
-                            if (module > 2)
-                            {
-                                ImageCopie[i,j] = new Pixel(0, 0, 255);
-                                k = 15;
-                            }
-                        }
-                        if (ImageCopie[i, j].R != 255)
-                        {
-                            ImageCopie[i, j] = new Pixel(0, 0, 0);
-                        }
-                    }
+                    Complex z = new Complex(0, 0);
+                    Complex p = new Complex(3 * (j - 3 * largeur / 4) / (double)largeur, 3 * (i - hauteur / 2) / (double)largeur); //le 3* et le /4 c'est pour centrer au milieu
+                    int color = 15 * (iteration - SuiteDeMandelBrot(iteration, p, z)) / iteration;
+                    ImageCopie[i, j] = couleurs[15 - color];
                 }
-            }
-            
+
+
+
+
+
             this.image = ImageCopie;
-            
+
         }
 
         public double ComplexeAuCaréeReel(double X, double Y)
@@ -849,3 +845,4 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         // Convertir le résultat en binaire sur 11 bits ou 6 bits si le nombre est pair
     }
 }
+
