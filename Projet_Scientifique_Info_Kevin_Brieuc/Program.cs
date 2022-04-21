@@ -14,7 +14,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             char lettre = 'H';
             Console.WriteLine((int)(lettre));
             
-            /*
+            
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -36,7 +36,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
-            */
+            
 
             Console.ReadKey();
         }
