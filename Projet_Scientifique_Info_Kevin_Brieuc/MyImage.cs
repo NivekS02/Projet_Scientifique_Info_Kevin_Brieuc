@@ -11,6 +11,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     internal class MyImage
     {
         #region attributs
+        //Partie traitement d'image
         private string typeImage;
         private int tailleFichier;
         private int tailleOffset;
@@ -19,10 +20,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private int nbrDeBitsParCouleur;
         private Pixel[,] image;
         private string fileName;
+
+        //Partie QR Code
         private int[] IndicateurNombreCaractere;
-
-
-        
+        private string[] CaractereBinaire;
 
         #endregion
         #region Propriétés
@@ -147,12 +148,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         public MyImage(string ChaîneDeCaracteres, int longueur)
         {
-            IndicateurNombreCaractere = ConvertirIntEnBinaire(longueur);
-            if(longueur <= 25)
+            IndicateurNombreCaractere = ConvertirLongueurEnBinaire(longueur);
+            CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres);
+            if (longueur <= 25) //Version 1
             {
-
+                
             }
-            else
+            else //Version 2
             {
 
             }
@@ -769,11 +771,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return tabFinal;
         }
         #endregion
-        public int[] ConvertirIntEnBinaire (int longueur)
+        public int[] ConvertirLongueurEnBinaire (int longueur)
         {
             int[] tab = new int[9];
             int puissance = 256 ;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 9; i++)
             {
                 if (longueur / puissance != 0)
                 {
@@ -791,33 +793,109 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return tab;
         }
 
-        
-        
-        public int[] ConvertirChaineDeCaractereEnBinaire(string ChaîneDeCaracteres)
+        public string ConvertirIntEn6Bits(int nbr)
         {
-            int[] binaire;
-            if (ChaîneDeCaracteres.Length%2 == 0)
+            string bits = "";
+            int puissance = 32;
+            for (int i = 0; i < 6; i++)
             {
-                binaire = new int[((ChaîneDeCaracteres.Length - 1) / 2) * 11 + 6];
-            }
-            else
-            {
-                binaire = new int[(ChaîneDeCaracteres.Length/2) * 11];
-            }
-            for (int i = 0; i < ChaîneDeCaracteres.Length; i+=2)
-            {
-                if (ChaîneDeCaracteres.Length%2 == 0 && i == ChaîneDeCaracteres.Length - 1) // si on arrive au bout de la chaine de caractère à longueur impaire
+                if (nbr / puissance != 0)
                 {
+                    nbr -= puissance;
+                    bits += 1;
+                    puissance = puissance / 2;
 
                 }
                 else
                 {
-                    
+                    bits += 0;
+                    puissance = puissance / 2;
+                }
+            }
+            return bits;
+        }
+
+
+        public string ConvertirIntEn11Bits(int nbr)
+        {
+            string bits = "";
+            int puissance = 1024;
+            for (int i = 0; i < 11; i++)
+            {
+                if (nbr / puissance != 0)
+                {
+                    nbr -= puissance;
+                    bits += 1;
+                    puissance = puissance / 2;
+
+                }
+                else
+                {
+                    bits += 0;
+                    puissance = puissance / 2;
+                }
+            }
+            return bits;
+        }
+
+        public string[] ConvertirChaineDeCaractereEnBinaire(string ChaîneDeCaracteres)
+        {
+            string [] binaire;
+            if (ChaîneDeCaracteres.Length%2 != 0)
+            {
+                binaire = new string[ChaîneDeCaracteres.Length / 2 + 1];
+            }
+            else
+            {
+                binaire = new string[ChaîneDeCaracteres.Length/2];
+            }
+
+            int compteur = 0;
+            for (int i = 0; i < ChaîneDeCaracteres.Length; i+=2)
+            {
+                if (ChaîneDeCaracteres.Length%2 != 0 && i == ChaîneDeCaracteres.Length - 1) // si on arrive au bout de la chaine de caractère à longueur impaire
+                {
+                    binaire[compteur] = ConvertirCaractèreEnBinaire(Convert.ToString(ChaîneDeCaracteres[i]));
+                }
+                else
+                {
+                    binaire[compteur] = ConvertirCaractèreEnBinaire(Convert.ToString(ChaîneDeCaracteres[i]) + Convert.ToString(ChaîneDeCaracteres[i + 1]));
+                    compteur++;
                 }
             }
             return binaire;
         }
-        
+        public string ConvertirCaractèreEnBinaire(string caractère)
+        {
+            string binaire = "";
+            if(caractère.Length%2 != 0)
+            {
+                binaire = ConvertirIntEn6Bits(Alphanumérique(caractère[0]));
+            }
+            else
+            {
+                binaire = ConvertirIntEn11Bits(45 * Alphanumérique(caractère[0]) + Alphanumérique(caractère[1]));
+            }
+            return binaire;
+        }
+
+        public int Alphanumérique(char lettre)
+        {
+            int alpha = 0;
+            if((int)lettre >= 48 && (int)lettre <=57)
+            {
+                alpha = (int)lettre - 48;
+            }
+            else if ((int)lettre > 57 && (int)lettre <= 122)
+            {
+                alpha = (int)lettre - 55;
+            }
+            else if ((int)lettre == 32)
+            {
+                alpha = (int)lettre + 4 ;
+            }
+            return alpha;
+        }
         
         //Alphanumeric Mode
         //mode character capacities : 25
@@ -826,6 +904,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         //--> étendre à 9 bits : 000001011 --> ajouter le mode indicator : 0010 000001011
         //Ensuite on code le mot en lui même en se référant à la table alphanumérique des lettres
         /*
+         ====> -55 pour les lettres et -48 pour les chiffres
         0 0
         1 1
         2 2

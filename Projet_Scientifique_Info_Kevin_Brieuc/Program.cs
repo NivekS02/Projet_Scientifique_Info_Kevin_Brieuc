@@ -11,10 +11,21 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     {
         static void Main(string[] args)
         {
-            char lettre = 'H';
+            char lettre = ' ';
             Console.WriteLine((int)(lettre));
-            
-            
+            MyImage test = new MyImage();
+            string[] tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLd");
+            for(int i = 0; i<tab.Length; i++)
+            {
+                Console.Write(tab[i]);
+            }
+            Console.WriteLine();
+            int [] tab1 = test.ConvertirLongueurEnBinaire(11);
+            for (int i = 0; i < tab1.Length; i++)
+            {
+                Console.Write(tab1[i]);
+            }
+            /*
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -36,7 +47,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
-            
+            */
 
             Console.ReadKey();
         }
