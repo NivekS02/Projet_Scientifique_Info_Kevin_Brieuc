@@ -13,6 +13,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             char lettre = 'H';
             Console.WriteLine((int)(lettre));
+            
             /*
             Menu menu = new Menu();
             bool retour = false;
