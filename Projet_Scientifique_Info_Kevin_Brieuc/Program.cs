@@ -14,18 +14,23 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             char lettre = ' ';
             Console.WriteLine((int)(lettre));
             MyImage test = new MyImage();
-            string[] tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLd");
+            string tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLd");
             for(int i = 0; i<tab.Length; i++)
             {
                 Console.Write(tab[i]);
             }
+
+
+
+            /*
             Console.WriteLine();
             int [] tab1 = test.ConvertirLongueurEnBinaire(11);
             for (int i = 0; i < tab1.Length; i++)
             {
                 Console.Write(tab1[i]);
             }
-            /*
+            
+            
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -51,6 +56,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             Console.ReadKey();
         }
+        /*
         public static bool Images()
         {
             bool imageModifiée = true;
@@ -89,6 +95,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         for (int i = 0; i < NbrRotations; i++) image.Rotation();
                         Console.WriteLine("Transformation de l'image avec " + NbrRotations +  " effectuée.");
                         */
+
+        /*
                         double angle = Convert.ToInt32(Console.ReadLine());
                         image.Rotation2(angle);
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -256,6 +264,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return fini;
         }
 
-        
+*/
+
     }
 }

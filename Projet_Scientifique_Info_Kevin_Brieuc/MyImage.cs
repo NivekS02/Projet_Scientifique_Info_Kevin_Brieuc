@@ -22,8 +22,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private string fileName;
 
         //Partie QR Code
-        private int[] IndicateurNombreCaractere;
-        private string[] CaractereBinaire;
+        private string IndicateurNombreCaractere;
+        private string CaractereBinaire;
+        private string IndicateurDeMode = "0010";
 
         #endregion
         #region Propriétés
@@ -148,7 +149,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         public MyImage(string ChaîneDeCaracteres, int longueur)
         {
-            IndicateurNombreCaractere = ConvertirLongueurEnBinaire(longueur);
+            int[] IndicateurNombreCaractereBinaire = ConvertirLongueurEnBinaire(longueur);
+            foreach (int bit in )
+            {
+                
+            }
+            IndicateurNombreCaractere;
             CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres);
             if (longueur <= 25) //Version 1
             {
@@ -771,7 +777,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return tabFinal;
         }
         #endregion
-        public int[] ConvertirLongueurEnBinaire (int longueur)
+        public int ConvertirLongueurEnBinaire (int longueur)
         {
             int[] tab = new int[9];
             int puissance = 256 ;
@@ -838,9 +844,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return bits;
         }
 
-        public string[] ConvertirChaineDeCaractereEnBinaire(string ChaîneDeCaracteres)
+        public string ConvertirChaineDeCaractereEnBinaire(string ChaîneDeCaracteres)
         {
             string [] binaire;
+            string chaineBinaire = "";
             if (ChaîneDeCaracteres.Length%2 != 0)
             {
                 binaire = new string[ChaîneDeCaracteres.Length / 2 + 1];
@@ -863,7 +870,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     compteur++;
                 }
             }
-            return binaire;
+
+            foreach (string str in binaire)
+            {
+                chaineBinaire = chaineBinaire + str;
+            }
+            return chaineBinaire;
         }
         public string ConvertirCaractèreEnBinaire(string caractère)
         {
@@ -897,6 +909,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return alpha;
         }
         
+        public string AjoutIndicateurs(string chaineBinaire)
+        {
+            chaineBinaire = IndicateurDeMode + IndicateurNombreCaractere + chaineBinaire;
+        }
         //Alphanumeric Mode
         //mode character capacities : 25
         //mode Indicator : 0010        
