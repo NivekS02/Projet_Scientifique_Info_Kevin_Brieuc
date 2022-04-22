@@ -25,6 +25,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
 
 
+
             /*
             Console.WriteLine();
             int [] tab1 = test.ConvertirLongueurEnBinaire(11);

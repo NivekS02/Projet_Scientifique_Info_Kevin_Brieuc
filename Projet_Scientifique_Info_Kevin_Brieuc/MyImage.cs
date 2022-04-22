@@ -22,9 +22,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private string fileName;
 
         //Partie QR Code
-        private string IndicateurNombreCaractere;
+        private string IndicateurNombreCaractere; //Binaire en fonction de la longueur de la chaine de caractere 
         private string CaractereBinaire;
         private string IndicateurDeMode = "0010";
+        private string ChaineDeCaractereBinaire;
+        private byte[] ChaineByte;
+        private int[] ChaineInt; // Chaine binaire en Int afin de pouvoir le convertir en bytes
 
         #endregion
         #region Propriétés
@@ -158,11 +161,36 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.IndicateurNombreCaractere = nbcar;
 
             this.CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres);
-            if (longueur <= 25) //Version 1
+            this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire);
+            this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire); 
+            if (longueur <= 25) //Version 1 ==> Nombre d’octets pour la gestion EC = 7
             {
-                
+                for (int i = 0; i < 19; i++)
+                {
+                    ChaineByte[i] = BinaireToByte(ChaineInt); 
+                }
+                byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 7, ErrorCorrectionCodeType.QRCode);
+                //concatener solomon converti en chainebinaire avec la chainedecaracterebinaire
+
+
+
+
+
+
+                Encoding u8 = Encoding.UTF8;
+                string a = "HELLO WORD";
+                int iBC = u8.GetByteCount(a);
+                byte[] bytesa = u8.GetBytes(a);
+                string b = "HELLO WORF";
+                byte[] bytesb = u8.GetBytes(b);
+                //byte[] result = ReedSolomonAlgorithm.Encode(bytesa, 7);
+                //Privilégiez l'écriture suivante car par défaut le type choisi est DataMatrix 
+                byte[] result = ReedSolomonAlgorithm.Encode(bytesa, 7, ErrorCorrectionCodeType.QRCode);
+                byte[] result1 = ReedSolomonAlgorithm.Decode(bytesb, result);
+                foreach (byte val in a) Console.Write(val + " ");
+                Console.WriteLine();
             }
-            else //Version 2
+            else //Version 2 ==> Nombre d’octets pour la gestion EC = 10
             {
 
             }
@@ -949,6 +977,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
             return retour;
+        }
+
+        public int[] StringToTabInt(string chaineBinaire)
+        {
+            int[] tabInt = new int[chaineBinaire.Length];
+            for (int i = 0; i< chaineBinaire.Length; i++)
+            {
+                tabInt[i] = (int)(chaineBinaire[i]);
+            }
+            return tabInt;
         }
         //Alphanumeric Mode
         //mode character capacities : 25

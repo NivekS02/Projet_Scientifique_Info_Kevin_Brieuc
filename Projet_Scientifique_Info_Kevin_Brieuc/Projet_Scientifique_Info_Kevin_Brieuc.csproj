@@ -44,6 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericGF.cs" />
+    <Compile Include="GenericGFPoly.cs" />
+    <Compile Include="ReedSolomonAlgorithm.cs" />
+    <Compile Include="ReedSolomonDecoder.cs" />
+    <Compile Include="ReedSolomonEncoder.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Pixel.cs" />
     <Compile Include="MyImage.cs" />
