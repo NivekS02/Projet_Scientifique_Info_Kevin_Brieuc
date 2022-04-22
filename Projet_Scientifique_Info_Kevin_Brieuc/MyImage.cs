@@ -929,23 +929,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             if (retour.Length < 149)
             {
-                retour = retour + "0000";
+                retour += "0000";
             }
-            else if (retour.Length == 149)
+            else
             {
-                retour = retour + "000";
-            }
-            else if (retour.Length == 150)
-            {
-                retour = retour + "00";
-            }
-            else if (retour.Length == 151)
-            {
-                retour = retour + "0";
+                while (retour.Length != 152) retour += "0";
             }
             while(retour.Length%8 != 0)
             {
-                retour = retour + "0";
+                retour += "0";
             }
 
             while (retour.Length != 152)
