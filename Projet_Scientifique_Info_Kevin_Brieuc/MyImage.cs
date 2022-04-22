@@ -28,6 +28,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private string ChaineDeCaractereBinaire;
         private byte[] ChaineByte;
         private int[] ChaineInt; // Chaine binaire en Int afin de pouvoir le convertir en bytes
+        private string ChaineBinaireCorrige;
 
         #endregion
         #region Propriétés
@@ -170,9 +171,19 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     ChaineByte[i] = BinaireToByte(ChaineInt); 
                 }
                 byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 7, ErrorCorrectionCodeType.QRCode);
-                //concatener solomon converti en chainebinaire avec la chainedecaracterebinaire
 
 
+                // concaténation de la chaine solomon convertie en binaire et mise en string avec
+                //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
+                string BinaireSolomon = "";              
+                for (int i = 0; i < solomon.Length; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        BinaireSolomon = BinaireSolomon + ByteToBinaire(solomon[i])[j];
+                    }
+                }
+                this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
 
 
 
@@ -988,6 +999,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return tabInt;
         }
+
+
+
         //Alphanumeric Mode
         //mode character capacities : 25
         //mode Indicator : 0010        
