@@ -72,6 +72,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             get { return image; }
             set { image = value; }
         }
+
+        public string chaineBinaireCorrige
+        {
+            get { return ChaineBinaireCorrige; }
+            set { ChaineBinaireCorrige = value; }
+        }
+
         #endregion
         #region Constructeurs
         public MyImage(string myfile)
@@ -166,6 +173,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire); 
             if (longueur <= 25) //Version 1 ==> Nombre d’octets pour la gestion EC = 7
             {
+                ChaineByte = new byte[19];
+
                 for (int i = 0; i < 19; i++)
                 {
                     ChaineByte[i] = BinaireToByte(ChaineInt); 
@@ -187,7 +196,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
 
 
-
+                /*
                 Encoding u8 = Encoding.UTF8;
                 string a = "HELLO WORD";
                 int iBC = u8.GetByteCount(a);
@@ -200,6 +209,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 byte[] result1 = ReedSolomonAlgorithm.Decode(bytesb, result);
                 foreach (byte val in a) Console.Write(val + " ");
                 Console.WriteLine();
+                */
             }
             else //Version 2 ==> Nombre d’octets pour la gestion EC = 10
             {

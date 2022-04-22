@@ -21,7 +21,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 Console.Write(tab[i]);
             }
             */
-            Console.WriteLine(test.FinitionChaineBinaire(tab));
+
+            //Chaine sans reed solomon mais avec toutes les étapes d'avant
+            Console.WriteLine(test.FinitionChaineBinaire(tab) + "\n");
+
+            //Chaine précédente mais avec reedsolomon en plus
+            Console.WriteLine(test.chaineBinaireCorrige);
 
 
 
