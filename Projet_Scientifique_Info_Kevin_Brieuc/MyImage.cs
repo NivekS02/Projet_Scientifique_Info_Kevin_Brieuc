@@ -149,13 +149,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         public MyImage(string ChaîneDeCaracteres, int longueur)
         {
-            int[] IndicateurNombreCaractereBinaire = ConvertirLongueurEnBinaire(longueur);
-            foreach (int bit in )
+            string nbcar = "";
+            int[] id =  ConvertirLongueurEnBinaire(longueur);
+            for (int i = 0; i < id.Length; i++)
             {
-                
+                nbcar = nbcar +  id[i];
             }
-            IndicateurNombreCaractere;
-            CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres);
+            this.IndicateurNombreCaractere = nbcar;
+
+            this.CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres);
             if (longueur <= 25) //Version 1
             {
                 
@@ -777,7 +779,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return tabFinal;
         }
         #endregion
-        public int ConvertirLongueurEnBinaire (int longueur)
+        public int[] ConvertirLongueurEnBinaire (int longueur)
         {
             int[] tab = new int[9];
             int puissance = 256 ;
@@ -891,6 +893,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return binaire;
         }
 
+        /// <summary>
+        /// Retourne un entier correspondant au caractère "lettre" rentré, suivant la table alphanumérique
+        /// </summary>
+        /// <param name="lettre"></param>
+        /// <returns></returns>
         public int Alphanumérique(char lettre)
         {
             int alpha = 0;
@@ -909,9 +916,47 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return alpha;
         }
         
-        public string AjoutIndicateurs(string chaineBinaire)
+        /// <summary>
+        /// Ajoute l'indicateur de mode, l'indicateur de longueur de la chaîne de caractère initialement rentrée, 
+        /// puis ajuste la taille de cet élément pour atteindre 152 bits suivant des règles précises
+        /// Retourne cette nouvelle chaîne de caractère
+        /// </summary>
+        /// <param name="chaineBinaire"></param>
+        /// <returns></returns>
+        public string FinitionChaineBinaire(string chaineBinaire)
         {
-            chaineBinaire = IndicateurDeMode + IndicateurNombreCaractere + chaineBinaire;
+            string retour =  IndicateurDeMode + IndicateurNombreCaractere + chaineBinaire;
+
+            if (retour.Length < 149)
+            {
+                retour = retour + "0000";
+            }
+            else if (retour.Length == 149)
+            {
+                retour = retour + "000";
+            }
+            else if (retour.Length == 150)
+            {
+                retour = retour + "00";
+            }
+            else if (retour.Length == 151)
+            {
+                retour = retour + "0";
+            }
+            while(retour.Length%8 != 0)
+            {
+                retour = retour + "0";
+            }
+
+            while (retour.Length != 152)
+            {
+                retour = retour + "11101100";
+                if (retour.Length !=152)
+                {
+                    retour = retour + "00010001";
+                }
+            }
+            return retour;
         }
         //Alphanumeric Mode
         //mode character capacities : 25

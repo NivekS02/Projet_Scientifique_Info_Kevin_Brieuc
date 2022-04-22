@@ -13,12 +13,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             char lettre = ' ';
             Console.WriteLine((int)(lettre));
-            MyImage test = new MyImage();
+            MyImage test = new MyImage("HELLO WORLd", 11);
             string tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLd");
+            /*
             for(int i = 0; i<tab.Length; i++)
             {
                 Console.Write(tab[i]);
             }
+            */
+            Console.WriteLine(test.FinitionChaineBinaire(tab));
 
 
 
