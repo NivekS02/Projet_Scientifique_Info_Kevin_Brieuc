@@ -26,9 +26,34 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private string CaractereBinaire;
         private string IndicateurDeMode = "0010";
         private string ChaineDeCaractereBinaire;
-        private byte[] ChaineByte;
+        private byte[] ChaineByte; // 
         private int[] ChaineInt; // Chaine binaire en Int afin de pouvoir le convertir en bytes
-        private string ChaineBinaireCorrige;
+        private string ChaineBinaireCorrige; // Chaine de caractère en binaire
+        // A = noir ; B = Blanc ; C = à remplir ; D = Bleu
+        private char[,] CodeQR1 = new char[21, 21] 
+        { 
+        {'A','A','A','A','A','A','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'A','A','A','A','A', 'A' },
+        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','B','B','B','B', 'A' },
+        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
+        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
+        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
+        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','B','B','B','B', 'A' },
+        {'A','A','A','A','A','A','A','B','A', 'B', 'A', 'B', 'A', 'B','A', 'A','A','A','A','A', 'A' },
+        {'B','B','B','B','B','B','B','B','D', 'C', 'C', 'C', 'C', 'B','B', 'B','B','B','B','B', 'B' },
+        {'D','D','D','D','D','D','A','D','D', 'C', 'C', 'C', 'C', 'D','D', 'D','D','D','D','D', 'D' },
+        {'C','C','C','C','C','C','B','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'C','C','C','C','C','C','A','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'C','C','C','C','C','C','B','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'C','C','C','C','C','C','A','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'B','B','B','B','B','B','B','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','A','A','A','A','A','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','A','A','A','A','A','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        };
 
         #endregion
         #region Propriétés
@@ -169,18 +194,29 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.IndicateurNombreCaractere = nbcar;
 
             this.CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres);
-            this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire);
-            this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire); 
+
             if (longueur <= 25) //Version 1 ==> Nombre d’octets pour la gestion EC = 7
             {
+                this.hauteur = 21;
+                this.largeur = 21;
+                this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire, 152);
+                this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire);
                 ChaineByte = new byte[19];
-
+                int compteur = 0;
                 for (int i = 0; i < 19; i++)
                 {
-                    ChaineByte[i] = BinaireToByte(ChaineInt); 
+                    int[] tab = new int[8];
+                    for(int j = 0;j< 8; j++)
+                    {
+                        tab[j] = ChaineInt[compteur];
+                        compteur++;
+                    }
+                    ChaineByte[i] = BinaireToByte(tab);
                 }
-                byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 7, ErrorCorrectionCodeType.QRCode);
 
+                byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 7, ErrorCorrectionCodeType.QRCode);
+                for (int i = 0; i < solomon.Length; i++)
+                    Console.Write(solomon[i] + " ");
 
                 // concaténation de la chaine solomon convertie en binaire et mise en string avec
                 //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
@@ -194,26 +230,43 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
 
+                LireQRCode(CodeQR1);
 
-
-                /*
-                Encoding u8 = Encoding.UTF8;
-                string a = "HELLO WORD";
-                int iBC = u8.GetByteCount(a);
-                byte[] bytesa = u8.GetBytes(a);
-                string b = "HELLO WORF";
-                byte[] bytesb = u8.GetBytes(b);
-                //byte[] result = ReedSolomonAlgorithm.Encode(bytesa, 7);
-                //Privilégiez l'écriture suivante car par défaut le type choisi est DataMatrix 
-                byte[] result = ReedSolomonAlgorithm.Encode(bytesa, 7, ErrorCorrectionCodeType.QRCode);
-                byte[] result1 = ReedSolomonAlgorithm.Decode(bytesb, result);
-                foreach (byte val in a) Console.Write(val + " ");
-                Console.WriteLine();
-                */
             }
             else //Version 2 ==> Nombre d’octets pour la gestion EC = 10
             {
+                this.largeur = 25;
+                this.hauteur = 25;
+                this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire, 272);
+                this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire);
+                ChaineByte = new byte[34];
+                int compteur = 0;
+                for (int i = 0; i < 34; i++)
+                {
+                    int[] tab = new int[8];
+                    for (int j = 0; j < 8; j++)
+                    {
+                        tab[j] = ChaineInt[compteur];
+                        compteur++;
+                    }
+                    ChaineByte[i] = BinaireToByte(tab);
+                }
 
+                byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 10, ErrorCorrectionCodeType.QRCode);
+                for (int i = 0; i < solomon.Length; i++)
+                    Console.Write(solomon[i] + " ");
+
+                // concaténation de la chaine solomon convertie en binaire et mise en string avec
+                //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
+                string BinaireSolomon = "";
+                for (int i = 0; i < solomon.Length; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        BinaireSolomon = BinaireSolomon + ByteToBinaire(solomon[i])[j];
+                    }
+                }
+                this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
             }
         }
         public MyImage()
@@ -556,6 +609,19 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = ImageMiroir;
         }
+        public void MiroirHorizontal()
+        {
+            Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
+            
+            for(int i=0; i<image.GetLength(0); i++)
+            {
+                for(int j=0; j<image.GetLength(1); j++)
+                {
+                    ImageMiroir[i, j] = image[(image.GetLength(0) - 1 - i), j];
+                }
+            }
+            this.image = ImageMiroir;
+        }
         public void toString()
         {
             Console.WriteLine("Taille fichier : " + tailleFichier + "\n" +
@@ -667,13 +733,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     int color = 15 * (iteration - SuiteDeMandelBrot(iteration, p, z)) / iteration;
                     ImageCopie[i, j] = couleurs[15 - color];
                 }
-
-
-
-
-
             this.image = ImageCopie;
-
         }
 
         public double ComplexeAuCaréeReel(double X, double Y)
@@ -964,35 +1024,36 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return alpha;
         }
-        
+
         /// <summary>
         /// Ajoute l'indicateur de mode, l'indicateur de longueur de la chaîne de caractère initialement rentrée, 
-        /// puis ajuste la taille de cet élément pour atteindre 152 bits suivant des règles précises
+        /// puis ajuste la taille de cet élément pour atteindre 152 bits pour la version 1 et 272 pour la version 2 suivant des règles précises
         /// Retourne cette nouvelle chaîne de caractère
         /// </summary>
         /// <param name="chaineBinaire"></param>
+        /// <param name="longueur"></param>
         /// <returns></returns>
-        public string FinitionChaineBinaire(string chaineBinaire)
+        public string FinitionChaineBinaire(string chaineBinaire,int longueur)
         {
             string retour =  IndicateurDeMode + IndicateurNombreCaractere + chaineBinaire;
 
-            if (retour.Length < 149)
+            if (retour.Length < longueur - 3)
             {
                 retour += "0000";
             }
             else
             {
-                while (retour.Length != 152) retour += "0";
+                while (retour.Length != longueur) retour += "0";
             }
             while(retour.Length%8 != 0)
             {
                 retour += "0";
             }
 
-            while (retour.Length != 152)
+            while (retour.Length != longueur)
             {
                 retour = retour + "11101100";
-                if (retour.Length !=152)
+                if (retour.Length != longueur)
                 {
                     retour = retour + "00010001";
                 }
@@ -1005,12 +1066,46 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             int[] tabInt = new int[chaineBinaire.Length];
             for (int i = 0; i< chaineBinaire.Length; i++)
             {
-                tabInt[i] = (int)(chaineBinaire[i]);
+                if (chaineBinaire[i] == '0')
+                {
+                    tabInt[i] = 0;
+                }
+                else
+                {
+                    tabInt[i] = 1;
+                }
+
             }
             return tabInt;
         }
 
-
+        public void LireQRCode(char[,] QR)
+        {
+            Pixel[,] Picture = new Pixel[QR.GetLength(0), QR.GetLength(1)];
+            for(int i = 0; i<QR.GetLength(0); i++)
+            {
+                for(int j = 0; j<QR.GetLength(1); j++)
+                {
+                    if(QR[i,j] == 'A')
+                    {
+                        Picture[i, j] = new Pixel(0, 0, 0);
+                    }
+                    else if (QR[i, j] == 'B')
+                    {
+                        Picture[i, j] = new Pixel(255, 255, 255);
+                    }
+                    else if (QR[i, j] == 'C')
+                    {
+                        Picture[i, j] = new Pixel(128, 128, 128);
+                    }
+                    else if (QR[i, j] == 'D')
+                    {
+                        Picture[i, j] = new Pixel(255, 0, 0);
+                    }
+                }
+            }
+            this.image = Picture;
+        }
 
         //Alphanumeric Mode
         //mode character capacities : 25
