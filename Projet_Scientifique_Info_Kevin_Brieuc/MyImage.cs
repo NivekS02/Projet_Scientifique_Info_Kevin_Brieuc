@@ -29,31 +29,65 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private byte[] ChaineByte; // 
         private int[] ChaineInt; // Chaine binaire en Int afin de pouvoir le convertir en bytes
         private string ChaineBinaireCorrige; // Chaine de caractère en binaire
-        // A = noir ; B = Blanc ; C = à remplir ; D = Bleu
+        // A = noir ; B = Blanc ; C = à remplir 
+        // Pixel blanc = 0 ; pixel noir = 1
+        //111011111000100
         private char[,] CodeQR1 = new char[21, 21] 
         { 
-        {'A','A','A','A','A','A','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'A','A','A','A','A', 'A' },
-        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','B','B','B','B', 'A' },
-        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
-        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
-        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
-        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'B','A', 'B','B','B','B','B', 'A' },
+        {'A','A','A','A','A','A','A','B','B', 'C', 'C', 'C', 'C', 'B','A', 'A','A','A','A','A', 'A' },
+        {'A','B','B','B','B','B','A','B','B', 'C', 'C', 'C', 'C', 'B','A', 'B','B','B','B','B', 'A' },
+        {'A','B','A','A','A','B','A','B','A', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
+        {'A','B','A','A','A','B','A','B','B', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
+        {'A','B','A','A','A','B','A','B','B', 'C', 'C', 'C', 'C', 'B','A', 'B','A','A','A','B', 'A' },
+        {'A','B','B','B','B','B','A','B','B', 'C', 'C', 'C', 'C', 'B','A', 'B','B','B','B','B', 'A' },
         {'A','A','A','A','A','A','A','B','A', 'B', 'A', 'B', 'A', 'B','A', 'A','A','A','A','A', 'A' },
-        {'B','B','B','B','B','B','B','B','D', 'C', 'C', 'C', 'C', 'B','B', 'B','B','B','B','B', 'B' },
-        {'D','D','D','D','D','D','A','D','D', 'C', 'C', 'C', 'C', 'D','D', 'D','D','D','D','D', 'D' },
+        {'B','B','B','B','B','B','B','B','A', 'C', 'C', 'C', 'C', 'B','B', 'B','B','B','B','B', 'B' },
+        {'A','A','A','B','A','A','A','A','A', 'C', 'C', 'C', 'C', 'A','A', 'B','B','B','A','B', 'B' },
         {'C','C','C','C','C','C','B','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         {'C','C','C','C','C','C','A','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         {'C','C','C','C','C','C','B','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         {'C','C','C','C','C','C','A','C','C', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         {'B','B','B','B','B','B','B','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
-        {'A','A','A','A','A','A','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
-        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
-        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
-        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
-        {'A','B','A','A','A','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
-        {'A','B','B','B','B','B','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
-        {'A','A','A','A','A','A','A','B','D', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','A','A','A','A','A','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','B','B','B','B','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','A','A','A','B','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','A','A','A','B','A','B','B', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','A','A','A','B','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','B','B','B','B','B','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
+        {'A','A','A','A','A','A','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         };
+
+        private char[,] CodeQR2 = new char[25, 25]
+        {
+        {'A','A','A','A','A','A','A','B','B','C','C','C','C','C','C','C','C','B','A','A','A','A','A','A','A' },
+        {'A','B','B','B','B','B','A','B','B','C','C','C','C','C','C','C','C','B','A','B','B','B','B','B','A' },
+        {'A','B','A','A','A','B','A','B','A','C','C','C','C','C','C','C','C','B','A','B','A','A','A','B','A' },
+        {'A','B','A','A','A','B','A','B','B','C','C','C','C','C','C','C','C','B','A','B','A','A','A','B','A' },
+        {'A','B','A','A','A','B','A','B','B','C','C','C','C','C','C','C','C','B','A','B','A','A','A','B','A' },
+        {'A','B','B','B','B','B','A','B','B','C','C','C','C','C','C','C','C','B','A','B','B','B','B','B','A' },
+        {'A','A','A','A','A','A','A','B','A','B','A','B','A','B','A','B','A','B','A','A','A','A','A','A','A' },
+        {'B','B','B','B','B','B','B','B','A','C','C','C','C','C','C','C','C','B','B','B','B','B','B','B','B' },
+        {'A','A','A','B','A','A','A','A','A','C','C','C','C','C','C','C','C','A','A','B','B','B','A','B','B' },
+        {'C','C','C','C','C','C','B','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'C','C','C','C','C','C','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'C','C','C','C','C','C','B','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'C','C','C','C','C','C','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'C','C','C','C','C','C','B','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'C','C','C','C','C','C','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'C','C','C','C','C','C','B','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'C','C','C','C','C','C','A','C','C','C','C','C','C','C','C','C','A','A','A','A','A','C','C','C','C' },
+        {'B','B','B','B','B','B','B','B','A','C','C','C','C','C','C','C','A','B','B','B','A','C','C','C','C' },
+        {'A','A','A','A','A','A','A','B','A','C','C','C','C','C','C','C','A','B','A','B','A','C','C','C','C' },
+        {'A','B','B','B','B','B','A','B','A','C','C','C','C','C','C','C','A','B','B','B','A','C','C','C','C' },
+        {'A','B','A','A','A','B','A','B','A','C','C','C','C','C','C','C','A','A','A','A','A','C','C','C','C' },
+        {'A','B','A','A','A','B','A','B','B','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'A','B','A','A','A','B','A','B','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'A','B','B','B','B','B','A','B','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
+        {'A','A','A','A','A','A','A','B','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' }
+        };
+        
+
+
 
         #endregion
         #region Propriétés
@@ -215,8 +249,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
 
                 byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 7, ErrorCorrectionCodeType.QRCode);
-                for (int i = 0; i < solomon.Length; i++)
-                    Console.Write(solomon[i] + " ");
 
                 // concaténation de la chaine solomon convertie en binaire et mise en string avec
                 //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
@@ -253,8 +285,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
 
                 byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 10, ErrorCorrectionCodeType.QRCode);
-                for (int i = 0; i < solomon.Length; i++)
-                    Console.Write(solomon[i] + " ");
+
+               
 
                 // concaténation de la chaine solomon convertie en binaire et mise en string avec
                 //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
@@ -267,6 +299,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
+
+                LireQRCode(CodeQR2);
             }
         }
         public MyImage()
@@ -460,6 +494,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     imageAgrandie[i,j] = image[i/ratio,j/ratio];
                 }
             }
+            hauteur = hauteur * ratio;
+            largeur = largeur * ratio;
             this.image = imageAgrandie;
         }
         public void Retrecir(int ratio)
@@ -613,11 +649,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
             
-            for(int i=0; i<image.GetLength(0); i++)
+            for(int i=0; i<hauteur; i++)
             {
-                for(int j=0; j<image.GetLength(1); j++)
+                for(int j=0; j<largeur; j++)
                 {
-                    ImageMiroir[i, j] = image[(image.GetLength(0) - 1 - i), j];
+                    
+                        ImageMiroir[i, j] = image[hauteur - 1 - i, j];
+                    
                 }
             }
             this.image = ImageMiroir;
@@ -1098,15 +1136,52 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     {
                         Picture[i, j] = new Pixel(128, 128, 128);
                     }
-                    else if (QR[i, j] == 'D')
-                    {
-                        Picture[i, j] = new Pixel(255, 0, 0);
-                    }
                 }
             }
             this.image = Picture;
         }
 
+        public void PlacementBitsQR()
+        {
+
+            /*
+            if (hauteur == 25 && largeur == 25)
+            {
+                int compteur = 0;
+                for (int j = 0; j < largeur / 4; j += 4)
+                {
+                    for (int i = 0; i < hauteur; i++)
+                    {
+                        if (CodeQR2[hauteur - 1 - i, largeur - 1 - j] == 'C')
+                        {
+                            CodeQR2[hauteur - 1 - i, largeur - 1 - j] = ChaineBinaireCorrige[compteur];
+                            compteur++;
+                        }
+                        if (CodeQR2[hauteur - 1 - i, largeur - 2 - j] == 'C')
+                        {
+                            CodeQR2[hauteur - 1 - i, largeur - 2 - j] = ChaineBinaireCorrige[compteur];
+                            compteur++;
+                        }
+
+                    }
+
+                    for (int i = 0; i < hauteur; i++)
+                    {
+                        if (CodeQR2[i, largeur - 3 - j] == 'C')
+                        { 
+                            CodeQR2[i, largeur - 3 - j] = ChaineBinaireCorrige[compteur];
+                            compteur++;
+                        }
+                        if (CodeQR2[i, largeur - 4 - j] == 'C')
+                        {
+                            CodeQR2[i, largeur - 4 - j] = ChaineBinaireCorrige[compteur];
+                            compteur++;
+                        }
+                    }
+                }
+            }
+            */
+        }
         //Alphanumeric Mode
         //mode character capacities : 25
         //mode Indicator : 0010        

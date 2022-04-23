@@ -14,29 +14,35 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             /*
             MyImage test = new MyImage("HELLO WORLD", 11);
             string tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLD");
-            */
-
-            //Chaine sans reed solomon mais avec toutes les étapes d'avant
-            //Console.WriteLine(test.chaineBinaireCorrige);
-
-            
-            MyImage test2 = new MyImage("HELLO LEONARD DE VINCI POLE", 27);
-            string tab2 = test2.ConvertirChaineDeCaractereEnBinaire("HELLO LEONARD DE VINCI POLE");
-            
-            Console.WriteLine(test2.chaineBinaireCorrige);
-            
-            /*
             test.Agrandir(100);
             test.MiroirHorizontal();
             string fichier = "QRCODE1.bmp";
             test.From_Image_To_FileFractale(fichier);
             Process.Start(fichier);
             */
-            
+
+            //Chaine sans reed solomon mais avec toutes les étapes d'avant
+            //Console.WriteLine(test.chaineBinaireCorrige);
 
             
+            MyImage test2 = new MyImage("HELLO POLE LEONARD DE VINCI", 27);
+            string tab2 = test2.ConvertirChaineDeCaractereEnBinaire("HELLO POLE LEONARD DE VINCI");
+            test2.Agrandir(100);
+            test2.MiroirHorizontal();
+            string fichier = "QRCODE2.bmp";
+            test2.From_Image_To_FileFractale(fichier);
+            Process.Start(fichier);
 
-            
+
+
+
+
+
+
+
+
+
+
 
 
             /*
@@ -46,8 +52,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 Console.Write(tab1[i]);
             }
-            
-            
+            */
+            /*
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -73,7 +79,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             Console.ReadKey();
         }
-        /*
+        
         public static bool Images()
         {
             bool imageModifiée = true;
@@ -113,7 +119,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.WriteLine("Transformation de l'image avec " + NbrRotations +  " effectuée.");
                         */
 
-        /*
                         double angle = Convert.ToInt32(Console.ReadLine());
                         image.Rotation2(angle);
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -281,7 +286,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return fini;
         }
 
-*/
+
 
     }
 }
