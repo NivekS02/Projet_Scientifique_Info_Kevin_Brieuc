@@ -261,6 +261,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
+                PlacementBitsQR();
+
+
+                for(int i = 0; i<CodeQR1.GetLength(0); i++)
+                {
+                    for(int j = 0; j<CodeQR1.GetLength(1); j++)
+                    {
+                        Console.Write(CodeQR1[i, j] + " ");
+                    }
+                    Console.WriteLine();
+                }
+
 
                 LireQRCode(CodeQR1);
 
@@ -299,7 +311,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
-
+                PlacementBitsQR();
                 LireQRCode(CodeQR2);
             }
         }
@@ -1124,11 +1136,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 for(int j = 0; j<QR.GetLength(1); j++)
                 {
-                    if(QR[i,j] == 'A')
+                    if(QR[i,j] == 'A' || QR[i,j] == '1')
                     {
                         Picture[i, j] = new Pixel(0, 0, 0);
                     }
-                    else if (QR[i, j] == 'B')
+                    else if (QR[i, j] == 'B' || QR[i, j] == '0')
                     {
                         Picture[i, j] = new Pixel(255, 255, 255);
                     }
@@ -1143,6 +1155,83 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         public void PlacementBitsQR()
         {
+            int i = hauteur - 1;
+            int j = largeur - 1;
+            int longueur = chaineBinaireCorrige.Length - 1;
+            int AllerRetour;
+            char[,] QR;
+
+            if (hauteur == 21)
+            {
+                AllerRetour = 5;// pour un QR code version 1
+                QR = CodeQR1;
+            }
+            else
+            {
+                AllerRetour = 6;// pour un QR code version 2
+                QR = CodeQR2;
+            } 
+
+            for(int n = 0; n<AllerRetour; n++)
+            {
+                if (j == 6) j--;
+                for(int k = 0; k<hauteur; k++)
+                {
+                    if(QR[i,j] =='C')
+                    {
+                        if (ChaineBinaireCorrige[longueur] == (char)((i + j) % 2)) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        Console.Write(ChaineBinaireCorrige[longueur] + " ");
+                        j--;
+                        longueur--;
+                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        Console.Write(ChaineBinaireCorrige[longueur] + " ");
+                        longueur--;
+                        j++;
+                        Console.WriteLine();
+                    }
+                    else if(QR[i,j-1] == 'C')
+                    {
+                        j--;
+                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        longueur--;
+                        j++;
+                    }
+                    i--;
+                }
+                i++;
+                j -= 2;
+                for (int k = 0; k < hauteur; k++)
+                {
+                    if (QR[i, j] == 'C')
+                    {
+                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        j--;
+                        longueur--;
+                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        longueur--;
+                        j++;
+                    }
+                    else if (QR[i, j-1] == 'C')
+                    {
+                        j--;
+                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        longueur--;
+                        j++;
+                    }
+                    i++;
+                }
+                j -= 2;
+                i--;
+
+            }
+            if (hauteur == 21) CodeQR1 = QR;
+            else CodeQR2 = QR;
 
             /*
             if (hauteur == 25 && largeur == 25)

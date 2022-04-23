@@ -11,7 +11,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     {
         static void Main(string[] args)
         {
-            /*
+            
             MyImage test = new MyImage("HELLO WORLD", 11);
             string tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLD");
             test.Agrandir(100);
@@ -19,12 +19,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             string fichier = "QRCODE1.bmp";
             test.From_Image_To_FileFractale(fichier);
             Process.Start(fichier);
-            */
+            
 
             //Chaine sans reed solomon mais avec toutes les étapes d'avant
             //Console.WriteLine(test.chaineBinaireCorrige);
 
-            
+            /*
             MyImage test2 = new MyImage("HELLO POLE LEONARD DE VINCI", 27);
             string tab2 = test2.ConvertirChaineDeCaractereEnBinaire("HELLO POLE LEONARD DE VINCI");
             test2.Agrandir(100);
@@ -32,27 +32,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             string fichier = "QRCODE2.bmp";
             test2.From_Image_To_FileFractale(fichier);
             Process.Start(fichier);
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*
-            Console.WriteLine();
-            int [] tab1 = test.ConvertirLongueurEnBinaire(11);
-            for (int i = 0; i < tab1.Length; i++)
-            {
-                Console.Write(tab1[i]);
-            }
             */
+
             /*
             Menu menu = new Menu();
             bool retour = false;
