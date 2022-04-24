@@ -29,6 +29,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private byte[] ChaineByte; // 
         private int[] ChaineInt; // Chaine binaire en Int afin de pouvoir le convertir en bytes
         private string ChaineBinaireCorrige; // Chaine de caractère en binaire
+        private char[,] FinalQR;
         // A = noir ; B = Blanc ; C = à remplir 
         // Pixel blanc = 0 ; pixel noir = 1
         //111011111000100
@@ -85,10 +86,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {'A','B','B','B','B','B','A','B','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
         {'A','A','A','A','A','A','A','B','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' }
         };
-
-        private char[,] FinalQR;
-
-
         #endregion
         #region Propriétés
         public string TypeImage
@@ -323,12 +320,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 LireQRCode(FinalQR);
             }
         }
-        public MyImage()
+        public MyImage() // Pour la fractale 
         {
             this.typeImage = "BM";
             this.tailleOffset = 54;
-            this.hauteur = 40;
-            this.largeur = 40;
+            this.hauteur = 1000;
+            this.largeur = 1000;
             Pixel[,] image = new Pixel[hauteur, largeur];
             for(int i = 0;i<hauteur; i++)
             {

@@ -21,8 +21,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.WriteLine((int)(lettre));
             
             
-            MyImage test = new MyImage(".", 1);
-            string tab = test.ConvertirChaineDeCaractereEnBinaire(".");
+            MyImage test = new MyImage("T ES CON", 8);
+            string tab = test.ConvertirChaineDeCaractereEnBinaire("T ES CON");
             
             test.Agrandir(100);
             test.MiroirHorizontal();
