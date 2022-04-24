@@ -274,9 +274,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     Console.WriteLine();
                 }
                 */
-
-
-
             }
             else //Version 2 ==> Nombre d’octets pour la gestion EC = 10
             {
@@ -301,9 +298,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 10, ErrorCorrectionCodeType.QRCode);
 
                
-
                 // concaténation de la chaine solomon convertie en binaire et mise en string avec
                 //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
+
                 string BinaireSolomon = "";
                 for (int i = 0; i < solomon.Length; i++)
                 {
@@ -336,9 +333,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
         }
         #endregion
+        #region Méthodes Traitement d'images
 
-        #region Méthodes
-
+        /// <summary>
+        /// Méthode permettant de 
+        /// </summary>
+        /// <param name="file"></param>
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -376,6 +376,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             File.WriteAllBytes(file, FileSave.ToArray());
         }
         
+        /// <summary>
+        /// Méthode permettant de
+        /// </summary>
+        /// <param name="file"></param>
         public void From_Image_To_FileFractale(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -419,6 +423,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             File.WriteAllBytes(file, FileSave.ToArray());
         }
 
+        /// <summary>
+        /// Méthode permettant de convertir un tableau de bytes ,codé en little endian, en entier
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
         public int Convert_Endian_To_Int(byte[] tab)
         {
                 int taille = tab.Length;
@@ -431,6 +440,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
                 return entier;
         }
+        /// <summary>
+        /// Méthode permettant de convertir un entier en tableau de bytes codé en little endian
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
 	    public byte[] Convert_Int_To_Endian(int val)
         {
             int reste = val;
@@ -452,6 +466,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             return tab;
         }
+
+        /// <summary>
+        /// Permet d'afficher les bytes contenus dans chaque pixel de l'image
+        /// </summary>
         public void AfficherMatrice()
         {
             for(int i = 0; i<hauteur; i++)
@@ -467,6 +485,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 Console.WriteLine();
             }
         }
+
+        /// <summary>
+        /// Permet de changer chaque pixel de l'image en nuance de gris
+        /// </summary>
         public void NuancesDeGris()
         {            
             for (int i = 0; i < image.GetLength(0); i++)
@@ -480,6 +502,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }          
         }
+
+        /// <summary>
+        /// Permet de changer chaque pixel de l'image en noir ou en blanc suivant les valeurs des bytes de ce pixel
+        /// </summary>
         public void ImageNoirEtBlanc()
         {
             for (int i = 0; i < image.GetLength(0); i++)
@@ -502,6 +528,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
         }
+
+        /// <summary>
+        /// Permet d'agrandir l'image du ratio voulu par l'utilisateur
+        /// </summary>
+        /// <param name="ratio"></param>
         public void Agrandir(int ratio)
         {
             Pixel[,] imageAgrandie = new Pixel[hauteur * ratio, largeur * ratio]; 
@@ -516,6 +547,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             largeur = largeur * ratio;
             this.image = imageAgrandie;
         }
+
+        /// <summary>
+        /// Permet rétrecir l'image du ratio voulu par l'utilisateur
+        /// </summary>
+        /// <param name="ratio"></param>
         public void Retrecir(int ratio)
         {
             Pixel[,] imageRetrecie = new Pixel[hauteur / ratio, largeur / ratio]; 
@@ -528,7 +564,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = imageRetrecie;
         }
-        public void Rotation() //uniquement pour les angles à 90/180/270 degrés en sens antihoraire
+
+        /// <summary>
+        /// Permet d'effectuer une rotation de l'image d'un angle de 90° dans le sens antihoraire
+        /// </summary>
+        public void Rotation()
         {
             Pixel[,] ImageFinale = new Pixel[largeur, hauteur];
             int l = image.GetLength(1) - 1;
@@ -547,6 +587,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.hauteur = image.GetLength(0);
             this.largeur = image.GetLength(1);
         }
+
+        /// <summary>
+        /// Permet d'effectuer une rotation de l'image de l'angle souhaité par l'utilisateur dans le sens ______________
+        /// </summary>
+        /// <param name="angle"></param>
         public void Rotation2(double angle)
         {
             angle = angle * Math.PI / 180;
@@ -608,6 +653,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.hauteur = image.GetLength(0);
             this.largeur = image.GetLength(1);
         }
+
+        /// <summary>
+        /// Permet de passer de coordonneés cartésiennes à coordonnées polaire 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public double [] CartésienneEnPolaire (int x, int y)
         {
             double xMilieu = (largeur-1) / 2.0;
@@ -620,6 +672,15 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             return new double[] { r, alpha }; // coordonnées cylindriques
         }
+
+        /// <summary>
+        /// Permet de passer de coordonnées polaire à cartésiennes en ayant ajouté l'angle entré par l'utilisateur
+        /// </summary>
+        /// <param name="coorPolaire"></param>
+        /// <param name="angle"></param>
+        /// <param name="nouvelleLargeur"></param>
+        /// <param name="nouvelleHauteur"></param>
+        /// <returns></returns>
         public int[] PolaireAjoutAngleRemiseCartesienne(double[] coorPolaire, double angle, int nouvelleLargeur, int nouvelleHauteur)
         {
             double r = coorPolaire[0];
@@ -641,6 +702,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             return new int[] {  i,  j  };
         }
+
+        /// <summary>
+        /// Permet d'inverser la droite et la gauche de l'image (effet miroir)
+        /// </summary>
         public void Miroir()
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
@@ -663,6 +728,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = ImageMiroir;
         }
+
+        /// <summary>
+        /// Permet d'inverser le haut et le bas de l'image 
+        /// </summary>
         public void MiroirHorizontal()
         {
             Pixel[,] ImageMiroir = new Pixel[hauteur, largeur];
@@ -678,6 +747,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = ImageMiroir;
         }
+
+        /// <summary>
+        /// Permet d'afficher les informations principales de l'image dans la console
+        /// </summary>
         public void toString()
         {
             Console.WriteLine("Taille fichier : " + tailleFichier + "\n" +
@@ -688,6 +761,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
                 "Filename : " + fileName);
         }
+
+ 
+
         public Pixel CalculConvolution(Pixel[,] matriceCopie, int i, int j, double[,] kernel)
         {
             double[] pixel = new double[]{ 0,0,0};
@@ -723,6 +799,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             
             return new Pixel((byte)pixel[0], (byte)pixel[1], (byte)pixel[2]);
         }
+        /// <summary>
+        /// Permet d'appliquer la matrice de convolution entrée par l'utilisateur à l'image
+        /// </summary>
+        /// <param name="kernel"></param>
         public void Convolution(double [,] kernel)
         {
             Pixel[,] matriceCopie = new Pixel[image.GetLength(0) , image.GetLength(1)];
@@ -738,9 +818,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     image[i, j] = CalculConvolution(matriceCopie, i, j, kernel);
                 }
             }
-            
-
         }
+
         public int SuiteDeMandelBrot(int iteration, Complex c, Complex z, int n = 0)
         {
             if (z.Magnitude > 2 || iteration <= 0)
@@ -752,6 +831,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return SuiteDeMandelBrot(iteration, c, z * z + c, n);
         }
 
+        /// <summary>
+        /// Permet de créer la fractale de Mandelbrot
+        /// </summary>
         public void FractaleMandelbrot()
         {
             Pixel[,] ImageCopie = new Pixel[hauteur, largeur];
@@ -806,7 +888,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             return Math.Sqrt(X * X + Y * Y);
         }
-        public void Histogramme() // pas encore fini
+
+        /// <summary>
+        /// Permet de créer un histogramme de l'image 
+        /// </summary>
+        public void Histogramme() 
         {
         Pixel[,] histogramme = new Pixel[256, 256];
         for (int i = 0; i < histogramme.GetLength(0); i++)
@@ -883,6 +969,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         image = histogramme;            
         }
+
+        /// <summary>
+        /// Permet de cacher une petite image dans une image plus grande
+        /// </summary>
+        /// <param name="image_a_cacher"></param>
         public void Cacher_Image(MyImage image_a_cacher)
         {
             if(image_a_cacher.image.Length <= image.Length)
@@ -903,6 +994,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 Console.WriteLine("L'image à cacher est trop grande pour être cachée");
             }
         }
+
+        /// <summary>
+        /// Permet de convertir un byte en tableau d'entiers binaires
+        /// </summary>
+        /// <param name="pixel"></param>
+        /// <returns></returns>
         public int [] ByteToBinaire (byte pixel)
         {
             int pxl = (int)(pixel);
@@ -925,6 +1022,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return tab;
         }
+
+        /// <summary>
+        /// Permet de convertir un tableau d'entiers binaires en byte
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
         public byte BinaireToByte(int[]tab)
         {
             int somme = 0;
@@ -936,6 +1039,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return (byte)(somme);
         }
+
+        /// <summary>
+        /// Permet de fusionner deux tableaux de 4 entiers binaires en un tableau de 8 entiers binaires
+        /// </summary>
+        /// <param name="tabNormal"></param>
+        /// <param name="tabCaché"></param>
+        /// <returns></returns>
         public int[] FusionTableauBinaire (int [] tabNormal, int [] tabCaché)
         {
             int[] tabFinal = new int[8];
@@ -944,6 +1054,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return tabFinal;
         }
         #endregion
+        #region Méthodes QRCode
+        /// <summary>
+        /// Méthode permettant de convertir la longueur de la chaine de caractère en binaire
+        /// </summary>
+        /// <param name="longueur"></param>
+        /// <returns> tableau d'entiers </returns>
         public int[] ConvertirLongueurEnBinaire (int longueur)
         {
             int[] tab = new int[9];
@@ -965,6 +1081,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return tab;
         }
+
+        /// <summary>
+        /// Méthode permettant de convertir un nombre en binaire sur 6 bits 
+        /// </summary>
+        /// <param name="nbr"></param>
+        /// <returns> string contenant le nombre entré converti en binaire sur 6 bits </returns>
 
         public string ConvertirIntEn6Bits(int nbr)
         {
@@ -988,7 +1110,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return bits;
         }
 
-
+        /// <summary>
+        /// Méthode permettant de convertir un nombre en binaire sur 11 bits
+        /// </summary>
+        /// <param name="nbr"></param>
+        /// <returns> string contenant le nombre entré converti en binaire sur 11 bits </returns>
         public string ConvertirIntEn11Bits(int nbr)
         {
             string bits = "";
@@ -1011,6 +1137,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return bits;
         }
 
+        /// <summary>
+        /// Méthode permettant, à partir de la chaine de caractère entrée par l'utilisateur, de retourner une chaine de caractère contenant des '0' et des '1', 
+        /// qui correspondent, suivant le code alphanumérique, à chaque caractère de la chaine
+        /// </summary>
+        /// <param name="ChaîneDeCaracteres"></param>
+        /// <returns> string contenant la chaine entrée convertie en binaire </returns>
         public string ConvertirChaineDeCaractereEnBinaire(string ChaîneDeCaracteres)
         {
             string [] binaire;
@@ -1044,6 +1176,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return chaineBinaire;
         }
+
+        /// <summary>
+        /// Méthode permettant de convertir un string contenant un caractère en string de bits correspondant
+        /// </summary>
+        /// <param name="caractère"></param>
+        /// <returns></returns>
+
         public string ConvertirCaractèreEnBinaire(string caractère)
         {
             string binaire = "";
@@ -1171,9 +1310,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.image = Picture;
         }
 
-
-
-
+        /// <summary>
+        /// Méthode permettant de placer des '0' et des '1' dans la matrice de caractères CodeQR1 ou CodeQR2 suivant le mode utilisé (respectivement 1 ou 2)
+        /// </summary>
         public void PlacementBitsQRKEKE()
         {
             int i = hauteur - 1;
@@ -1267,100 +1406,23 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             if (hauteur == 21) CodeQR1 = QR;
             else CodeQR2 = QR;
         }
+
+        /// <summary>
+        /// Méthode permettant de placer des '0' et des '1' dans la matrice de caractères CodeQR1 ou CodeQR2 suivant le mode utilisé (respectivement 1 ou 2)
+        /// </summary>
         public void PlacementBitsQR()
-        {
-            /*
-            int i = hauteur - 1;
-            int j = largeur - 1;
-            int longueur = 0;
-            int AllerRetour;
+        {          
             char[,] QR;
-            
-            if (hauteur == 21)
-            {
-                AllerRetour = 5;// pour un QR code version 1
-                QR = CodeQR1;
-            }
-            else
-            {
-                AllerRetour = 6;// pour un QR code version 2
-                QR = CodeQR2;
-            } 
-
-            for(int n = 0; n<AllerRetour; n++)
-            {
-                if (j == 6) j--;
-                for(int k = 0; k<hauteur; k++)
-                {
-                    if(QR[i,j] =='C')
-                    {
-                        if (ChaineBinaireCorrige[longueur] == (char)((i + j) % 2)) QR[i, j] = '0';
-                        else QR[i, j] = '1';
-                        Console.Write(ChaineBinaireCorrige[longueur] + " ");
-                        j--;
-                        longueur++;
-                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
-                        else QR[i, j] = '1';
-                        Console.Write(ChaineBinaireCorrige[longueur] + " ");
-                        longueur++;
-                        j++;
-                        Console.WriteLine();
-                    }
-                    else if(QR[i,j-1] == 'C')
-                    {
-                        j--;
-                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
-                        else QR[i, j] = '1';
-                        longueur++;
-                        j++;
-                    }
-                    i--;
-                }
-                i++;
-                j -= 2;
-                for (int k = 0; k < hauteur; k++)
-                {
-                    if (QR[i, j] == 'C')
-                    {
-                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
-                        else QR[i, j] = '1';
-                        j--;
-                        longueur++;
-                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
-                        else QR[i, j] = '1';
-                        longueur++;
-                        j++;
-                    }
-                    else if (QR[i, j-1] == 'C')
-                    {
-                        j--;
-                        if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
-                        else QR[i, j] = '1';
-                        longueur++;
-                        j++;
-                    }
-                    i++;
-                }
-                j -= 2;
-                i--;
-
-            }
-            if (hauteur == 21) CodeQR1 = QR;
-            else CodeQR2 = QR;
-            */
-
-            
-            char[,] QR;
-            int compteur = 0;
+            int compteur = 0; //position dans la chaine binaire
             char masque;
 
-            if (hauteur == 21 && largeur == 21)
+            if (hauteur == 21 && largeur == 21) 
             {
-                QR = CodeQR1;
+                QR = CodeQR1; //Version 1
             }
             else 
             {
-                QR = CodeQR2;
+                QR = CodeQR2; //Version 2
             }
 
             for (int j = 0; j < largeur; j += 4)
@@ -1394,10 +1456,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
 
-                if (j == largeur - 9)
+                if (j == largeur - 9) //Permet d'éviter la 7e colonnne (d'indide 6)
                 {
                     j++;
                 }
+
                 for (int i = 0; i < hauteur; i++)
                 {
                     if ((hauteur - 1 - i + largeur - 3 - j) % 2 == 0) masque = '0';
@@ -1430,16 +1493,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             if (hauteur == 25 && largeur == 25)
             {
-                CodeQR2 = QR;
+                CodeQR2 = QR; //Version 2
             }
             else
             {
-                CodeQR1 = QR;
-            }
-            
-            
+                CodeQR1 = QR; //Version 1
+            }            
         }
-
+        /// <summary>
+        /// Méthode permettant d'ajouter un bord blanc autour du QRCode pour faciliter la lecture de celui-ci
+        /// Prend en paramètre la matrice QR composée de caractères '0' et '1'
+        /// </summary>
+        /// <param name="QR"></param>
         public void RecadrageEnBlanc(char[,] QR)
         {
             char[,] NewTab = new char[hauteur + 2, largeur + 2];
@@ -1462,12 +1527,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.largeur = this.largeur + 2;
             this.FinalQR = NewTab; 
         }
-        //Alphanumeric Mode
-        //mode character capacities : 25
-        //mode Indicator : 0010        
-        //exemple : je veux coder "Hello World" --> 11 caractères --> 11 en binaire = 1011 
-        //--> étendre à 9 bits : 000001011 --> ajouter le mode indicator : 0010 000001011
-        //Ensuite on code le mot en lui même en se référant à la table alphanumérique des lettres
         /*
          ====> -55 pour les lettres et -48 pour les chiffres
         0 0
@@ -1516,9 +1575,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         / 43 ===> ajouter 4
         : 44 ===> ajouter 14
         */
-        // On prend les 2 premières lettres 
-        // multiply the first number by 45, then add that to the second number
-        // Convertir le résultat en binaire sur 11 bits ou 6 bits si le nombre est pair
+        #endregion
     }
 }
 
