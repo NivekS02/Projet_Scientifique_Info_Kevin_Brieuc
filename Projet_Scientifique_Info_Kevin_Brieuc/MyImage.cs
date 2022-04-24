@@ -1155,12 +1155,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         public void PlacementBitsQR()
         {
+            /*
             int i = hauteur - 1;
             int j = largeur - 1;
             int longueur = chaineBinaireCorrige.Length - 1;
             int AllerRetour;
             char[,] QR;
-
+            
             if (hauteur == 21)
             {
                 AllerRetour = 5;// pour un QR code version 1
@@ -1232,44 +1233,85 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             if (hauteur == 21) CodeQR1 = QR;
             else CodeQR2 = QR;
+            */
 
-            /*
+            char[,] QR;
+            int compteur = 0;
+
             if (hauteur == 25 && largeur == 25)
             {
-                int compteur = 0;
-                for (int j = 0; j < largeur / 4; j += 4)
+                QR = CodeQR2;
+            }
+            else if (hauteur == 21 && largeur == 21)
+            {
+                QR = CodeQR1;
+            }
+
+            for (int j = 0; j < largeur; j += 4)
+            {
+                for (int i = 0; i < hauteur; i++)
                 {
-                    for (int i = 0; i < hauteur; i++)
+                    if (QR[hauteur - 1 - i, largeur - 1 - j] == 'C' && (hauteur - 1 - i + largeur - 1 - j)%2 == ChaineBinaireCorrige[compteur])
                     {
-                        if (CodeQR2[hauteur - 1 - i, largeur - 1 - j] == 'C')
-                        {
-                            CodeQR2[hauteur - 1 - i, largeur - 1 - j] = ChaineBinaireCorrige[compteur];
-                            compteur++;
-                        }
-                        if (CodeQR2[hauteur - 1 - i, largeur - 2 - j] == 'C')
-                        {
-                            CodeQR2[hauteur - 1 - i, largeur - 2 - j] = ChaineBinaireCorrige[compteur];
-                            compteur++;
-                        }
-
+                        QR[hauteur - 1 - i, largeur - 1 - j] = '1';
+                        compteur++;
                     }
-
-                    for (int i = 0; i < hauteur; i++)
+                    else
                     {
-                        if (CodeQR2[i, largeur - 3 - j] == 'C')
-                        { 
-                            CodeQR2[i, largeur - 3 - j] = ChaineBinaireCorrige[compteur];
-                            compteur++;
-                        }
-                        if (CodeQR2[i, largeur - 4 - j] == 'C')
-                        {
-                            CodeQR2[i, largeur - 4 - j] = ChaineBinaireCorrige[compteur];
-                            compteur++;
-                        }
+                        QR[hauteur - 1 - i, largeur - 1 - j] = '0';
+                        compteur++;
+                    }
+                    if (QR[hauteur - 1 - i, largeur - 2 - j] == 'C' && (hauteur - 1 - i + largeur - 2 - j)%2 == ChaineBinaireCorrige[compteur])
+                    {
+                        QR[hauteur - 1 - i, largeur - 2 - j] = '1';
+                        compteur++;
+                    }
+                    else
+                    {
+                        QR[hauteur - 1 - i, largeur - 2 - j] = '0';
+                        compteur++;
+                    }
+                }
+
+                if (j == 8)
+                {
+                    j++;
+                }
+                for (int i = 0; i < hauteur; i++)
+                {
+                    if (QR[i, largeur - 3 - j] == 'C' && (i + largeur - 3 - j)%2 == ChaineBinaireCorrige[compteur])
+                    { 
+                        QR[i,largeur - 3 - j] = '1';
+                        compteur++;
+                    }
+                    else if (QR[i, largeur - 3 - j] == 'C' && (i + largeur - 3 - j) % 2 != ChaineBinaireCorrige[compteur])
+                    {
+                        QR[i, largeur - 3 - j] = '0';
+                        compteur++;
+                    }
+                    if (QR[i, largeur - 4 - j] == 'C' && (i + largeur - 4 - j) % 2 == ChaineBinaireCorrige[compteur])
+                    {
+                        QR[i, largeur - 4 - j] = '1';
+                        compteur++;
+                    }
+                    else if (QR[i, largeur - 4 - j] == 'C' && (i + largeur - 4 - j) % 2 != ChaineBinaireCorrige[compteur])
+                    {
+                        QR[i, largeur - 4 - j] = '0';
+                        compteur++;
                     }
                 }
             }
-            */
+
+            if (hauteur == 25 && largeur == 25)
+            {
+                CodeQR2 = QR;
+            }
+            else
+            {
+                CodeQR1 = QR;
+            }
+            
+            
         }
         //Alphanumeric Mode
         //mode character capacities : 25
