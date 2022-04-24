@@ -85,8 +85,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {'A','B','B','B','B','B','A','B','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' },
         {'A','A','A','A','A','A','A','B','A','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C' }
         };
-        
 
+        private char[,] FinalQR;
 
 
         #endregion
@@ -261,9 +261,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
-                PlacementBitsQR();
+                //PlacementBitsQR();
+                PlacementBitsQRKEKE();
+                RecadrageEnBlanc(CodeQR1);
+                LireQRCode(FinalQR);
+                
 
-
+                /* // Pour afficher la matrice du QR Code 
                 for(int i = 0; i<CodeQR1.GetLength(0); i++)
                 {
                     for(int j = 0; j<CodeQR1.GetLength(1); j++)
@@ -272,9 +276,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                     Console.WriteLine();
                 }
+                */
 
 
-                LireQRCode(CodeQR1);
 
             }
             else //Version 2 ==> Nombre d’octets pour la gestion EC = 10
@@ -282,6 +286,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 this.largeur = 25;
                 this.hauteur = 25;
                 this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire, 272);
+                Console.WriteLine(ChaineDeCaractereBinaire.Length);
                 this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire);
                 ChaineByte = new byte[34];
                 int compteur = 0;
@@ -311,8 +316,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
-                PlacementBitsQR();
-                LireQRCode(CodeQR2);
+                this.ChaineBinaireCorrige = ChaineBinaireCorrige + "0000000";
+                //PlacementBitsQR();
+                PlacementBitsQRKEKE();
+                RecadrageEnBlanc(CodeQR2);
+                LireQRCode(FinalQR);
             }
         }
         public MyImage()
@@ -333,6 +341,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         #endregion
 
         #region Méthodes
+
         public void From_Image_To_File(string file)
         {
             List<byte> FileSave = new List<byte>();
@@ -1068,9 +1077,21 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 alpha = (int)lettre - 55;
             }
-            else if ((int)lettre == 32)
+            else if ((int)lettre == 32 || (int)lettre == 37 || (int)lettre == 38 || (int)lettre == 39 )
             {
                 alpha = (int)lettre + 4 ;
+            }
+            else if ((int)lettre == 36 || (int)lettre == 37)
+            {
+                alpha = (int)lettre + 1;
+            }
+            else if ((int)lettre == 42 || (int)lettre == 43)
+            {
+                alpha = (int)lettre - 3;
+            }
+            else if ((int)lettre == 45) // - 
+            {
+                alpha = (int)lettre - 4;
             }
             return alpha;
         }
@@ -1153,12 +1174,108 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.image = Picture;
         }
 
+
+
+
+        public void PlacementBitsQRKEKE()
+        {
+            int i = hauteur - 1;
+            int j = largeur - 1;
+            int longueur = 0;
+            int AllerRetour;
+            char[,] QR;
+            char masque = '0';
+
+            if (hauteur == 21)
+            {
+                AllerRetour = 5;// pour un QR code version 1
+                QR = CodeQR1;
+            }
+            else
+            {
+                AllerRetour = 6;// pour un QR code version 2
+                QR = CodeQR2;
+            }
+
+            for (int n = 0; n < AllerRetour; n++)
+            {
+                
+                for (int k = 0; k < hauteur; k++)
+                {
+                    if (QR[i, j] == 'C')
+                    {
+                        if ((i + j) % 2 == 0) masque = '1';
+                        else masque = '0';
+                        if (ChaineBinaireCorrige[longueur] == masque) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        j--;
+                        longueur++;
+                        if ((i + j) % 2 == 0) masque = '1';
+                        else masque = '0';
+                        if (ChaineBinaireCorrige[longueur] == masque) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        longueur++;
+                        j++;
+                        Console.WriteLine();
+                    }
+                    else if (QR[i, j - 1] == 'C')
+                    {
+                        j--;
+                        if ((i + j) % 2 == 0) masque = '1';
+                        else masque = '0';
+                        if (ChaineBinaireCorrige[longueur] == masque) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        longueur++;
+                        j++;
+                    }
+                    i--;
+                }
+                i++;
+                j -= 2;
+                if (j == 6) j--;
+                for (int k = 0; k < hauteur; k++)
+                {
+                    if (QR[i, j] == 'C')
+                    {
+                        if ((i + j) % 2 == 0) masque = '1';
+                        else masque = '0';
+                        if (ChaineBinaireCorrige[longueur] == masque) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        j--;
+                        longueur++;
+                        if ((i + j) % 2 == 0) masque = '1';
+                        else masque = '0';
+                        if (ChaineBinaireCorrige[longueur] == masque) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        longueur++;
+                        j++;
+                    }
+                    else if (QR[i, j - 1] == 'C')
+                    {
+                        j--;
+                        if ((i + j) % 2 == 0) masque = '1';
+                        else masque = '0';
+                        if (ChaineBinaireCorrige[longueur] == masque) QR[i, j] = '0';
+                        else QR[i, j] = '1';
+                        longueur++;
+                        j++;
+                    }
+                    i++;
+                }
+                j -= 2;
+                i--;
+
+            }
+            Console.WriteLine("La longueur est de " + longueur);
+            if (hauteur == 21) CodeQR1 = QR;
+            else CodeQR2 = QR;
+        }
         public void PlacementBitsQR()
         {
             /*
             int i = hauteur - 1;
             int j = largeur - 1;
-            int longueur = chaineBinaireCorrige.Length - 1;
+            int longueur = 0;
             int AllerRetour;
             char[,] QR;
             
@@ -1184,11 +1301,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         else QR[i, j] = '1';
                         Console.Write(ChaineBinaireCorrige[longueur] + " ");
                         j--;
-                        longueur--;
+                        longueur++;
                         if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
                         else QR[i, j] = '1';
                         Console.Write(ChaineBinaireCorrige[longueur] + " ");
-                        longueur--;
+                        longueur++;
                         j++;
                         Console.WriteLine();
                     }
@@ -1197,7 +1314,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         j--;
                         if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
                         else QR[i, j] = '1';
-                        longueur--;
+                        longueur++;
                         j++;
                     }
                     i--;
@@ -1211,10 +1328,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
                         else QR[i, j] = '1';
                         j--;
-                        longueur--;
+                        longueur++;
                         if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
                         else QR[i, j] = '1';
-                        longueur--;
+                        longueur++;
                         j++;
                     }
                     else if (QR[i, j-1] == 'C')
@@ -1222,7 +1339,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         j--;
                         if (ChaineBinaireCorrige[longueur] == (i + j) % 2) QR[i, j] = '0';
                         else QR[i, j] = '1';
-                        longueur--;
+                        longueur++;
                         j++;
                     }
                     i++;
@@ -1235,66 +1352,78 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             else CodeQR2 = QR;
             */
 
+            
             char[,] QR;
             int compteur = 0;
+            char masque;
 
-            if (hauteur == 25 && largeur == 25)
-            {
-                QR = CodeQR2;
-            }
-            else if (hauteur == 21 && largeur == 21)
+            if (hauteur == 21 && largeur == 21)
             {
                 QR = CodeQR1;
+            }
+            else 
+            {
+                QR = CodeQR2;
             }
 
             for (int j = 0; j < largeur; j += 4)
             {
                 for (int i = 0; i < hauteur; i++)
                 {
-                    if (QR[hauteur - 1 - i, largeur - 1 - j] == 'C' && (hauteur - 1 - i + largeur - 1 - j)%2 == ChaineBinaireCorrige[compteur])
+                    if ((hauteur - 1 - i + largeur - 1 - j) % 2 == 0) masque = '0';
+                    else masque = '1';
+                    if (QR[hauteur - 1 - i, largeur - 1 - j] == 'C' && masque == ChaineBinaireCorrige[compteur])
                     {
                         QR[hauteur - 1 - i, largeur - 1 - j] = '1';
                         compteur++;
                     }
-                    else
+                    else if(QR[hauteur - 1 - i, largeur - 1 - j] == 'C' && masque != ChaineBinaireCorrige[compteur])
                     {
                         QR[hauteur - 1 - i, largeur - 1 - j] = '0';
                         compteur++;
                     }
-                    if (QR[hauteur - 1 - i, largeur - 2 - j] == 'C' && (hauteur - 1 - i + largeur - 2 - j)%2 == ChaineBinaireCorrige[compteur])
+
+                    if ((hauteur - 1 - i + largeur - 2 - j) % 2 == 0) masque = '0';
+                    else masque = '1';
+                    if (QR[hauteur - 1 - i, largeur - 2 - j] == 'C' && masque == ChaineBinaireCorrige[compteur])
                     {
                         QR[hauteur - 1 - i, largeur - 2 - j] = '1';
                         compteur++;
                     }
-                    else
+                    else if(QR[hauteur - 1 - i, largeur - 2 - j] == 'C' && masque != ChaineBinaireCorrige[compteur])
                     {
                         QR[hauteur - 1 - i, largeur - 2 - j] = '0';
                         compteur++;
                     }
                 }
 
-                if (j == 8)
+                if (j == largeur - 9)
                 {
                     j++;
                 }
                 for (int i = 0; i < hauteur; i++)
                 {
-                    if (QR[i, largeur - 3 - j] == 'C' && (i + largeur - 3 - j)%2 == ChaineBinaireCorrige[compteur])
+                    if ((hauteur - 1 - i + largeur - 3 - j) % 2 == 0) masque = '0';
+                    else masque = '1';
+                    if (QR[i, largeur - 3 - j] == 'C' && masque == ChaineBinaireCorrige[compteur])
                     { 
                         QR[i,largeur - 3 - j] = '1';
                         compteur++;
                     }
-                    else if (QR[i, largeur - 3 - j] == 'C' && (i + largeur - 3 - j) % 2 != ChaineBinaireCorrige[compteur])
+                    else if (QR[i, largeur - 3 - j] == 'C' && masque != ChaineBinaireCorrige[compteur])
                     {
                         QR[i, largeur - 3 - j] = '0';
                         compteur++;
                     }
-                    if (QR[i, largeur - 4 - j] == 'C' && (i + largeur - 4 - j) % 2 == ChaineBinaireCorrige[compteur])
+
+                    if ((hauteur - 1 - i + largeur - 4 - j) % 2 == 0) masque = '0';
+                    else masque = '1';
+                    if (QR[i, largeur - 4 - j] == 'C' && masque == ChaineBinaireCorrige[compteur])
                     {
                         QR[i, largeur - 4 - j] = '1';
                         compteur++;
                     }
-                    else if (QR[i, largeur - 4 - j] == 'C' && (i + largeur - 4 - j) % 2 != ChaineBinaireCorrige[compteur])
+                    else if (QR[i, largeur - 4 - j] == 'C' && masque != ChaineBinaireCorrige[compteur])
                     {
                         QR[i, largeur - 4 - j] = '0';
                         compteur++;
@@ -1312,6 +1441,29 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             
             
+        }
+
+        public void RecadrageEnBlanc(char[,] QR)
+        {
+            char[,] NewTab = new char[hauteur + 2, largeur + 2];
+            for(int i = 0; i<hauteur+2; i++)
+            {
+                for (int j = 0; j < largeur + 2; j++)
+                {
+                    NewTab[i, j] = 'B';
+                }
+            }
+            
+            for (int i = 0; i < hauteur ; i++)
+            {
+                for (int j = 0; j < largeur; j++)
+                {
+                    NewTab[i+1, j+1] = QR[i,j];
+                }
+            }
+            this.hauteur = this.hauteur + 2;
+            this.largeur = this.largeur + 2;
+            this.FinalQR = NewTab; 
         }
         //Alphanumeric Mode
         //mode character capacities : 25
@@ -1358,14 +1510,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         Y 34
         Z 35
         space 36   ==> il faut ajouter 4
-        $ 37
-        % 38
-        * 39
-        + 40
-        - 41
-        . 42
-        / 43
-        : 44
+        $ 37 ===> ajouter 1  ==> ca marche 
+        % 38 ===> ajouter 1
+        * 39 ===> soustraire 3 ==> ca marche 
+        + 40 ===> soustraire 3 ==> ca marche
+        - 41 ===> ajouter 4 ==> ca marche 
+        . 42 ===> ajouter 4
+        / 43 ===> ajouter 4
+        : 44 ===> ajouter 14
         */
         // On prend les 2 premières lettres 
         // multiply the first number by 45, then add that to the second number

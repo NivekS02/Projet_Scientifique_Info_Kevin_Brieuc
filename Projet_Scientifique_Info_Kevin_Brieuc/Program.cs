@@ -11,16 +11,37 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     {
         static void Main(string[] args)
         {
-            
+            /*
             MyImage test = new MyImage("HELLO WORLD", 11);
             string tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLD");
+            */
+
+
+            char lettre = '.';
+            Console.WriteLine((int)(lettre));
+            
+            
+            MyImage test = new MyImage(".", 1);
+            string tab = test.ConvertirChaineDeCaractereEnBinaire(".");
+            
             test.Agrandir(100);
             test.MiroirHorizontal();
             string fichier = "QRCODE1.bmp";
             test.From_Image_To_FileFractale(fichier);
             Process.Start(fichier);
             
+            
 
+
+            /*
+            MyImage test2 = new MyImage("HELLO WORLD", 11);
+            string tab2 = test2.ConvertirChaineDeCaractereEnBinaire("HELLO WORLD");
+            test2.Agrandir(100);
+            test2.MiroirHorizontal();
+            string fichier2 = "QRCODE1.bmp";
+            test2.From_Image_To_FileFractale(fichier2);
+            Process.Start(fichier2);
+            */
             //Chaine sans reed solomon mais avec toutes les étapes d'avant
             //Console.WriteLine(test.chaineBinaireCorrige);
 
