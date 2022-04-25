@@ -11,51 +11,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     {
         static void Main(string[] args)
         {
-            /*
-            MyImage test = new MyImage("HELLO WORLD", 11);
-            string tab = test.ConvertirChaineDeCaractereEnBinaire("HELLO WORLD");
-            */
-
-
-            char lettre = '.';
-            Console.WriteLine((int)(lettre));
-            
-            
-            MyImage test = new MyImage("T ES CON", 8);
-            string tab = test.ConvertirChaineDeCaractereEnBinaire("T ES CON");
-            
-            test.Agrandir(100);
-            test.MiroirHorizontal();
-            string fichier = "QRCODE1.bmp";
-            test.From_Image_To_FileFractale(fichier);
-            Process.Start(fichier);
-            
-            
-
-
-            /*
-            MyImage test2 = new MyImage("HELLO WORLD", 11);
-            string tab2 = test2.ConvertirChaineDeCaractereEnBinaire("HELLO WORLD");
-            test2.Agrandir(100);
-            test2.MiroirHorizontal();
-            string fichier2 = "QRCODE1.bmp";
-            test2.From_Image_To_FileFractale(fichier2);
-            Process.Start(fichier2);
-            */
-            //Chaine sans reed solomon mais avec toutes les étapes d'avant
-            //Console.WriteLine(test.chaineBinaireCorrige);
-
-            /*
-            MyImage test2 = new MyImage("HELLO POLE LEONARD DE VINCI", 27);
-            string tab2 = test2.ConvertirChaineDeCaractereEnBinaire("HELLO POLE LEONARD DE VINCI");
-            test2.Agrandir(100);
-            test2.MiroirHorizontal();
-            string fichier = "QRCODE2.bmp";
-            test2.From_Image_To_FileFractale(fichier);
-            Process.Start(fichier);
-            */
-
-            /*
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -77,8 +32,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
-            */
-
             Console.ReadKey();
         }
         
@@ -120,7 +73,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         for (int i = 0; i < NbrRotations; i++) image.Rotation();
                         Console.WriteLine("Transformation de l'image avec " + NbrRotations +  " effectuée.");
                         */
-
+                        Console.WriteLine("Entrez un angle de rotation pour votre image svp.");
                         double angle = Convert.ToInt32(Console.ReadLine());
                         image.Rotation2(angle);
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -218,7 +171,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         }
                         MyImage ImageACacher = new MyImage(nouvelleImage);
                         image.Cacher_Image(ImageACacher);
-                        Console.WriteLine("L'image a été cachée");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
                         Console.ReadKey();
                         Console.Clear();
@@ -255,7 +207,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return fini;
         }
 
-        public static bool Fractales()
+        public static bool Fractales() //Partie fractale
         {
             bool fini = true;
             Console.WriteLine("Ecrivez le nom du fichier que vous voulez donner à la fractale svp.");
@@ -264,12 +216,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             MyImage image = new MyImage();
             image.FractaleMandelbrot();
             image.From_Image_To_FileFractale(fichier);
+            Console.WriteLine("Création de la fractale finie.");
+            Console.WriteLine("Appuyer sur une touche pour arrêter et afficher la fractale.");
+            Console.ReadKey();
             Process.Start(fichier);
-
             return fini;
         }
 
-        public static bool QRCodes()
+        public static bool QRCodes() // Partie QR code 
         {
             bool fini = true;
             Console.WriteLine("Entrez un mot ou une suite de caractères svp.");
@@ -277,7 +231,18 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             int longueur = phrase.Length;
             if (longueur != 0 && longueur < 48)
             {
-
+                MyImage QRCode = new MyImage(phrase, longueur);
+                QRCode.Agrandir(100);
+                QRCode.MiroirHorizontal();
+                Console.WriteLine("Entrez le nom du nouveau fichier qui va être créé svp");
+                string fichier = Console.ReadLine();
+                fichier += ".bmp";
+                QRCode.From_Image_To_FileFractale(fichier);
+                Console.WriteLine("Création du QR code finie.");
+                Console.WriteLine("Appuyer sur une touche pour arrêter et afficher le QR code.");
+                Console.ReadKey();
+                Process.Start(fichier);
+                
             }
             else
             {

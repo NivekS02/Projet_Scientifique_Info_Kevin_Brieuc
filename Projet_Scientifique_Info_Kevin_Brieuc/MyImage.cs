@@ -30,10 +30,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         private int[] ChaineInt; // Chaine binaire en Int afin de pouvoir le convertir en bytes
         private string ChaineBinaireCorrige; // Chaine de caractère en binaire
         private char[,] FinalQR;
+
         // A = noir ; B = Blanc ; C = à remplir 
         // Pixel blanc = 0 ; pixel noir = 1
         //111011111000100
-        private char[,] CodeQR1 = new char[21, 21] 
+        private char[,] CodeQR1 = new char[21, 21] //QR code version 1
         { 
         {'A','A','A','A','A','A','A','B','B', 'C', 'C', 'C', 'C', 'B','A', 'A','A','A','A','A', 'A' },
         {'A','B','B','B','B','B','A','B','B', 'C', 'C', 'C', 'C', 'B','A', 'B','B','B','B','B', 'A' },
@@ -58,7 +59,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {'A','A','A','A','A','A','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         };
 
-        private char[,] CodeQR2 = new char[25, 25]
+        private char[,] CodeQR2 = new char[25, 25] //QR code version 2
         {
         {'A','A','A','A','A','A','A','B','B','C','C','C','C','C','C','C','C','B','A','A','A','A','A','A','A' },
         {'A','B','B','B','B','B','A','B','B','C','C','C','C','C','C','C','C','B','A','B','B','B','B','B','A' },
@@ -137,23 +138,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         #endregion
         #region Constructeurs
-        public MyImage(string myfile)
+        public MyImage(string myfile) // Contructeur pour le traitement d'image 
         {
             byte[] file = File.ReadAllBytes(myfile);
-            //Console.WriteLine("Nombre de bytes : " + file.Length);
-            this.fileName = myfile;
-            //myfile est un vecteur composé d'octets représentant les métadonnées et les données de l'image
-
-            //lecture du header et assignement des variables d'instance et des bits par pixels 
-            if (file[0] == 66 && file[1] == 77 && file[28] == 24 && file[29] == 0)
+            this.fileName = myfile; //myfile est un vecteur composé d'octets représentant les métadonnées et les données de l'image
+            if (file[0] == 66 && file[1] == 77 && file[28] == 24 && file[29] == 0) //lecture du header et assignement des variables d'instance et des bits par pixels 
             {
                 this.typeImage = "BM";
                 this.nbrDeBitsParCouleur = 24;
             }
-            else
-            {
-                this.typeImage = "Non BM";
-            }
+            else this.typeImage = "Non BM";
 
             //Conversion de la taille du fichier Little Endian en entier
             byte[] TailleFichier = new byte[4];
@@ -166,7 +160,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.tailleFichier = Convert_Endian_To_Int(TailleFichier);
 
-            //Console.WriteLine(file[18] + " " + file[19] + " " + file[20] + " " + file[21]);
             //Conversion de la largeur 
             byte[] Largeur = new byte[4];
             int TL = 18;
@@ -176,7 +169,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 TL++;
             }
             this.largeur = Convert_Endian_To_Int(Largeur);
-            //Console.WriteLine("Largeur initiale : " + largeur);
 
             //Conversion de la hauteur
             byte[] Hauteur = new byte[4];
@@ -212,26 +204,35 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = image;
         }
-
-        
-        public MyImage(string ChaîneDeCaracteres, int longueur)
+        public MyImage() // Constructeur pour la fractale 
         {
-            string nbcar = "";
-            int[] id =  ConvertirLongueurEnBinaire(longueur);
-            for (int i = 0; i < id.Length; i++)
+            this.typeImage = "BM";
+            this.tailleOffset = 54;
+            this.hauteur = 1000;
+            this.largeur = 1000;
+            Pixel[,] image = new Pixel[hauteur, largeur];
+            for (int i = 0; i < hauteur; i++)
             {
-                nbcar = nbcar +  id[i];
+                for (int j = 0; j < largeur; j++)
+                {
+                    image[i, j] = new Pixel(0, 0, 0);
+                }
             }
+        }
+        public MyImage(string ChaîneDeCaracteres, int longueur) // Constructeur pour le QR code 
+        {
+            string nbcar = ""; //On initialise une variable stockant les bits de nombre de la longueur de la chaîne de caractère
+            int[] id =  ConvertirLongueurEnBinaire(longueur); // On convertit la longueur de la chaine de caractère en binaire
+            for (int i = 0; i < id.Length; i++) nbcar = nbcar + id[i]; // On le concatène
             this.IndicateurNombreCaractere = nbcar;
-
-            this.CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres);
+            this.CaractereBinaire = ConvertirChaineDeCaractereEnBinaire(ChaîneDeCaracteres); // On convertit toute la chaîne de caractère en binaire 
 
             if (longueur <= 25) //Version 1 ==> Nombre d’octets pour la gestion EC = 7
             {
                 this.hauteur = 21;
                 this.largeur = 21;
-                this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire, 152);
-                this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire);
+                this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire, 152); // On concatène le mode + la longueur de la chaine en binaire + la chaine en binaire
+                this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire); // On convertit ce dernier en un tableau de int afin de faciliter les calculs 
                 ChaineByte = new byte[19];
                 int compteur = 0;
                 for (int i = 0; i < 19; i++)
@@ -244,9 +245,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                     ChaineByte[i] = BinaireToByte(tab);
                 }
-
                 byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 7, ErrorCorrectionCodeType.QRCode);
-
                 // concaténation de la chaine solomon convertie en binaire et mise en string avec
                 //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
                 string BinaireSolomon = "";              
@@ -258,29 +257,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
-                //PlacementBitsQR();
-                PlacementBitsQRKEKE();
-                RecadrageEnBlanc(CodeQR1);
-                LireQRCode(FinalQR);
-                
-
-                /* // Pour afficher la matrice du QR Code 
-                for(int i = 0; i<CodeQR1.GetLength(0); i++)
-                {
-                    for(int j = 0; j<CodeQR1.GetLength(1); j++)
-                    {
-                        Console.Write(CodeQR1[i, j] + " ");
-                    }
-                    Console.WriteLine();
-                }
-                */
+                //PlacementBitsQRB();
+                PlacementBitsQRK();
+                RecadrageEnBlanc(CodeQR1); //On rajoute les contours blancs 
+                LireQRCode(FinalQR); // On créé l'image du QR code en couleurs
             }
             else //Version 2 ==> Nombre d’octets pour la gestion EC = 10
             {
                 this.largeur = 25;
                 this.hauteur = 25;
                 this.ChaineDeCaractereBinaire = FinitionChaineBinaire(this.CaractereBinaire, 272);
-                Console.WriteLine(ChaineDeCaractereBinaire.Length);
                 this.ChaineInt = StringToTabInt(ChaineDeCaractereBinaire);
                 ChaineByte = new byte[34];
                 int compteur = 0;
@@ -294,13 +280,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                     ChaineByte[i] = BinaireToByte(tab);
                 }
-
                 byte[] solomon = ReedSolomonAlgorithm.Encode(ChaineByte, 10, ErrorCorrectionCodeType.QRCode);
-
-               
                 // concaténation de la chaine solomon convertie en binaire et mise en string avec
                 //  le string ChaineDeCaractereBinaire qui donnent la ChaineBinaireCorrige
-
                 string BinaireSolomon = "";
                 for (int i = 0; i < solomon.Length; i++)
                 {
@@ -310,31 +292,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
                 this.ChaineBinaireCorrige = ChaineDeCaractereBinaire + BinaireSolomon;
-                this.ChaineBinaireCorrige = ChaineBinaireCorrige + "0000000";
-                //PlacementBitsQR();
-                PlacementBitsQRKEKE();
+                this.ChaineBinaireCorrige = ChaineBinaireCorrige + "0000000"; //on ajoute des bits de remplissage
+                //PlacementBitsQRB();
+                PlacementBitsQRK();
                 RecadrageEnBlanc(CodeQR2);
                 LireQRCode(FinalQR);
             }
         }
-        public MyImage() // Pour la fractale 
-        {
-            this.typeImage = "BM";
-            this.tailleOffset = 54;
-            this.hauteur = 1000;
-            this.largeur = 1000;
-            Pixel[,] image = new Pixel[hauteur, largeur];
-            for(int i = 0;i<hauteur; i++)
-            {
-                for(int j=0; j<largeur;j++)
-                {
-                    image[i, j] = new Pixel(0, 0, 0);
-                }
-            }
-        }
         #endregion
         #region Méthodes Traitement d'images
-
+        #region TD2 Lire et écrire une image à partir d'un format .bmp (From image to file)
         /// <summary>
         /// Méthode permettant de 
         /// </summary>
@@ -485,7 +452,21 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 Console.WriteLine();
             }
         }
-
+        /// <summary>
+        /// Permet d'afficher les informations principales de l'image dans la console
+        /// </summary>
+        public void toString() // Info sur l'image
+        {
+            Console.WriteLine("Taille fichier : " + tailleFichier + "\n" +
+                "Type d'image :" + typeImage + "\n" +
+                "Hauteur : " + hauteur + "\n" +
+                "Largeur : " + largeur + "\n" +
+                "Taille Offset : " + tailleOffset + "\n" +
+                "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
+                "Filename : " + fileName);
+        }
+        #endregion
+        #region TD3 Traiter une image (nuance de gris, noir et blanc, agrandir/retrecir, rotation, miroir)
         /// <summary>
         /// Permet de changer chaque pixel de l'image en nuance de gris
         /// </summary>
@@ -562,9 +543,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     imageRetrecie[i,j] = image[i*ratio,j*ratio];
                 }
             }
+            hauteur = hauteur / ratio;
+            largeur = largeur / ratio;
             this.image = imageRetrecie;
         }
-
         /// <summary>
         /// Permet d'effectuer une rotation de l'image d'un angle de 90° dans le sens antihoraire
         /// </summary>
@@ -589,39 +571,19 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
 
         /// <summary>
-        /// Permet d'effectuer une rotation de l'image de l'angle souhaité par l'utilisateur dans le sens ______________
+        /// Permet d'effectuer une rotation de l'image de l'angle souhaité par l'utilisateur dans le sens anti-horaire
         /// </summary>
         /// <param name="angle"></param>
         public void Rotation2(double angle)
         {
-            angle = angle * Math.PI / 180;
-            //x/PI = angle/180 => x = PI*angle/180
-
-            /*
-            //On cherche la largeur de la nouvelle matrice
-            int nouvelleLargeur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(largeur - 1, hauteur -1) , angle)[1] + 1;
-            //On cherche désormais la hauteur de la nouvelle matrice 
-            int nouvelleHauteur = PolaireAjoutAngleRemiseCartesienne(CartésienneEnPolaire(0, hauteur-1), angle)[0] + 1;
-            //Création de la matrice
-            */
-
-            //double AngleInitial = Math.Atan2(image.GetLength(0)-1, image.GetLength(1)-1);
-            //double alpha = AngleInitial - angle  ;
-            //double Hypoténuse = Math.Sqrt((0 - image.GetLength(0))* (0 - image.GetLength(0)) + (0 - image.GetLength(1)) * (0 - image.GetLength(1)));
-
+            angle = angle * Math.PI / 180; //x/PI = angle/180 => x = PI*angle/180
             double [] coorPol = CartésienneEnPolaire(image.GetLength(0)-1,image.GetLength(1)-1);
             int nouvelleLargeur = (int)(Math.Sin(coorPol[1]) * coorPol[0]*3);
-
             coorPol = CartésienneEnPolaire(0,image.GetLength(1)-1);
             int nouvelleHauteur = (int)Math.Abs(Math.Cos(coorPol[1]) * coorPol[0]*3);
-
             while (nouvelleLargeur % 4 != 0)
                 nouvelleLargeur++;
-            
-
             Pixel[,] ImageRotation = new Pixel[nouvelleHauteur, nouvelleLargeur];
-
-
             for (int i = 0; i < image.GetLength(0); i++)
             {
                 for (int j = 0; j < image.GetLength(1); j++)
@@ -630,15 +592,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     int nouveauI = nouvellesCoor[0];
                     int nouveauJ = nouvellesCoor[1];
                     ImageRotation[nouveauI, nouveauJ] = image[i, j];
-                    /*
-                    if (nouveauI>0 && nouveauJ>0 && nouveauI<nouvelleHauteur && nouveauJ<nouvelleLargeur)
-                    {
-                        
-                    }
-                    */
                 }
             }
-
             for(int i =0; i < ImageRotation.GetLength(0); i++)
             {
                 for(int j=0; j<ImageRotation.GetLength(1); j++)
@@ -747,23 +702,16 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = ImageMiroir;
         }
-
+        #endregion
+        #region TD4 Appliquer un filtre (matrice de convolution)
         /// <summary>
-        /// Permet d'afficher les informations principales de l'image dans la console
+        /// Permet de faire la somme des produits de la matrice de convolution avec la matrice de kernel 
         /// </summary>
-        public void toString()
-        {
-            Console.WriteLine("Taille fichier : " + tailleFichier + "\n" +
-                "Type d'image :" + typeImage + "\n" +
-                "Hauteur : " + hauteur + "\n" +
-                "Largeur : " + largeur + "\n" +
-                "Taille Offset : " + tailleOffset + "\n" +
-                "Nb de Bits par couleur : " + nbrDeBitsParCouleur + "\n" +
-                "Filename : " + fileName);
-        }
-
- 
-
+        /// <param name="matriceCopie"></param>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="kernel"></param>
+        /// <returns></returns>
         public Pixel CalculConvolution(Pixel[,] matriceCopie, int i, int j, double[,] kernel)
         {
             double[] pixel = new double[]{ 0,0,0};
@@ -819,7 +767,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
         }
-
+        #endregion
+        #region TD5 Créer ou extraire une nouvelle image (fractale de Mandelbrot, histogramme, Coder et décoder dans une image)
         public int SuiteDeMandelBrot(int iteration, Complex c, Complex z, int n = 0)
         {
             if (z.Magnitude > 2 || iteration <= 0)
@@ -830,7 +779,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             n++;
             return SuiteDeMandelBrot(iteration, c, z * z + c, n);
         }
-
         /// <summary>
         /// Permet de créer la fractale de Mandelbrot
         /// </summary>
@@ -873,22 +821,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             this.image = ImageCopie;
         }
-
-        public double ComplexeAuCaréeReel(double X, double Y)
-        {
-            double re = X * X - (Y * Y);
-            return re;
-        }
-        public double ComplexeAuCaréeImaginaire(double X, double Y)
-        {
-            double im = 2 * X * Y;
-            return im;
-        }
-        public double Module(double X, double Y)
-        {
-            return Math.Sqrt(X * X + Y * Y);
-        }
-
         /// <summary>
         /// Permet de créer un histogramme de l'image 
         /// </summary>
@@ -935,8 +867,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             tableauHistogramme[1, k] = CompteurVert ;
             tableauHistogramme[2, k] = CompteurRouge;  
         }   
-             
-
         // Recherche du maximum dans tableauHistogramme
         int max = 0;
         for (int i = 0; i < tableauHistogramme.GetLength(0); i++)
@@ -949,7 +879,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
         }
-
         //Création de l'histogramme
         for (int i = 0; i < 256; i++)
         {
@@ -969,7 +898,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         
         image = histogramme;            
         }
-
         /// <summary>
         /// Permet de cacher une petite image dans une image plus grande
         /// </summary>
@@ -987,12 +915,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         image[i, j].V = BinaireToByte(FusionTableauBinaire(ByteToBinaire(image[i, j].V), ByteToBinaire(image_a_cacher.image[i, j].V)));
                     }
                 }
-
+                Console.WriteLine("L'image a été cachée");
             }
-            else
-            {
-                Console.WriteLine("L'image à cacher est trop grande pour être cachée");
-            }
+            else Console.WriteLine("L'image à cacher est trop grande pour être cachée");
         }
 
         /// <summary>
@@ -1054,7 +979,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             return tabFinal;
         }
         #endregion
+        #endregion
         #region Méthodes QRCode
+        #region Fonctions principales
         /// <summary>
         /// Méthode permettant de convertir la longueur de la chaine de caractère en binaire
         /// </summary>
@@ -1205,33 +1132,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         public int Alphanumérique(char lettre)
         {
             int alpha = 0;
-            if((int)lettre >= 48 && (int)lettre <=57)
-            {
-                alpha = (int)lettre - 48;
-            }
-            else if ((int)lettre > 57 && (int)lettre <= 122)
-            {
-                alpha = (int)lettre - 55;
-            }
-            else if ((int)lettre == 32 || (int)lettre == 37 || (int)lettre == 38 || (int)lettre == 39 )
-            {
-                alpha = (int)lettre + 4 ;
-            }
-            else if ((int)lettre == 36 || (int)lettre == 37)
-            {
-                alpha = (int)lettre + 1;
-            }
-            else if ((int)lettre == 42 || (int)lettre == 43)
-            {
-                alpha = (int)lettre - 3;
-            }
-            else if ((int)lettre == 45) // - 
-            {
-                alpha = (int)lettre - 4;
-            }
+            if((int)lettre >= 48 && (int)lettre <=57) alpha = (int)lettre - 48; // pour les chiffres
+            else if ((int)lettre > 57 && (int)lettre <= 122) alpha = (int)lettre - 55; // Pour les lettres (attention : seuls les majuscules marchent)
+            else if ((int)lettre == 32 || (int)lettre == 37 ) alpha = (int)lettre + 4;// space ; - 
+            else if ((int)lettre == 36) alpha = (int)lettre + 1;// $ 
+            else if ((int)lettre == 42 || (int)lettre == 43) alpha = (int)lettre - 3;// * ; +
+            else if ((int)lettre == 45 || (int)lettre == 46 ||  (int)lettre == 47) alpha = (int)lettre - 4; // - ; . ; /
             return alpha;
         }
-
         /// <summary>
         /// Ajoute l'indicateur de mode, l'indicateur de longueur de la chaîne de caractère initialement rentrée, 
         /// puis ajuste la taille de cet élément pour atteindre 152 bits pour la version 1 et 272 pour la version 2 suivant des règles précises
@@ -1267,7 +1175,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return retour;
         }
-
         public int[] StringToTabInt(string chaineBinaire)
         {
             int[] tabInt = new int[chaineBinaire.Length];
@@ -1285,35 +1192,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return tabInt;
         }
-
-        public void LireQRCode(char[,] QR)
-        {
-            Pixel[,] Picture = new Pixel[QR.GetLength(0), QR.GetLength(1)];
-            for(int i = 0; i<QR.GetLength(0); i++)
-            {
-                for(int j = 0; j<QR.GetLength(1); j++)
-                {
-                    if(QR[i,j] == 'A' || QR[i,j] == '1')
-                    {
-                        Picture[i, j] = new Pixel(0, 0, 0);
-                    }
-                    else if (QR[i, j] == 'B' || QR[i, j] == '0')
-                    {
-                        Picture[i, j] = new Pixel(255, 255, 255);
-                    }
-                    else if (QR[i, j] == 'C')
-                    {
-                        Picture[i, j] = new Pixel(128, 128, 128);
-                    }
-                }
-            }
-            this.image = Picture;
-        }
-
+        
         /// <summary>
         /// Méthode permettant de placer des '0' et des '1' dans la matrice de caractères CodeQR1 ou CodeQR2 suivant le mode utilisé (respectivement 1 ou 2)
         /// </summary>
-        public void PlacementBitsQRKEKE()
+        public void PlacementBitsQRK()
         {
             int i = hauteur - 1;
             int j = largeur - 1;
@@ -1352,7 +1235,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         else QR[i, j] = '1';
                         longueur++;
                         j++;
-                        Console.WriteLine();
                     }
                     else if (QR[i, j - 1] == 'C')
                     {
@@ -1400,9 +1282,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
                 j -= 2;
                 i--;
-
             }
-            Console.WriteLine("La longueur est de " + longueur);
             if (hauteur == 21) CodeQR1 = QR;
             else CodeQR2 = QR;
         }
@@ -1410,7 +1290,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         /// <summary>
         /// Méthode permettant de placer des '0' et des '1' dans la matrice de caractères CodeQR1 ou CodeQR2 suivant le mode utilisé (respectivement 1 ou 2)
         /// </summary>
-        public void PlacementBitsQR()
+        public void PlacementBitsQRB()
         {          
             char[,] QR;
             int compteur = 0; //position dans la chaine binaire
@@ -1490,21 +1370,43 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     }
                 }
             }
-
-            if (hauteur == 25 && largeur == 25)
-            {
-                CodeQR2 = QR; //Version 2
-            }
-            else
-            {
-                CodeQR1 = QR; //Version 1
-            }            
+            if (hauteur == 25 && largeur == 25) CodeQR2 = QR; //Version 2
+            else CodeQR1 = QR; //Version 1          
         }
         /// <summary>
         /// Méthode permettant d'ajouter un bord blanc autour du QRCode pour faciliter la lecture de celui-ci
         /// Prend en paramètre la matrice QR composée de caractères '0' et '1'
         /// </summary>
         /// <param name="QR"></param>
+        /// /// <summary>
+        /// Permet de lire notre matrice de QR code en char et de les convertir en pixel pour créer une matrice de pixel image
+        /// </summary>
+        /// <param name="QR"></param>
+        #endregion
+        #region Fonctions secondaires de mise en forme du QR code
+        public void LireQRCode(char[,] QR)
+        {
+            Pixel[,] Picture = new Pixel[QR.GetLength(0), QR.GetLength(1)];
+            for (int i = 0; i < QR.GetLength(0); i++)
+            {
+                for (int j = 0; j < QR.GetLength(1); j++)
+                {
+                    if (QR[i, j] == 'A' || QR[i, j] == '1')
+                    {
+                        Picture[i, j] = new Pixel(0, 0, 0);
+                    }
+                    else if (QR[i, j] == 'B' || QR[i, j] == '0')
+                    {
+                        Picture[i, j] = new Pixel(255, 255, 255);
+                    }
+                    else if (QR[i, j] == 'C')
+                    {
+                        Picture[i, j] = new Pixel(128, 128, 128);
+                    }
+                }
+            }
+            this.image = Picture;
+        }
         public void RecadrageEnBlanc(char[,] QR)
         {
             char[,] NewTab = new char[hauteur + 2, largeur + 2];
@@ -1565,16 +1467,17 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         X 33
         Y 34
         Z 35
-        space 36   ==> il faut ajouter 4
+        space 36   ==> il faut ajouter 4 ==> ca marche 
         $ 37 ===> ajouter 1  ==> ca marche 
         % 38 ===> ajouter 1
         * 39 ===> soustraire 3 ==> ca marche 
         + 40 ===> soustraire 3 ==> ca marche
         - 41 ===> ajouter 4 ==> ca marche 
-        . 42 ===> ajouter 4
-        / 43 ===> ajouter 4
-        : 44 ===> ajouter 14
+        . 42 ===> soustraire 4 ==> ca marche
+        / 43 ===> soustraire 4 ==> ca marche 
+        : 44 ===> soustraire 14
         */
+        #endregion
         #endregion
     }
 }

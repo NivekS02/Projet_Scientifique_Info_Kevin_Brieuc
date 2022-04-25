@@ -8,12 +8,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
     internal class Menu
     {
-        // Fonctions à ajouter encore !
-        // QR code à faire plus tard 
         // Ajouter les touches avec des nombres pour la selection 
         // Ajouter les consignes pour utiliser la console 
-        // Régler l'affichage des infos de l'image modifiée 
-
 
         string[] menu;
         string[] deplacement;
@@ -24,15 +20,17 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         public Menu()
         {
-            this.deplacement = new string[3] { "1", "0", "0" };
+            this.deplacement = new string[3] { "1", "0", "0" }; // menu choix du traitement
             this.menu = new string[3] { "Images", "QR codes", "Fractales" };
 
-            this.deplacementImages = new string[5] { "1", "0", "0", "0", "0" };
+            this.deplacementImages = new string[5] { "1", "0", "0", "0", "0" }; // Menu choix de l'image à traiter
             this.menuImages = new string[5] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp", "Retour" };
-            this.deplacementImages2 = new string[14] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
-            this.menuImages2 = new string[14] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement",
-                                                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Informations sur l'image",  "Enregistrer l'image" , "Retour"};
+
+            this.deplacementImages2 = new string[15] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" , "0"}; // Menu choix de la fonction de traitement 
+            this.menuImages2 = new string[15] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement",
+                                                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Cacher une image", "Informations sur l'image",  "Enregistrer l'image" , "Retour"};
         }
+        #region Menu principal
         public void AfficherMenu()
         {
             Console.WriteLine("\n\n" + new string(' ', Console.WindowWidth / 2 - 10) + "||Traitement d'images||" + "\n\n");
@@ -99,7 +97,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return exo + 1;
         }
-
+        #endregion
+        #region Menu Choix image
         public void AfficherMenuImages()
         {
             Console.WriteLine("\n\n" + new string(' ', Console.WindowWidth / 2 - 10) + "||Choix de l'image||" + "\n\n");
@@ -163,6 +162,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             return imageChoisie;
         }
+        #endregion
+        #region Menu choix type de traitement
         public void AfficherMenuImages2()
         {
             Console.WriteLine("\n\n" + new string(' ', Console.WindowWidth / 2 - 10) + "||Choix du traitement||" + "\n\n");
@@ -208,12 +209,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     case ConsoleKey.UpArrow:
                         deplacementImages2[i] = "0";
-                        i = (i - 1 + 14) % 14;
+                        i = (i - 1 + 15) % 15;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.DownArrow:
                         deplacementImages2[i] = "0";
-                        i = (i + 1) % 14;
+                        i = (i + 1) % 15;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.Enter:
@@ -229,6 +230,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
             return traitement;
         }
-
+        #endregion
     }
 }
