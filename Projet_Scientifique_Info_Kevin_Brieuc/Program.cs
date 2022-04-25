@@ -175,6 +175,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.ReadKey();
                         Console.Clear();
                         break;
+                    case "Decrypter une image":
+                        image.Decrypter_Image();
+                        Console.WriteLine("Decryptage fini");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
                     case "Informations sur l'image":
                         image.toString();
                         Console.WriteLine("Appuyer sur une touche pour continuer");
