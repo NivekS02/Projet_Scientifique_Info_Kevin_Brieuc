@@ -1560,7 +1560,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         /// <summary>
         /// Ajoute de la luminosité à l'image
         /// </summary>
-        /// <param name="intensité"></param>
         public void AjouterLuminosite()
         {
             for (int i = 0; i < image.GetLength(0); i++)
