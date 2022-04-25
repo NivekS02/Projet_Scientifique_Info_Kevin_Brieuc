@@ -1510,6 +1510,92 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         : 44 ===> soustraire 14
         */
         #endregion
+
+        #region Fonctions bonus
+        /// <summary>
+        /// Passe l'image en négatif
+        /// </summary>
+        public void Negatif()
+        {
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    image[i,j].B = (byte)(255 - image[i,j].B);
+                    image[i,j].V = (byte)(255 - image[i,j].V);
+                    image[i,j].R = (byte)(255 - image[i,j].R);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Passe l'image en sépia
+        /// </summary>
+        public void Sepia()
+        {
+            int s = 100;
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    int m = (image[i, j].B + image[i, j].V + image[i, j].R) / 3;
+                    if (m < s)
+                    {
+                        int c = m / s;
+                        image[i, j].B = (byte)(18 * c);
+                        image[i, j].V = (byte)(38 * c);
+                        image[i, j].R = (byte)(94 * c);
+                    }
+                    else
+                    {
+                        int c = (m - s) / (255 - s);
+                        image[i, j].B = (byte)(18 + c*(255 - 18));
+                        image[i, j].V = (byte)(38 + c*(255 - 38));
+                        image[i, j].R = (byte)(94 + c*(255 - 94));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ajoute de la luminosité à l'image
+        /// </summary>
+        /// <param name="intensité"></param>
+        public void AjouterLuminosite()
+        {
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    if (image[i, j].B < 245 && image[i, j].V < 245 && image[i, j].R < 245)
+                    {
+                        image[i, j].B = (byte)(10 + image[i, j].B);
+                        image[i, j].V = (byte)(10 + image[i, j].V);
+                        image[i, j].R = (byte)(10 + image[i, j].R);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Diminue la luminosité de l'image
+        /// </summary>
+        public void DiminuerLuminosite()
+        {
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    if (image[i, j].B > 9 && image[i, j].V > 9 && image[i, j].R > 9)
+                    {
+                        image[i, j].B = (byte)(image[i, j].B - 10);
+                        image[i, j].V = (byte)(image[i, j].V - 10);
+                        image[i, j].R = (byte)(image[i, j].R - 10);
+                    }
+                }
+            }
+        }
+        #endregion
         #endregion
     }
 }
