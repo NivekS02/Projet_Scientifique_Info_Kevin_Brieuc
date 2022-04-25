@@ -920,6 +920,24 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             else Console.WriteLine("L'image à cacher est trop grande pour être cachée");
         }
 
+
+        /// <summary>
+        /// Permet de faire apparaitre l'image cachée dans l'image principale
+        /// </summary>
+        public void Decrypter_Image()
+        {
+            for (int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; i < image.GetLength(1); i++)
+                {
+                    image[i, j].B = BinaireToByte(InversionTableauBinaire(ByteToBinaire(image[i, j].B)));
+                    image[i, j].R = BinaireToByte(InversionTableauBinaire(ByteToBinaire(image[i, j].R)));
+                    image[i, j].V = BinaireToByte(InversionTableauBinaire(ByteToBinaire(image[i, j].V)));
+                }
+            }
+        }
+
+
         /// <summary>
         /// Permet de convertir un byte en tableau d'entiers binaires
         /// </summary>
@@ -978,6 +996,20 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             for (int i = 4; i < 8; i++) tabFinal[i] = tabCaché[i-4];
             return tabFinal;
         }
+
+        /// <summary>
+        /// Permet d'inverser les bits de poids forts et de poids faible d'un tableau de 8 entiers binaire
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public int[] InversionTableauBinaire(int[] tab)
+        {
+            int[] retour = new int[8];
+            for (int i = 0; i < 4; i++) retour[i] = tab[i+ 4];
+            for (int i = 4; i < 8; i++) retour[i] = tab[i - 4];
+            return retour;
+        }
+
         #endregion
         #endregion
         #region Méthodes QRCode
