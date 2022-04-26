@@ -347,7 +347,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         /// Méthode permettant de
         /// </summary>
         /// <param name="file"></param>
-        public void From_Image_To_FileFractale(string file)
+        public void From_Image_To_FileNouvelleImage(string file)
         {
             List<byte> FileSave = new List<byte>();
             //Construction du header

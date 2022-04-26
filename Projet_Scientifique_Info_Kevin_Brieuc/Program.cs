@@ -254,7 +254,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             fichier += ".bmp";
             MyImage image = new MyImage();
             image.FractaleMandelbrot();
-            image.From_Image_To_FileFractale(fichier);
+            image.From_Image_To_FileNouvelleImage(fichier);
             Console.WriteLine("Création de la fractale finie.");
             Console.WriteLine("Appuyer sur une touche pour arrêter et afficher la fractale.");
             Console.ReadKey();
@@ -276,7 +276,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 Console.WriteLine("Entrez le nom du nouveau fichier qui va être créé svp");
                 string fichier = Console.ReadLine();
                 fichier += ".bmp";
-                QRCode.From_Image_To_FileFractale(fichier);
+                QRCode.From_Image_To_FileNouvelleImage(fichier);
                 Console.WriteLine("Création du QR code finie.");
                 Console.WriteLine("Appuyer sur une touche pour arrêter et afficher le QR code.");
                 Console.ReadKey();
