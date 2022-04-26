@@ -9,7 +9,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     internal class Menu
     {
         // Ajouter les touches avec des nombres pour la selection 
-        // Ajouter les consignes pour utiliser la console 
 
         string[] menu;
         string[] deplacement;
@@ -26,9 +25,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.deplacementImages = new string[5] { "1", "0", "0", "0", "0" }; // Menu choix de l'image à traiter
             this.menuImages = new string[5] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp", "Retour" };
 
-            this.deplacementImages2 = new string[16] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" , "0", "0"}; // Menu choix de la fonction de traitement 
-            this.menuImages2 = new string[16] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement",
-                                                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Cacher une image","Decrypter une image", "Informations sur l'image",  "Enregistrer l'image" , "Retour"};
+            this.deplacementImages2 = new string[20] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" , "0", "0", "0", "0", "0", "0" }; // Menu choix de la fonction de traitement 
+            this.menuImages2 = new string[20] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement",
+                                                "Détection de contour","Renforcement des bords", "Flou", "Repoussage","Histogramme","Cacher une image","Decrypter une image",
+                                                "Négatif (fonction innovation)", "Sepia (fonction innovation)", "Diminue luminosité (fonction innovation)", "Augmenter luminosité (fonction innovation)", 
+                                                "Informations sur l'image",  "Enregistrer l'image" , "Retour"};
         }
         #region Menu principal
         public void AfficherMenu()
@@ -209,12 +210,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     case ConsoleKey.UpArrow:
                         deplacementImages2[i] = "0";
-                        i = (i - 1 + 15) % 15;
+                        i = (i - 1 + 20) % 20;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.DownArrow:
                         deplacementImages2[i] = "0";
-                        i = (i + 1) % 15;
+                        i = (i + 1) % 20;
                         AfficherMenuImages2();
                         break;
                     case ConsoleKey.Enter:

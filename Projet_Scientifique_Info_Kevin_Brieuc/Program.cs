@@ -182,6 +182,38 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.ReadKey();
                         Console.Clear();
                         break;
+                    case "Négatif (fonction innovation)":
+                        image.Negatif();
+                        Console.WriteLine("Negatif fini");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "Sepia (fonction innovation)":
+                        image.Sepia();
+                        Console.WriteLine("Sepia fini");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "Diminue luminosité (fonction innovation)":
+                        Console.WriteLine("Entrez un facteur de luminosité svp.");
+                        int facteur = Convert.ToInt32(Console.ReadLine());
+                        image.DiminuerLuminosite(facteur);
+                        Console.WriteLine("Diminution de la luminosité terminée");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "Augmenter luminosité (fonction innovation)":
+                        Console.WriteLine("Entrez un facteur de luminosité svp.");
+                        int facteur1 = Convert.ToInt32(Console.ReadLine());
+                        image.AjouterLuminosite(facteur1);
+                        Console.WriteLine("Augmentation de la luminosité terminée");
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
                     case "Informations sur l'image":
                         image.toString();
                         Console.WriteLine("Appuyer sur une touche pour continuer");

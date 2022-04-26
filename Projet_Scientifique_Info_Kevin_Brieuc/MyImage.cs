@@ -1510,7 +1510,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         : 44 ===> soustraire 14
         */
         #endregion
-
+        #endregion
         #region Fonctions bonus
         /// <summary>
         /// Passe l'image en négatif
@@ -1521,9 +1521,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 for (int j = 0; j < image.GetLength(1); j++)
                 {
-                    image[i,j].B = (byte)(255 - image[i,j].B);
-                    image[i,j].V = (byte)(255 - image[i,j].V);
-                    image[i,j].R = (byte)(255 - image[i,j].R);
+                    image[i, j].B = (byte)(255 - image[i, j].B);
+                    image[i, j].V = (byte)(255 - image[i, j].V);
+                    image[i, j].R = (byte)(255 - image[i, j].R);
                 }
             }
         }
@@ -1549,9 +1549,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                     else
                     {
                         int c = (m - s) / (255 - s);
-                        image[i, j].B = (byte)(18 + c*(255 - 18));
-                        image[i, j].V = (byte)(38 + c*(255 - 38));
-                        image[i, j].R = (byte)(94 + c*(255 - 94));
+                        image[i, j].B = (byte)(18 + c * (255 - 18));
+                        image[i, j].V = (byte)(38 + c * (255 - 38));
+                        image[i, j].R = (byte)(94 + c * (255 - 94));
                     }
                 }
             }
@@ -1594,7 +1594,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
         }
-        #endregion
         #endregion
     }
 }
