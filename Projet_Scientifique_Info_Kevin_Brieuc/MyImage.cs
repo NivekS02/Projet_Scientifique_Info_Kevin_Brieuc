@@ -1560,17 +1560,17 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         /// <summary>
         /// Ajoute de la luminosité à l'image
         /// </summary>
-        public void AjouterLuminosite()
+        public void AjouterLuminosite(int intensité)
         {
             for (int i = 0; i < image.GetLength(0); i++)
             {
                 for (int j = 0; j < image.GetLength(1); j++)
                 {
-                    if (image[i, j].B < 245 && image[i, j].V < 245 && image[i, j].R < 245)
+                    if (image[i, j].B < 255 - intensité && image[i, j].V < 255 - intensité && image[i, j].R < 255 - intensité)
                     {
-                        image[i, j].B = (byte)(10 + image[i, j].B);
-                        image[i, j].V = (byte)(10 + image[i, j].V);
-                        image[i, j].R = (byte)(10 + image[i, j].R);
+                        image[i, j].B = (byte)(intensité + image[i, j].B);
+                        image[i, j].V = (byte)(intensité + image[i, j].V);
+                        image[i, j].R = (byte)(intensité + image[i, j].R);
                     }
                 }
             }
@@ -1579,17 +1579,17 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         /// <summary>
         /// Diminue la luminosité de l'image
         /// </summary>
-        public void DiminuerLuminosite()
+        public void DiminuerLuminosite(int intensité)
         {
             for (int i = 0; i < image.GetLength(0); i++)
             {
                 for (int j = 0; j < image.GetLength(1); j++)
                 {
-                    if (image[i, j].B > 9 && image[i, j].V > 9 && image[i, j].R > 9)
+                    if (image[i, j].B > intensité - 1 && image[i, j].V > intensité - 1 && image[i, j].R > intensité - 1)
                     {
-                        image[i, j].B = (byte)(image[i, j].B - 10);
-                        image[i, j].V = (byte)(image[i, j].V - 10);
-                        image[i, j].R = (byte)(image[i, j].R - 10);
+                        image[i, j].B = (byte)(image[i, j].B - intensité);
+                        image[i, j].V = (byte)(image[i, j].V - intensité);
+                        image[i, j].R = (byte)(image[i, j].R - intensité);
                     }
                 }
             }
