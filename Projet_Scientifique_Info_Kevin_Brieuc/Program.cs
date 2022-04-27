@@ -11,6 +11,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     {
         static void Main(string[] args)
         {
+
             Menu menu = new Menu();
             bool retour = false;
             while(retour == false)
@@ -32,6 +33,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
+            
             Console.ReadKey();
         }
         
@@ -52,7 +54,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 string choix = menuImage.DeplacerMenuImages2();
                 switch (choix)
                 {
-                    case "NuancesDeGris":
+                    case "Nuances de gris":
                         image.NuancesDeGris();
                         Console.WriteLine("Transformation de l'image en nuances de gris effectuée.");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -143,7 +145,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.ReadKey();
                         Console.Clear();
                         break;
-                    case "Histogramme":                 
+                    case "Histogramme":
+                        Console.WriteLine("Veuillez patienter, cela peut prendre quelques instants...");
                         image.Histogramme();
                         Console.WriteLine("Histogramme créé");
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -267,6 +270,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             bool fini = true;
             Console.WriteLine("Entrez un mot ou une suite de caractères svp.");
             string phrase = Console.ReadLine();
+            phrase = phrase.ToUpper();
             int longueur = phrase.Length;
             if (longueur != 0 && longueur < 48)
             {

@@ -1165,7 +1165,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {
             int alpha = 0;
             if((int)lettre >= 48 && (int)lettre <=57) alpha = (int)lettre - 48; // pour les chiffres
-            else if ((int)lettre > 57 && (int)lettre <= 122) alpha = (int)lettre - 55; // Pour les lettres (attention : seuls les majuscules marchent)
+            else if ((int)lettre >= 65 && (int)lettre <= 90) alpha = (int)lettre - 55; // Pour les lettres (attention : seuls les majuscules marchent)
             else if ((int)lettre == 32 || (int)lettre == 37 ) alpha = (int)lettre + 4;// space ; - 
             else if ((int)lettre == 36) alpha = (int)lettre + 1;// $ 
             else if ((int)lettre == 42 || (int)lettre == 43) alpha = (int)lettre - 3;// * ; +

@@ -22,8 +22,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.deplacement = new string[3] { "1", "0", "0" }; // menu choix du traitement
             this.menu = new string[3] { "Images", "QR codes", "Fractales" };
 
-            this.deplacementImages = new string[5] { "1", "0", "0", "0", "0" }; // Menu choix de l'image à traiter
-            this.menuImages = new string[5] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp", "Retour" };
+            this.deplacementImages = new string[6] { "1", "0", "0", "0", "0", "0" }; // Menu choix de l'image à traiter
+            this.menuImages = new string[6] { "coco.bmp", "test001.bmp", "lac.bmp", "lena.bmp", "tigre.bmp", "Retour" };
 
             this.deplacementImages2 = new string[20] { "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" , "0", "0", "0", "0", "0", "0" }; // Menu choix de la fonction de traitement 
             this.menuImages2 = new string[20] { "Noir et blanc", "Nuances de gris","Rotation", "Miroir", "Agrandissement","Retrécissement",
@@ -145,12 +145,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 {
                     case ConsoleKey.UpArrow:
                         deplacementImages[i] = "0";
-                        i = (i - 1 + 5) % 5;
+                        i = (i - 1 + 6) % 6;
                         AfficherMenuImages();
                         break;
                     case ConsoleKey.DownArrow:
                         deplacementImages[i] = "0";
-                        i = (i + 1) % 5;
+                        i = (i + 1) % 6;
                         AfficherMenuImages();
                         break;
                     case ConsoleKey.Enter:
@@ -161,6 +161,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 deplacementImages[i] = "1";
                 Console.Clear();
             }
+            deplacementImages[i] = "0";
+            deplacementImages[0] = "1";
             return imageChoisie;
         }
         #endregion
