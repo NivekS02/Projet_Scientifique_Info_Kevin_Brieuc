@@ -1414,17 +1414,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             if (hauteur == 25 && largeur == 25) CodeQR2 = QR; //Version 2
             else CodeQR1 = QR; //Version 1          
         }
+
+        #endregion
+        #region Fonctions secondaires de mise en forme du QR code
         /// <summary>
-        /// Méthode permettant d'ajouter un bord blanc autour du QRCode pour faciliter la lecture de celui-ci
-        /// Prend en paramètre la matrice QR composée de caractères '0' et '1'
-        /// </summary>
-        /// <param name="QR"></param>
-        /// /// <summary>
         /// Permet de lire notre matrice de QR code en char et de les convertir en pixel pour créer une matrice de pixel image
         /// </summary>
         /// <param name="QR"></param>
-        #endregion
-        #region Fonctions secondaires de mise en forme du QR code
         public void LireQRCode(char[,] QR)
         {
             Pixel[,] Picture = new Pixel[QR.GetLength(0), QR.GetLength(1)];
@@ -1448,6 +1444,12 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = Picture;
         }
+
+        /// <summary>
+        /// Méthode permettant d'ajouter un bord blanc autour du QRCode pour faciliter la lecture de celui-ci
+        /// Prend en paramètre la matrice QR composée de caractères '0' et '1'
+        /// </summary>
+        /// <param name="QR"></param>
         public void RecadrageEnBlanc(char[,] QR)
         {
             char[,] NewTab = new char[hauteur + 2, largeur + 2];

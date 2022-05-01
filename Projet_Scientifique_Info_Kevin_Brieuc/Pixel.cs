@@ -8,7 +8,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
     public class Pixel
     {
-        private byte rouge; // B V R 
+        private byte rouge;
         private byte vert;
         private byte bleu;
 
@@ -47,6 +47,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             this.bleu = bleu;
         }
 
+        /// <summary>
+        /// Permet de concaténer les valeurs de chaque byte du pixel voulu
+        /// </summary>
+        /// <returns> chaine de caractère décrivant un pixel </returns>
         public string AfficherPixel()
         {         
             string pixel = Convert.ToInt32(this.bleu) + "," + Convert.ToInt32(this.vert) + "," + Convert.ToInt32(this.rouge);

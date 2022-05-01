@@ -34,6 +34,33 @@ namespace Tests_unitaires
         [Test]
         public void Images()
         {
+            MyImage image = new MyImage("coco.bmp");
+            //image.ImageNoirEtBlanc();
+            //image.NuancesDeGris();
+            //image.Miroir();
+            //image.MiroirHorizontal();
+            //image.Negatif();
+            //image.Sepia();
+            image.From_Image_To_File("resultat.bmp");
+
+            //On vérifie que l'image a les bonnes dimensions
+            Assert.AreEqual(image.Hauteur, 200);
+            Assert.AreEqual(image.Largeur, 320);
+            Assert.AreNotEqual(image.Hauteur, 1200);
+            Assert.AreNotEqual(image.Largeur, 80);
+
+            //Vérification du format de l'image
+            Assert.AreEqual(image.TypeImage, "BM");
+            Assert.AreNotEqual(image.TypeImage, "AM");
+            Assert.AreEqual(image.NbrDeBitsParCouleur, 24);
+            Assert.AreNotEqual(image.NbrDeBitsParCouleur, 67);
+
+            //Vérification de la taille de l'image
+            Assert.AreEqual(image.TailleFichier, 192054);
+            Assert.AreNotEqual(image.TailleFichier, 192004);
+            Assert.AreEqual(image.TailleOffset, 54);
+            Assert.AreNotEqual(image.TailleOffset, 35);
+
 
         }
 
