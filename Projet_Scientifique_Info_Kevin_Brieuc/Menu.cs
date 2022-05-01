@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
-    internal class Menu
+    public class Menu
     {
         // Ajouter les touches avec des nombres pour la selection 
 

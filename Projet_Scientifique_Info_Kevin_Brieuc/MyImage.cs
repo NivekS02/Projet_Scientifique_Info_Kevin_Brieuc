@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
-    internal class MyImage
+    public class MyImage
     {
         #region attributs
         //Partie traitement d'image
@@ -129,11 +129,20 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             get { return image; }
             set { image = value; }
         }
-
         public string chaineBinaireCorrige
         {
             get { return ChaineBinaireCorrige; }
             set { ChaineBinaireCorrige = value; }
+        }
+        public byte[] chaineByte
+        {
+            get { return ChaineByte; }
+            set { ChaineByte = value; }
+        }
+        public string chaineDeCaractereBinaire
+        {
+            get { return ChaineDeCaractereBinaire;}
+            set { ChaineDeCaractereBinaire = value; }
         }
 
         #endregion

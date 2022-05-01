@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
-    internal class Pixel
+    public class Pixel
     {
         private byte rouge; // B V R 
         private byte vert;

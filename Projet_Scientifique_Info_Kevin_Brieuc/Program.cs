@@ -7,7 +7,7 @@ using System.Diagnostics; // pour utiliser Process.Start(".bmp") ==> afficher l'
 
 namespace Projet_Scientifique_Info_Kevin_Brieuc
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
