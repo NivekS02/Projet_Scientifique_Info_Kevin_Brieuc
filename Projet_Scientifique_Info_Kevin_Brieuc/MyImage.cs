@@ -12,9 +12,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
     {
         #region attributs
         //Partie traitement d'image
-        private string typeImage;
+        private string typeImage; //BMP
         private int tailleFichier;
-        private int tailleOffset;
+        private int tailleOffset; //54 normalement 
         private int hauteur;
         private int largeur;
         private int nbrDeBitsParCouleur;
@@ -23,13 +23,13 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         //Partie QR Code
         private string IndicateurNombreCaractere; //Binaire en fonction de la longueur de la chaine de caractere 
-        private string CaractereBinaire;
+        private string CaractereBinaire; //IndicateurNombreCaractere convertit en binaire
         private string IndicateurDeMode = "0010";
         private string ChaineDeCaractereBinaire;
-        private byte[] ChaineByte; // 
+        private byte[] ChaineByte; // tableau stockant tous les bytes
         private int[] ChaineInt; // Chaine binaire en Int afin de pouvoir le convertir en bytes
         private string ChaineBinaireCorrige; // Chaine de caractère en binaire
-        private char[,] FinalQR;
+        private char[,] FinalQR; // matrice finale du QR code que l'on convertira par la suite en une matrice de pixels
 
         // A = noir ; B = Blanc ; C = à remplir 
         // Pixel blanc = 0 ; pixel noir = 1
@@ -58,7 +58,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         {'A','B','B','B','B','B','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         {'A','A','A','A','A','A','A','B','A', 'C', 'C', 'C', 'C', 'C','C', 'C','C','C','C','C', 'C' },
         };
-
         private char[,] CodeQR2 = new char[25, 25] //QR code version 2
         {
         {'A','A','A','A','A','A','A','B','B','C','C','C','C','C','C','C','C','B','A','A','A','A','A','A','A' },
@@ -147,6 +146,10 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
 
         #endregion
         #region Constructeurs
+        /// <summary>
+        /// Constructeur de la classe qui initialise les données lues dans le header du fichier .bmp et les affecte aux différents attributs créés
+        /// </summary>
+        /// <param name="myfile"></param>
         public MyImage(string myfile) // Contructeur pour le traitement d'image 
         {
             byte[] file = File.ReadAllBytes(myfile);
@@ -213,6 +216,9 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             }
             this.image = image;
         }
+        /// <summary>
+        /// Constructeur de la fractale où on définit directement une taille fixe à notre image 
+        /// </summary>
         public MyImage() // Constructeur pour la fractale 
         {
             this.typeImage = "BM";
@@ -228,6 +234,11 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 }
             }
         }
+        /// <summary>
+        /// Constructeur du QR : on vérifie de quelle version on a besoin puis on créé le QR code necessaire 
+        /// </summary>
+        /// <param name="ChaîneDeCaracteres"></param>
+        /// <param name="longueur"></param>
         public MyImage(string ChaîneDeCaracteres, int longueur) // Constructeur pour le QR code 
         {
             string nbcar = ""; //On initialise une variable stockant les bits de nombre de la longueur de la chaîne de caractère
@@ -312,7 +323,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         #region Méthodes Traitement d'images
         #region TD2 Lire et écrire une image à partir d'un format .bmp (From image to file)
         /// <summary>
-        /// Méthode permettant de 
+        /// Méthode permettant d'enregistrer l'image dans nos fichiers 
         /// </summary>
         /// <param name="file"></param>
         public void From_Image_To_File(string file)
@@ -353,7 +364,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
         
         /// <summary>
-        /// Méthode permettant de
+        /// Méthode permettant d'enregistrer une image nouvellement créé par nous-même dans nos fichiers 
         /// </summary>
         /// <param name="file"></param>
         public void From_Image_To_FileNouvelleImage(string file)
@@ -704,9 +715,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             {
                 for(int j=0; j<largeur; j++)
                 {
-                    
                         ImageMiroir[i, j] = image[hauteur - 1 - i, j];
-                    
                 }
             }
             this.image = ImageMiroir;
@@ -778,6 +787,14 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
         }
         #endregion
         #region TD5 Créer ou extraire une nouvelle image (fractale de Mandelbrot, histogramme, Coder et décoder dans une image)
+        /// <summary>
+        /// Cette partie représente la suite de Mandelbrot que l'on calcule ou itère n fois selon les paramètres à l'entrée
+        /// </summary>
+        /// <param name="iteration"></param>
+        /// <param name="c"></param>
+        /// <param name="z"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
         public int SuiteDeMandelBrot(int iteration, Complex c, Complex z, int n = 0)
         {
             if (z.Magnitude > 2 || iteration <= 0)

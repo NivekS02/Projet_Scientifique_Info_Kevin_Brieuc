@@ -33,10 +33,8 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         break;
                 }
             }
-            
             Console.ReadKey();
         }
-        
         public static bool Images()
         {
             bool imageModifiée = true;
@@ -68,7 +66,7 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                         Console.ReadKey();
                         Console.Clear();
                         break;
-                    case "Rotation":
+                    case "Rotation": // 2 types de rotation : la première en commentaire ne fait que des rotations à 90 degrés et la deuxième fonction ert à faire sur tous les angles 
                         /*
                         Console.WriteLine("Combien de rotations à 90 degrés souhaitez vous ?");
                         int NbrRotations = Convert.ToInt32(Console.ReadLine());
@@ -248,7 +246,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Console.ReadKey();
             return fini;
         }
-
         public static bool Fractales() //Partie fractale
         {
             bool fini = true;
@@ -264,7 +261,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
             Process.Start(fichier);
             return fini;
         }
-
         public static bool QRCodes() // Partie QR code 
         {
             bool fini = true;
@@ -285,7 +281,6 @@ namespace Projet_Scientifique_Info_Kevin_Brieuc
                 Console.WriteLine("Appuyer sur une touche pour arrêter et afficher le QR code.");
                 Console.ReadKey();
                 Process.Start(fichier);
-                
             }
             else
             {
